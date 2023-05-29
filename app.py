@@ -72,7 +72,7 @@ def handle_message(event):
             for keyword in keywords:
                 nTemp = msg.find(keyword)
                 bHasKeyword = (nTemp > 0)
-                if bHasKeyword :
+                if bHasKeyword == True:
                     photourls = item[0].split(',')
                     nCntArray = len(photourls)
                     photourl = photourls[random.randint(0,(nCntArray -1))]
