@@ -85,7 +85,7 @@ def handle_message(event):
     bCallGPT = (nTemp > -1)
     if bCallGPT == True :
         print("Into GPT.")
-        sInputGPT = msg.replace("喂弱吧 ","")
+        sInputGPT = msg.replace("喂弱吧 ","").strip()
         if len(sInputGPT) > 0 :
             GPT_answer = GPT_response(sInputGPT)
             print(GPT_answer)
