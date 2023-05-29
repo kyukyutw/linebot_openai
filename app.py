@@ -16,6 +16,8 @@ import time
 import json
 import random
 import requests
+from datetime import datetime
+import pytz
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -57,6 +59,12 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     print(msg)
+    
+    source = event.source
+    usertype = source.type
+    userid = source.userId
+    groupid = source.groupId
+    
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
     if bCallGPT == True :
@@ -66,6 +74,10 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     else :
         print("Into Keyword Search.")
+        #時間調整-台灣
+        timezone_TW=pytz.timezone('ROC')
+        now=datetime.now(timezone_TW)
+        #google表單
         sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         ssContent1 = requests.get(sGoogleSheetUrl).json()
         for item in ssContent1['values']:
@@ -95,6 +107,11 @@ def handle_message(event):
                         else:
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
+                    
+                    
+                    requests.get("http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" , sIndex , "," , now.strftime('%Y-%m-%d'));
+                    requests.get("http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" , sIndex , "," , now.strftime('%H:%M:%S'));
+                    requests.get("http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" , sIndex , "," , userid);
     print("End of testing.")
     
     
