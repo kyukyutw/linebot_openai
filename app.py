@@ -85,9 +85,11 @@ def handle_message(event):
     bCallGPT = (nTemp > -1)
     if bCallGPT == True :
         print("Into GPT.")
-        GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
-        print(GPT_answer)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+        sInputGPT = msg.replace("喂弱吧 ","")
+        if len(sInputGPT) > 0 :
+            GPT_answer = GPT_response(sInputGPT)
+            print(GPT_answer)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     else :
         print("Into Keyword Search.")
         #時間調整-台灣
