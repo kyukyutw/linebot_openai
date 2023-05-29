@@ -60,10 +60,12 @@ def handle_message(event):
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > 0)
     if bCallGPT == True :
+        print("Into GPT.")
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     else :
+        print("Into Keyword Search.")
         sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         ssContent1 = requests.get(sGoogleSheetUrl).json()
         for item in ssContent1['values']:
@@ -93,6 +95,7 @@ def handle_message(event):
                         else:
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
+    print("End of testing.")
     
     
 
