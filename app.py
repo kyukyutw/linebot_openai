@@ -75,14 +75,14 @@ def handle_message(event):
             if bHasKeyword :
                 photourls = item[0].split(',')
                 nCntArray = len(photourls)
-                photourl = photourls[random.randint((0,(nCntArray -1))]
+                photourl = photourls[random.randint((0,(nCntArray -1)))]
                 match (item[1]):
                     case "text":
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                     case _:
                         photourls2nd = item[9].split(',')
                         nCntArray2nd = len(photourls2nd)
-                        photourl2nd = photourls2nd[random.randint((0,(nCntArray2nd -1))]
+                        photourl2nd = photourls2nd[random.randint((0,(nCntArray2nd -1)))]
                         if photourl2nd == "" :
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                         else:
