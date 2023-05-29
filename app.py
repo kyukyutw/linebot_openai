@@ -76,7 +76,8 @@ def handle_message(event):
                 photourls = item[0].split(',')
                 nCntArray = len(photourls)
                 photourl = photourls[random.randint((0,(nCntArray -1)))]
-                match (item[1]):
+                sType = item[1]
+                match sType:
                     case "text":
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                     case _:
