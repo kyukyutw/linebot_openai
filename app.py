@@ -59,7 +59,7 @@ def handle_message(event):
     print(msg)
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > 0)
-    if bCallGPT :
+    if bCallGPT == True :
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
