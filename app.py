@@ -88,7 +88,7 @@ def handle_message(event):
         sInputGPT = msg.replace("喂弱吧 ","").strip()
         if len(sInputGPT) > 0 :
             GPT_answer = GPT_response(sInputGPT)
-            print(GPT_answer)
+            #print(GPT_answer)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     else :
         print("Into Keyword Search.")
@@ -123,7 +123,7 @@ def handle_message(event):
                     sExclude = item[11].split(',')
                     bHasExclude = False;
                     for exclude in sExclude :
-                        if (msg.find(keyword) > -1 and exclude != "") :
+                        if (msg.find(exclude) > -1 and exclude != "") :
                             bHasExclude = True
                             break
                 
