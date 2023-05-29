@@ -82,6 +82,7 @@ def handle_message(event):
                 if item[1] == "text":
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                 else:
+                    print(item)
                     print(item[9])
                     photourls2nd = item[9].split(',')
                     nCntArray2nd = len(photourls2nd)
