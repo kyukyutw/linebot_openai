@@ -99,8 +99,7 @@ def handle_message(event):
         sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         ssContent1 = requests.get(sGoogleSheetUrl).json()
         
-        
-		bShutUp = False
+        bShutUp = False
         nStartHourOfOff = 0
         nEndHourOfOff = 11
         bOutOfWorkTime = False
