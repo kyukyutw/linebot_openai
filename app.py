@@ -118,11 +118,10 @@ def handle_message(event):
                 nHourOfNow = int(now.hour)
                 if (nStartHourOfOff <= nHourOfNow and nHourOfNow <= nEndHourOfOff) : bOutOfWorkTime = True
 
+            bHasExclude = False
             if (len(item) > 11) :
                 if (item[11] != "") :
                     sExclude = item[11].split(',')
-                    print(sExclude)
-                    bHasExclude = False;
                     for exclude in sExclude :
                         if (msg.find(exclude) > -1 and exclude != "") :
                             print(exclude)
@@ -152,6 +151,7 @@ def handle_message(event):
                         bCalled = True
                         
                     
+                    if (bHasExclude == True) : bCalled = False
                     if (bShutUp == True) : bCalled = False
                     if (bOutOfWorkTime == True) : bCalled = False
                 
@@ -179,9 +179,10 @@ def handle_message(event):
                         sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + sIndex + "," + now.strftime('%Y-%m-%d')
                         sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + sIndex + "," + now.strftime('%H:%M:%S')
                         sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + sIndex + "," + userid
-                        requests.get(sTouchUrl1);
-                        requests.get(sTouchUrl2);
-                        requests.get(sTouchUrl3);
+                        requests.get(sTouchUrl1)
+                        requests.get(sTouchUrl2)
+                        requests.get(sTouchUrl3)
+                    break
     print("End of testing.")
     
     
