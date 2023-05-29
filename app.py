@@ -111,10 +111,12 @@ def handle_message(event):
                     dateBefore = sTempDate + ' ' + sTempTime
                     bCalled = False
                     #近期未連續觸發
-					datetime_object = datetime.strptime(dateBefore, '%Y-%m-%d')	
-                    datetime_diff = now - datetime_object
-                    diff_minutes = divmod(datetime_diff.seconds, 60)
-                    if diff_minutes[0] > 14 : 
+					datetime_object = datetime.strptime(dateBefore, '%Y-%m-%d %H:%M:%S')
+                    datetime_object_E = datetime.strptime(now.strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+                    datetime_diff = datetime_object_E - datetime_object
+                    diff_days = datetime_diff.days #日期差距
+                    diff_seconds = datetime_diff.seconds #秒數差距
+                    if diff_days > 0 or (diff_days == 0 and diff_seconds > 899) :
                         bCalled = True
                 
                     if bCalled == True :
