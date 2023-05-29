@@ -15,6 +15,7 @@ import openai
 import time
 import json
 import random
+import requests
 #======python的函數庫==========
 
 app = Flask(__name__)
