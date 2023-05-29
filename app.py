@@ -64,9 +64,9 @@ def handle_message(event):
     groupid = ""
     userid = ""
     if event.source.type == "group" :
-        groupid = event.source.groupId
+        groupid = event.source("groupId")
     elif event.source.type == "user" :
-        userid = event.source.userId
+        userid = event.source("userId")
     
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
