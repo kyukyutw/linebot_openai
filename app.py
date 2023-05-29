@@ -157,8 +157,8 @@ def handle_message(event):
                         photourls = item[0].split(',')
                         nCntArray = len(photourls)
                         photourl = photourls[random.randint(0,(nCntArray -1))]
-                        print("keyword:" + keyword)
-                        print(photourl)
+                        #print("keyword:" + keyword)
+                        #print(photourl)
                         
                         if item[1] == "text":
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
@@ -177,7 +177,6 @@ def handle_message(event):
                         sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + sIndex + "," + now.strftime('%Y-%m-%d')
                         sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + sIndex + "," + now.strftime('%H:%M:%S')
                         sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + sIndex + "," + userid
-                        print(sTouchUrl1)
                         requests.get(sTouchUrl1);
                         requests.get(sTouchUrl2);
                         requests.get(sTouchUrl3);
