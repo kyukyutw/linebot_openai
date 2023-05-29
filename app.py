@@ -68,7 +68,7 @@ def handle_message(event):
     ssContent1 = requests.get(sGoogleSheetUrl).json()
     for item in ssContent1['values']:
         keywords = item[3].split(',')
-        
+        print(keywords)
         for keyword in keywords:
             nTemp = msg.find(keyword)
             bHasKeyword = not (nTemp == -1)
@@ -76,7 +76,8 @@ def handle_message(event):
                 photourls = item[0].split(',')
                 nCntArray = len(photourls)
                 photourl = photourls[random.randint((0,(nCntArray -1)))]
-
+                print(photourl)
+                
                 if item[1] == "text":
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                 else:
