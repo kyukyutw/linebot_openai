@@ -98,8 +98,33 @@ def handle_message(event):
         #google表單
         sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         ssContent1 = requests.get(sGoogleSheetUrl).json()
+        
+        
+		bShutUp = False
+        nStartHourOfOff = 0
+        nEndHourOfOff = 11
+        bOutOfWorkTime = False
+            
         for item in ssContent1['values']:
             keywords = item[3].split(',')
+            
+            if (item[5] == '2') :
+                if (len(item) > 12) : if (item[12] == 'Y') : bShutUp = True;
+                
+                if (len(item) > 13) : if (item[13] != '') : nStartHourOfOff = item[13]
+                if (len(item) > 14) : if (item[14] != '') : nEndHourOfOff = item[14]
+                nHourOfNow = now.hour
+                if (nStartHourOfOff <= nHourOfNow and nHourOfNow <= nEndHourOfOff) : bOutOfWorkTime = True
+
+            if (len(item) > 11) :
+                if (item[11] != "") :
+                    sExclude = item[11].split(',')
+                    bHasExclude = False;
+                    for exclude in sExclude :
+                        if (msg.find(keyword) > -1 and exclude != "") :
+                            bHasExclude = True
+                            break
+                
             
             for keyword in keywords:
                 
@@ -121,6 +146,10 @@ def handle_message(event):
                     diff_seconds = datetime_diff.seconds #秒數差距
                     if diff_days > 0 or (diff_days == 0 and diff_seconds > 899) :
                         bCalled = True
+                        
+                    
+                    if (bShutUp == True) : bCalled = False
+                    if (bOutOfWorkTime == True) : bCalled = False
                 
                     if bCalled == True :
                         photourls = item[0].split(',')
