@@ -69,6 +69,17 @@ def handle_message(event):
     elif jSource["type"] == "user" :
         userid = jSource["userId"]
     
+    bPass = False
+    #C35ffb4e93a34ce198634429fb8e0df21 LINE-BOT-TEST-1
+    #Cd8ca09b51a8074d0c23c34337e0bb691 LINE-BOT-TEST-2
+    #C61f797a454e8e1db2a87f62042ff05d2 紐西蘭進口的-二之國  
+    if groupid == "C35ffb4e93a34ce198634429fb8e0df21" : bPass = True
+    elif groupid == "Cd8ca09b51a8074d0c23c34337e0bb691" : bPass = True
+    elif groupid == "C61f797a454e8e1db2a87f62042ff05d2" : bPass = True
+    elif userid == "Ub6491d91c5b11078c3315f99a9b1035f" : bPass = True
+    
+    if bPass == False : return None
+    
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
     if bCallGPT == True :
@@ -100,48 +111,41 @@ def handle_message(event):
                     dateBefore = sTempDate + ' ' + sTempTime
                     bCalled = False
                     #近期未連續觸發
-                    if ($item[6] !== '' and $item[7] !== '')
-                        $date = new DateTime($dateBefore);
-                        $diff = $date->diff($now);
-                        if (($diff->format("%Y") > 0) or ($diff->format("%m") > 0) or ($diff->format("%d") > 0) or ($diff->format("%H") > 0) or ($diff->format("%i") > 14) or ($diff->format("%s") > 60) ) {
-                        } else {
-                            $bCalled = TRUE;
-                        }
 					datetime_object = datetime.strptime(dateBefore, '%Y-%m-%d')	
                     datetime_diff = now - datetime_object
                     diff_minutes = divmod(datetime_diff.seconds, 60)
-                    if diff_minutes[0] < 15 : 
-                        print("End of testing.(CD中)")
-                        return None
+                    if diff_minutes[0] > 14 : 
+                        bCalled = True
                 
-                    photourls = item[0].split(',')
-                    nCntArray = len(photourls)
-                    photourl = photourls[random.randint(0,(nCntArray -1))]
-                    print("keyword:" + keyword)
-                    print(photourl)
-                    
-                    if item[1] == "text":
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
-                    else:
-                        photourl2nd = ""
-                        if len(item) > 9 :
-                            photourls2nd = item[9].split(',')
-                            nCntArray2nd = len(photourls2nd)
-                            photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
-                            
-                        if photourl2nd == "" :
-                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                    if bCalled == True :
+                        photourls = item[0].split(',')
+                        nCntArray = len(photourls)
+                        photourl = photourls[random.randint(0,(nCntArray -1))]
+                        print("keyword:" + keyword)
+                        print(photourl)
+                        
+                        if item[1] == "text":
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                         else:
-                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
-                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
-                    
-                    sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + sIndex + "," + now.strftime('%Y-%m-%d')
-                    sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + sIndex + "," + now.strftime('%H:%M:%S')
-                    sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + sIndex + "," + userid
-                    print(sTouchUrl1)
-                    requests.get(sTouchUrl1);
-                    requests.get(sTouchUrl2);
-                    requests.get(sTouchUrl3);
+                            photourl2nd = ""
+                            if len(item) > 9 :
+                                photourls2nd = item[9].split(',')
+                                nCntArray2nd = len(photourls2nd)
+                                photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
+                                
+                            if photourl2nd == "" :
+                                line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                            else:
+                                line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                                line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
+                        
+                        sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + sIndex + "," + now.strftime('%Y-%m-%d')
+                        sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + sIndex + "," + now.strftime('%H:%M:%S')
+                        sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + sIndex + "," + userid
+                        print(sTouchUrl1)
+                        requests.get(sTouchUrl1);
+                        requests.get(sTouchUrl2);
+                        requests.get(sTouchUrl3);
     print("End of testing.")
     
     
