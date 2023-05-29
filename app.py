@@ -66,6 +66,7 @@ def handle_message(event):
     userid = ""
     if jSource["type"] == "group" :
         groupid = jSource["groupId"]
+        userid = jSource["userId"]
     elif jSource["type"] == "user" :
         userid = jSource["userId"]
     
