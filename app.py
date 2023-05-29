@@ -121,9 +121,11 @@ def handle_message(event):
             if (len(item) > 11) :
                 if (item[11] != "") :
                     sExclude = item[11].split(',')
+                    print(sExclude)
                     bHasExclude = False;
                     for exclude in sExclude :
                         if (msg.find(exclude) > -1 and exclude != "") :
+                            print(exclude)
                             bHasExclude = True
                             break
                 
