@@ -13,6 +13,8 @@ import tempfile, os
 import datetime
 import openai
 import time
+import json
+import random
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -23,7 +25,6 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
-
 
 def GPT_response(text):
     # 接收回應
@@ -60,8 +61,35 @@ def handle_message(event):
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-    else :
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(msg))
+ 
+    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+    
+    #get the json in cell format from google
+    ssContent1 = requests.get(sGoogleSheetUrl).json()
+    for item in ssContent1['values']:
+        keywords = item[3].split(',')
+        
+        for keyword in keywords:
+            nTemp = msg.find(keyword)
+            bHasKeyword = not (nTemp == -1)
+            if bHasKeyword :
+                photourls = item[0].split(',')
+                nCntArray = len(photourls)
+                photourl = photourls[random.randint((0,(nCntArray -1))]
+                match (item[1]):
+                    case "text":
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
+                    case _:
+                        photourls2nd = item[9].split(',')
+                        nCntArray2nd = len(photourls2nd)
+                        photourl2nd = photourls2nd[random.randint((0,(nCntArray2nd -1))]
+                        if photourl2nd == "" :
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                        else:
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
+        
+    
 
 @handler.add(PostbackEvent)
 def handle_message(event):
