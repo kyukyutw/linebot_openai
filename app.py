@@ -61,6 +61,12 @@ def handle_message(event):
     print(msg)
     
     print(event.source)
+    groupid = ""
+    userid = ""
+    if event.source.type == "group" :
+        groupid = event.source.groupId
+    elif event.source.type == "user" :
+        userid = event.source.userId
     
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
@@ -81,6 +87,10 @@ def handle_message(event):
             keywords = item[3].split(',')
             
             for keyword in keywords:
+                sIndex = item[5];
+                dateBefore = item[6] + ' ' + item[7];
+                bCalled = FALSE;
+                
                 nTemp = msg.find(keyword)
                 bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
@@ -105,10 +115,13 @@ def handle_message(event):
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
                     
-                    
-                    requests.get("http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" , sIndex , "," , now.strftime('%Y-%m-%d'));
-                    requests.get("http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" , sIndex , "," , now.strftime('%H:%M:%S'));
-                    requests.get("http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" , sIndex , "," , userid);
+                    sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" , sIndex , "," , now.strftime('%Y-%m-%d')
+                    sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" , sIndex , "," , now.strftime('%H:%M:%S')
+                    sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" , sIndex , "," , userid
+                    print(sTouchUrl1)
+                    requests.get(sTouchUrl1);
+                    requests.get(sTouchUrl2);
+                    requests.get(sTouchUrl3);
     print("End of testing.")
     
     
