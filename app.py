@@ -60,7 +60,7 @@ def handle_message(event):
     msg = event.message.text
     print(msg)
     
-    print(event.source)
+    #print(event.source)
     jSource = json.loads(str(event.source))
     groupid = ""
     userid = ""
