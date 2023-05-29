@@ -58,7 +58,7 @@ def handle_message(event):
     msg = event.message.text
     print(msg)
     nTemp = msg.find("喂弱吧 ")
-    bCallGPT = (nTemp > 0)
+    bCallGPT = (nTemp > -1)
     if bCallGPT == True :
         print("Into GPT.")
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
@@ -73,7 +73,7 @@ def handle_message(event):
             
             for keyword in keywords:
                 nTemp = msg.find(keyword)
-                bHasKeyword = (nTemp > 0)
+                bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
                     photourls = item[0].split(',')
                     nCntArray = len(photourls)
