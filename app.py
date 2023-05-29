@@ -118,19 +118,7 @@ def handle_message(event):
                 nHourOfNow = int(now.hour)
                 if (nStartHourOfOff <= nHourOfNow and nHourOfNow <= nEndHourOfOff) : bOutOfWorkTime = True
 
-            bHasExclude = False
-            if (len(item) > 11) :
-                if (item[11] != "") :
-                    sExclude = item[11].split(',')
-                    for exclude in sExclude :
-                        if (msg.find(exclude) > -1 and exclude != "") :
-                            print("exclude:" + exclude)
-                            bHasExclude = True
-                            break
-                
-            
             for keyword in keywords:
-                
                 nTemp = msg.find(keyword)
                 bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
@@ -149,7 +137,16 @@ def handle_message(event):
                     diff_seconds = datetime_diff.seconds #秒數差距
                     if diff_days > 0 or (diff_days == 0 and diff_seconds > 899) :
                         bCalled = True
-                        
+                    
+                    bHasExclude = False
+                    if (len(item) > 11) :
+                        if (item[11] != "") :
+                            sExclude = item[11].split(',')
+                            for exclude in sExclude :
+                                if (msg.find(exclude) > -1 and exclude != "") :
+                                    print("exclude:" + exclude)
+                                    bHasExclude = True
+                                    break
                     
                     if (bHasExclude == True) : bCalled = False
                     if (bShutUp == True) : bCalled = False
