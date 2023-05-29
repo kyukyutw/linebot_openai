@@ -88,17 +88,32 @@ def handle_message(event):
             keywords = item[3].split(',')
             
             for keyword in keywords:
-                sIndex = item[5]
-                sTempDate = "2000-01-01"
-                sTempTime = "00:00:00"
-                if len(item) > 6 : sTempDate = item[6]
-                if len(item) > 7 : sTempTime = item[7]
-                dateBefore = sTempDate + ' ' + sTempTime
-                bCalled = False
                 
                 nTemp = msg.find(keyword)
                 bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
+                    sIndex = item[5]
+                    sTempDate = "2000-01-01"
+                    sTempTime = "00:00:00"
+                    if len(item) > 6 : sTempDate = item[6]
+                    if len(item) > 7 : sTempTime = item[7]
+                    dateBefore = sTempDate + ' ' + sTempTime
+                    bCalled = False
+                    #近期未連續觸發
+                    if ($item[6] !== '' and $item[7] !== '')
+                        $date = new DateTime($dateBefore);
+                        $diff = $date->diff($now);
+                        if (($diff->format("%Y") > 0) or ($diff->format("%m") > 0) or ($diff->format("%d") > 0) or ($diff->format("%H") > 0) or ($diff->format("%i") > 14) or ($diff->format("%s") > 60) ) {
+                        } else {
+                            $bCalled = TRUE;
+                        }
+					datetime_object = datetime.strptime(dateBefore, '%Y-%m-%d')	
+                    datetime_diff = now - datetime_object
+                    diff_minutes = divmod(datetime_diff.seconds, 60)
+                    if diff_minutes[0] < 15 : 
+                        print("End of testing.(CD中)")
+                        return None
+                
                     photourls = item[0].split(',')
                     nCntArray = len(photourls)
                     photourl = photourls[random.randint(0,(nCntArray -1))]
