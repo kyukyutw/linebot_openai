@@ -56,42 +56,43 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
+    print(msg)
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > 0)
     if bCallGPT :
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
-        #print(GPT_answer)
+        print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
- 
-    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
-    
-    #get the json in cell format from google
-    ssContent1 = requests.get(sGoogleSheetUrl).json()
-    for item in ssContent1['values']:
-        keywords = item[3].split(',')
-        
-        for keyword in keywords:
-            nTemp = msg.find(keyword)
-            bHasKeyword = (nTemp > 0)
-            if bHasKeyword :
-                photourls = item[0].split(',')
-                nCntArray = len(photourls)
-                photourl = photourls[random.randint(0,(nCntArray -1))]
-                print(photourl)
-                
-                if item[1] == "text":
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
-                else:
-                    photourl2nd = ""
-                    if len(item) > 9 :
-                        photourls2nd = item[9].split(',')
-                        nCntArray2nd = len(photourls2nd)
-                        photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
-                    if photourl2nd == "" :
-                        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+    else :
+        sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+        ssContent1 = requests.get(sGoogleSheetUrl).json()
+        for item in ssContent1['values']:
+            keywords = item[3].split(',')
+            
+            for keyword in keywords:
+                nTemp = msg.find(keyword)
+                bHasKeyword = (nTemp > 0)
+                if bHasKeyword :
+                    photourls = item[0].split(',')
+                    nCntArray = len(photourls)
+                    photourl = photourls[random.randint(0,(nCntArray -1))]
+                    print("keyword:" + keyword)
+                    print(photourl)
+                    
+                    if item[1] == "text":
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                     else:
-                        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
-                        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
+                        photourl2nd = ""
+                        if len(item) > 9 :
+                            photourls2nd = item[9].split(',')
+                            nCntArray2nd = len(photourls2nd)
+                            photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
+                            
+                        if photourl2nd == "" :
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                        else:
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl2nd, preview_image_url=photourl2nd))
     
     
 
