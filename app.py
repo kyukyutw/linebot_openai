@@ -61,7 +61,7 @@ def handle_message(event):
     print(msg)
     
     print(event.source)
-    jSource = json.loads(event.source)
+    jSource = json.loads(str(event.source))
     groupid = ""
     userid = ""
     if jSource["type"] == "group" :
