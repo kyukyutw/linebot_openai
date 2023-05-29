@@ -61,12 +61,13 @@ def handle_message(event):
     print(msg)
     
     print(event.source)
+    jSource = json.loads(event.source)
     groupid = ""
     userid = ""
-    if event.source.type == "group" :
-        groupid = event.source("groupId")
-    elif event.source.type == "user" :
-        userid = event.source("userId")
+    if jSource["type"] == "group" :
+        groupid = jSource["groupId"]
+    elif jSource["type"] == "user" :
+        userid = jSource["userId"]
     
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
