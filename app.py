@@ -148,11 +148,14 @@ def handle_message(event):
                                     bHasExclude = True
                                     break
                     
-                    if (bHasExclude == True) : bCalled = False
-                    if (bShutUp == True) : bCalled = False
-                    if (bOutOfWorkTime == True) : bCalled = False
-                
+                    if (bHasExclude == True) : continue
+                    if (bShutUp == True) : continue
+                    if (bOutOfWorkTime == True) : continue
+                    if len(item) > 6 :
+                        if ( (item[6] != "") and (item[2] == "once") ) : continue 
+                    
                     if bCalled == True :
+                        
                         photourls = item[0].split(',')
                         nCntArray = len(photourls)
                         photourl = photourls[random.randint(0,(nCntArray -1))]
