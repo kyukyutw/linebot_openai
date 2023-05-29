@@ -89,7 +89,11 @@ def handle_message(event):
             
             for keyword in keywords:
                 sIndex = item[5]
-                dateBefore = item[6] + ' ' + item[7]
+                sTempDate = "2000-01-01"
+                sTempTime = "00:00:00"
+                if len(item) > 6 : sTempDate = item[6]
+                if len(item) > 7 : sTempTime = item[7]
+                dateBefore = sTempDate + ' ' + sTempTime
                 bCalled = False
                 
                 nTemp = msg.find(keyword)
