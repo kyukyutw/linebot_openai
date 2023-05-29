@@ -57,10 +57,10 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     nTemp = msg.find("喂弱吧 ")
-    bCallGPT = not (nTemp == -1)
+    bCallGPT = (nTemp > 0)
     if bCallGPT :
         GPT_answer = GPT_response(msg.replace("喂弱吧 ",""))
-        print(GPT_answer)
+        #print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
  
     sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
@@ -72,7 +72,7 @@ def handle_message(event):
         
         for keyword in keywords:
             nTemp = msg.find(keyword)
-            bHasKeyword = not (nTemp == -1)
+            bHasKeyword = (nTemp > 0)
             if bHasKeyword :
                 photourls = item[0].split(',')
                 nCntArray = len(photourls)
@@ -82,11 +82,11 @@ def handle_message(event):
                 if item[1] == "text":
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(photourl))
                 else:
-                    print(item)
-                    print(item[9])
-                    photourls2nd = item[9].split(',')
-                    nCntArray2nd = len(photourls2nd)
-                    photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
+                    photourl2nd = ""
+                    if len(item) > 9 :
+                        photourls2nd = item[9].split(',')
+                        nCntArray2nd = len(photourls2nd)
+                        photourl2nd = photourls2nd[random.randint(0,(nCntArray2nd -1))]
                     if photourl2nd == "" :
                         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                     else:
