@@ -112,10 +112,10 @@ def handle_message(event):
                     if (item[12] == 'Y') : bShutUp = True;
                 
                 if (len(item) > 13) : 
-                    if (item[13] != '') : nStartHourOfOff = item[13]
+                    if (item[13] != '') : nStartHourOfOff = int(item[13])
                 if (len(item) > 14) : 
-                    if (item[14] != '') : nEndHourOfOff = item[14]
-                nHourOfNow = now.hour
+                    if (item[14] != '') : nEndHourOfOff = int(item[14])
+                nHourOfNow = int(now.hour)
                 if (nStartHourOfOff <= nHourOfNow and nHourOfNow <= nEndHourOfOff) : bOutOfWorkTime = True
 
             if (len(item) > 11) :
