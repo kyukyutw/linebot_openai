@@ -135,7 +135,7 @@ def handle_message(event):
                     datetime_diff = datetime_object_E - datetime_object
                     diff_days = datetime_diff.days #日期差距
                     diff_seconds = datetime_diff.seconds #秒數差距
-                    if diff_days > 0 or (diff_days == 0 and diff_seconds > 899) :
+                    if ( (item[2] != '公告') and (diff_days > 0 or (diff_days == 0 and diff_seconds > 899)) ) :
                         bCalled = True
                     
                     bHasExclude = False
