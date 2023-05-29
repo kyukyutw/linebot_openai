@@ -88,9 +88,9 @@ def handle_message(event):
             keywords = item[3].split(',')
             
             for keyword in keywords:
-                sIndex = item[5];
-                dateBefore = item[6] + ' ' + item[7];
-                bCalled = FALSE;
+                sIndex = item[5]
+                dateBefore = item[6] + ' ' + item[7]
+                bCalled = False
                 
                 nTemp = msg.find(keyword)
                 bHasKeyword = (nTemp > -1) and keyword != ""
