@@ -38,7 +38,7 @@ def GPT_response(text):
     return answer
 
 def GPT_IMAGE_response(image) :
-    response = openai.Image.create(prompt=image, n=1, size="480x480")
+    response = openai.Image.create(prompt=image, n=1, size="512x512")
     print(response)
     answer = response['data'][0]['url']
     return answer
