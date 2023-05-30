@@ -125,8 +125,10 @@ def handle_message(event):
                     sIndex = item[5]
                     sTempDate = "2000-01-01"
                     sTempTime = "00:00:00"
-                    if len(item) > 6 : sTempDate = item[6]
-                    if len(item) > 7 : sTempTime = item[7]
+                    if len(item) > 6 : 
+                        if (item[6] != "") : sTempDate = item[6]
+                    if len(item) > 7 : 
+                        if (item[7] != "") : sTempTime = item[7]
                     dateBefore = sTempDate + ' ' + sTempTime
                     bCalled = False
                     #近期未連續觸發
