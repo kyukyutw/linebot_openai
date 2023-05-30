@@ -37,6 +37,11 @@ def GPT_response(text):
     answer = response['choices'][0]['text'].replace('。','')
     return answer
 
+def GPT_IMAGE_response(image) :
+    response = openai.image.create(prompt=image, n=1, size="480x480")
+    print(response)
+    answer = response['data'][0]['url']
+    return answer
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -83,6 +88,10 @@ def handle_message(event):
     
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
+    
+    nTemp = msg.find("圖片支援")
+    bCallImage = (nTemp > -1)
+    
     if bCallGPT == True :
         print("Into GPT.")
         sInputGPT = msg.replace("喂弱吧 ","").strip()
@@ -90,6 +99,13 @@ def handle_message(event):
             GPT_answer = GPT_response(sInputGPT)
             #print(GPT_answer)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+    elif bCallImage == True :
+        print("Into GPT IMAGE.")
+        sInputGPTIMAGE = msg.replace("圖片支援 ","").strip()
+        if len(sInputGPTIMAGE) > 0 :
+            GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
+            print(GPT_IMAGE_answer)
+            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=GPT_IMAGE_answer, preview_image_url=GPT_IMAGE_answer))
     else :
         print("Into Keyword Search.")
         #時間調整-台灣
