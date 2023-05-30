@@ -89,7 +89,7 @@ def handle_message(event):
     nTemp = msg.find("喂弱吧 ")
     bCallGPT = (nTemp > -1)
     
-    nTemp = msg.find("圖片支援")
+    nTemp = msg.find("弱吧畫一下")
     bCallImage = (nTemp > -1)
     
     if bCallGPT == True :
@@ -101,7 +101,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     elif bCallImage == True :
         print("Into GPT IMAGE.")
-        sInputGPTIMAGE = msg.replace("圖片支援 ","").strip()
+        sInputGPTIMAGE = msg.replace("弱吧畫一下 ","").strip()
         if len(sInputGPTIMAGE) > 0 :
             GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
             print(GPT_IMAGE_answer)
