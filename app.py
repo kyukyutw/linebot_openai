@@ -34,7 +34,7 @@ def GPT_response(text):
     response = openai.Completion.create(model="text-davinci-003", prompt=text, temperature=0.5, max_tokens=500)
     print(response)
     # 重組回應
-    answer = response['choices'][0]['text'].replace('。','')
+    answer = response['choices'][0]['text'].replace('。','').replace('\n\n','')
     return answer
 
 def GPT_IMAGE_response(image) :
@@ -141,8 +141,10 @@ def handle_message(event):
                     sIndex = item[5]
                     sTempDate = "2000-01-01"
                     sTempTime = "00:00:00"
-                    if len(item) > 6 : sTempDate = item[6]
-                    if len(item) > 7 : sTempTime = item[7]
+                    if len(item) > 6 : 
+                        if (item[6] != "") : sTempDate = item[6]
+                    if len(item) > 7 : 
+                        if (item[7] != "") : sTempTime = item[7]
                     dateBefore = sTempDate + ' ' + sTempTime
                     bCalled = False
                     #近期未連續觸發
