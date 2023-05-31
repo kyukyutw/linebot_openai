@@ -106,7 +106,7 @@ def handle_message(event):
     elif (msg.find("雷達回波") > -1) :
         print("Into 雷達回波.")
         sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
-        sMin10 = int(sTempMin)/10
+        sMin10 = int(int(sTempMin)/10)
         sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + str(sMin10) + "0"
         photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
         print(photourl)
