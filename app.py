@@ -106,8 +106,8 @@ def handle_message(event):
     elif (msg.find("雷達回波") > -1) :
         print("Into 雷達回波.")
         sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
-        sMin10 = int(sTempMin/10)
-        sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + sMin10 + "0"
+        sMin10 = int(sTempMin)/10
+        sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + str(sMin10) + "0"
         photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
