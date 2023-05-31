@@ -109,7 +109,7 @@ def handle_message(event):
         sMin10 = int(sTempMin/10)
         sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + sMin10 + "0"
         photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
-		line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
     else :
         print("Into Keyword Search.")
         #google表單
