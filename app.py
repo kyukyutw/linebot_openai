@@ -86,31 +86,32 @@ def handle_message(event):
     
     if bPass == False : return None
     
-    nTemp = msg.find("喂弱吧 ")
-    bCallGPT = (nTemp > -1)
-    
-    nTemp = msg.find("弱吧畫一下")
-    bCallImage = (nTemp > -1)
-    
-    if bCallGPT == True :
+    #時間調整-台灣
+    timezone_TW=pytz.timezone('ROC')
+    now=datetime.now(timezone_TW)
+    if (msg.find("喂弱吧 ") > -1) :
         print("Into GPT.")
         sInputGPT = msg.replace("喂弱吧 ","").strip()
         if len(sInputGPT) > 0 :
             GPT_answer = GPT_response(sInputGPT)
             #print(GPT_answer)
             line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-    elif bCallImage == True :
+    elif (msg.find("弱吧畫一下") > -1) :
         print("Into GPT IMAGE.")
         sInputGPTIMAGE = msg.replace("弱吧畫一下 ","").strip()
         if len(sInputGPTIMAGE) > 0 :
             GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
             print(GPT_IMAGE_answer)
             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=GPT_IMAGE_answer, preview_image_url=GPT_IMAGE_answer))
+    elif (msg.find("雷達回波") > -1) :
+        print("Into 雷達回波.")
+        sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
+        sMin10 = int(sTempMin/10)
+        sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + sMin10 + "0"
+        photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
+		line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
     else :
         print("Into Keyword Search.")
-        #時間調整-台灣
-        timezone_TW=pytz.timezone('ROC')
-        now=datetime.now(timezone_TW)
         #google表單
         sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         ssContent1 = requests.get(sGoogleSheetUrl).json()
