@@ -58,50 +58,6 @@ def GetAppleMusicJsonUrl(sJson):
     sRet = sJson.json()[data][sections](0)[items](0)[contentDescriptor][url]
     print(sRet)
     return sRet
-
-
-# 取得kkbox Token
-def kkbox_get_access_token():
-    #API網址    
-    url = "https://account.kkbox.com/oauth2/token" 
-    
-    #標頭
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Host": "account.kkbox.com"
-    }
-    #參數
-    data = {
-        "grant_type": "client_credentials",
-        "client_id": "8bfffe81b13a9b82e951fee0374d81f6",
-        "client_secret": "2af7153a537dd851f71cd3a640ccbb10"
-    }
-    access_token = requests.post(url, headers=headers, data=data)
-    return access_token.json()["access_token"]
-    
-def kkbox_search(searchKey):
-    #存取憑證
-    access_token = kkbox_get_access_token() 
-    
-    #取得音樂排行榜列表中的歌曲API網址
-    url = "https://api.kkbox.com/v1.1/search"
-    #標頭
-    headers = {
-        "accept": "application/json",
-        "authorization": "Bearer " + access_token
-    }
-    #參數
-    params = {
-        "q": searchKey
-        "type": "track"
-        "territory": "TW"  #台灣領域
-        "offset": 0
-        "limit": 6
-    }
-    response = requests.get(url, headers=headers, params=params)
-    result = response.json()["data"]
-    for item in result:
-        print([item["name"], item["url"]])
     
 def GPT_response(text):
     # 接收回應
