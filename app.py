@@ -33,6 +33,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 # 爬蟲-Apple Music
 def SendAudioMessage(event,searchText):
     try:
+        print("Into 弱吧唱一下:" + searchText)
         #first part: apple music查詢 爬試聽連結
         sPart1url = "https://music.apple.com/tw/search?term=" + searchText
         print("GetAppleMusicHtmlServiceTag:" + sPart1url)
@@ -43,8 +44,8 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         
-        sAudioUrl = GetAppleMusicJsonUrl(sJson)
-        print("GetAppleMusicJsonUrl:" + sAudioUrl)
+        sAudioUrl = GetAppleMusicSongUrl(sJson)
+        print("GetAppleMusicSongUrl:" + sAudioUrl)
         
         line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
     except Exception as ex:
@@ -60,10 +61,12 @@ def GetAppleMusicHtmlServiceTag(url):
 
 def GetAppleMusicJsonUrl(sJsonString):
     sJson = json.loads(sJsonString)
-    
     sRet = sJson[0]['data']['sections'][0]['items'][0]['contentDescriptor']['url']
+    return sRet
     
-    print(sRet)
+def GetAppleMusicSongUrl(sJsonString):
+    sJson = json.loads(sJsonString)
+    sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews']['url']
     return sRet
     
 def GPT_response(text):
