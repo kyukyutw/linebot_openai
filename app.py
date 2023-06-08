@@ -61,17 +61,7 @@ def GetAppleMusicHtmlServiceTag(url):
 def GetAppleMusicJsonUrl(sJsonString):
     sJson = json.loads(sJsonString)
     
-    try:
-        sRet = sJson(1)['data'][sections](0)[items](0)[contentDescriptor][url]
-        #'list' object is not callable
-    except Exception as ex:
-        print(ex)
-        try:
-            sRet = sJson(1)['data']['sections'](1)['items'](1)['contentDescriptor']['url']
-        except Exception as ex:
-            print(ex)
-            sRet = sJson['data']['sections'](0)['items'](0)['contentDescriptor']['url']
-            #list indices must be integers or slices, not str
+    sRet = sJson[0]['data']['sections'][0]['items'][0]['contentDescriptor']['url']
     
     print(sRet)
     return sRet
