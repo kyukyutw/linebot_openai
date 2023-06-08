@@ -60,8 +60,9 @@ def GetAppleMusicHtmlServiceTag(url):
     sRet = soup.find("script",id="serialized-server-data").getText()
     return sRet
 
-def GetAppleMusicJsonUrl(sJson):
-    sRet = sJson.json()[data][sections](0)[items](0)[contentDescriptor][url]
+def GetAppleMusicJsonUrl(sJsonString):
+    sJson = json.loads(sJsonString)
+    sRet = sJson[data][sections](0)[items](0)[contentDescriptor][url]
     print(sRet)
     return sRet
     
