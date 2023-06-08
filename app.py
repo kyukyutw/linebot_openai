@@ -62,8 +62,7 @@ def GetAppleMusicHtmlServiceTag(url):
 
 def GetAppleMusicJsonUrl(sJsonString):
     sJson = json.loads(sJsonString)
-    print(sJson)
-    sRet = sJson[data][sections](0)[items](0)[contentDescriptor][url]
+    sRet = sJson(0)[data][sections](0)[items](0)[contentDescriptor][url]
     print(sRet)
     return sRet
     
