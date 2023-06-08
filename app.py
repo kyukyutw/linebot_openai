@@ -63,7 +63,7 @@ def GetAppleMusicHtmlServiceTag(url):
 def GetAppleMusicHtmlServiceTag2(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    result = soup.find("picture",class="svelte-yxysdi")
+    result = soup.find("picture",class_="svelte-yxysdi")
     sRet = result.select_one("source").get("srcset")
     print(sRet)
     return sRet
