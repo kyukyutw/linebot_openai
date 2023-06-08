@@ -18,6 +18,7 @@ import random
 import requests
 from datetime import datetime,timedelta
 import pytz
+from bs4 import BeautifulSoup
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -29,6 +30,79 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+# 爬蟲-Apple Music
+def SendAudioMessage(searchText):
+    try:
+        #first part: apple music查詢 爬試聽連結
+        sPart1url = "https://music.apple.com/tw/search?term=" + searchText
+        sJson = GetAppleMusicHtmlServiceTag(sPart1url)
+        #secend part:試聽連結 爬試聽檔案連結
+        sPart2url = GetAppleMusicJsonUrl(sJson)
+        sJson = GetAppleMusicHtmlServiceTag(sPart2url)
+        
+        sAudioUrl = GetAppleMusicJsonUrl(sJson)
+        
+        line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
+    except:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage("哎呀，找不到。"))
+    return None
+
+def GetAppleMusicHtmlServiceTag(url):
+    response = requests.get(sPart1url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    sRet = soup.find("script",id="serialized-server-data").getText()
+    print("script:" + sRet)
+    return sRet
+
+def GetAppleMusicJsonUrl(sJson):
+    sRet = sJson.json()[data][sections](0)[items](0)[contentDescriptor][url]
+    print(sRet)
+    return sRet
+
+
+# 取得kkbox Token
+def kkbox_get_access_token():
+    #API網址    
+    url = "https://account.kkbox.com/oauth2/token" 
+    
+    #標頭
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Host": "account.kkbox.com"
+    }
+    #參數
+    data = {
+        "grant_type": "client_credentials",
+        "client_id": "8bfffe81b13a9b82e951fee0374d81f6",
+        "client_secret": "2af7153a537dd851f71cd3a640ccbb10"
+    }
+    access_token = requests.post(url, headers=headers, data=data)
+    return access_token.json()["access_token"]
+    
+def kkbox_search(searchKey):
+    #存取憑證
+    access_token = kkbox_get_access_token() 
+    
+    #取得音樂排行榜列表中的歌曲API網址
+    url = "https://api.kkbox.com/v1.1/search"
+    #標頭
+    headers = {
+        "accept": "application/json",
+        "authorization": "Bearer " + access_token
+    }
+    #參數
+    params = {
+        "q": searchKey
+        "type": "track"
+        "territory": "TW"  #台灣領域
+        "offset": 0
+        "limit": 6
+    }
+    response = requests.get(url, headers=headers, params=params)
+    result = response.json()["data"]
+    for item in result:
+        print([item["name"], item["url"]])
+    
 def GPT_response(text):
     # 接收回應
     response = openai.Completion.create(model="text-davinci-003", prompt=text, temperature=0.5, max_tokens=500)
@@ -89,7 +163,12 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
-    if (msg.find("喂弱吧 ") > -1) :
+    if (msg.find("弱吧唱一下") > -1) :
+        print("Into Music Search.")
+        sInputMusic = msg.replace("弱吧唱一下 ","").strip()
+        if len(sInputMusic) > 0 :
+            SendAudioMessage(sInputMusic)
+    elif (msg.find("喂弱吧 ") > -1) :
         print("Into GPT.")
         sInputGPT = msg.replace("喂弱吧 ","").strip()
         if len(sInputGPT) > 0 :
