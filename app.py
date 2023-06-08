@@ -54,15 +54,23 @@ def SendAudioMessage(event,searchText):
 
 def GetAppleMusicHtmlServiceTag(url):
     response = requests.get(url)
-    print("GetAppleMusicHtmlServiceTag-1")
     soup = BeautifulSoup(response.text, "html.parser")
-    print("GetAppleMusicHtmlServiceTag-2")
     sRet = soup.find("script",id="serialized-server-data").getText()
     return sRet
 
 def GetAppleMusicJsonUrl(sJsonString):
     sJson = json.loads(sJsonString)
-    sRet = sJson(0)[data][sections](0)[items](0)[contentDescriptor][url]
+    
+    try:
+        sRet = sJson(0)['data'][sections](0)[items](0)[contentDescriptor][url]
+    except Exception as ex:
+        print(ex)
+        try:
+            sRet = sJson(0)['data']['sections'](0)['items'](0)['contentDescriptor']['url']
+        except Exception as ex:
+            print(ex)
+            sRet = sJson['data']['sections'](0)['items'](0)['contentDescriptor']['url']
+    
     print(sRet)
     return sRet
     
