@@ -31,7 +31,7 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # 爬蟲-Apple Music
-def SendAudioMessage(searchText):
+def SendAudioMessage(event,searchText):
     try:
         #first part: apple music查詢 爬試聽連結
         sPart1url = "https://music.apple.com/tw/search?term=" + searchText
@@ -48,7 +48,7 @@ def SendAudioMessage(searchText):
     return None
 
 def GetAppleMusicHtmlServiceTag(url):
-    response = requests.get(sPart1url)
+    response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     sRet = soup.find("script",id="serialized-server-data").getText()
     print("script:" + sRet)
@@ -123,7 +123,7 @@ def handle_message(event):
         print("Into Music Search.")
         sInputMusic = msg.replace("弱吧唱一下 ","").strip()
         if len(sInputMusic) > 0 :
-            SendAudioMessage(sInputMusic)
+            SendAudioMessage(event,sInputMusic)
     elif (msg.find("喂弱吧 ") > -1) :
         print("Into GPT.")
         sInputGPT = msg.replace("喂弱吧 ","").strip()
