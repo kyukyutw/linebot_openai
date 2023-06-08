@@ -43,6 +43,7 @@ def SendAudioMessage(event,searchText):
         sPart2url = GetAppleMusicJsonUrl(sJson)
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
+        #picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
         
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
@@ -58,6 +59,13 @@ def GetAppleMusicHtmlServiceTag(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     sRet = soup.find("script",id="serialized-server-data").getText()
+    return sRet
+def GetAppleMusicHtmlServiceTag2(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    result = soup.find("picture",class="svelte-yxysdi")
+    sRet = result.select_one("source").get("srcset")
+    print(sRet)
     return sRet
 
 def GetAppleMusicJsonUrl(sJsonString):
