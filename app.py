@@ -44,6 +44,7 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         
+        #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
@@ -66,7 +67,7 @@ def GetAppleMusicJsonUrl(sJsonString):
     
 def GetAppleMusicSongUrl(sJsonString):
     sJson = json.loads(sJsonString)
-    sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews']['url']
+    sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews'][0]['url']
     return sRet
     
 def GPT_response(text):
@@ -131,7 +132,7 @@ def handle_message(event):
     now=datetime.now(timezone_TW)
     if (msg.find("弱吧唱一下") > -1) :
         print("Into Music Search.")
-        sInputMusic = msg.replace("弱吧唱一下 ","").strip()
+        sInputMusic = msg.replace("弱吧唱一下","").strip()
         if len(sInputMusic) > 0 :
             SendAudioMessage(event,sInputMusic)
     elif (msg.find("喂弱吧 ") > -1) :
@@ -143,7 +144,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     elif (msg.find("弱吧畫一下") > -1) :
         print("Into GPT IMAGE.")
-        sInputGPTIMAGE = msg.replace("弱吧畫一下 ","").strip()
+        sInputGPTIMAGE = msg.replace("弱吧畫一下","").strip()
         if len(sInputGPTIMAGE) > 0 :
             GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
             print(GPT_IMAGE_answer)
