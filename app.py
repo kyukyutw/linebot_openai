@@ -47,13 +47,16 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicJsonUrl:" + sAudioUrl)
         
         line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
-    except:
+    except Exception as ex:
+        print(ex)
         line_bot_api.reply_message(event.reply_token, TextSendMessage("哎呀，找不到。"))
     return None
 
 def GetAppleMusicHtmlServiceTag(url):
     response = requests.get(url)
+    print("GetAppleMusicHtmlServiceTag-1")
     soup = BeautifulSoup(response.text, "html.parser")
+    print("GetAppleMusicHtmlServiceTag-2")
     sRet = soup.find("script",id="serialized-server-data").getText()
     return sRet
 
