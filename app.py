@@ -35,12 +35,16 @@ def SendAudioMessage(event,searchText):
     try:
         #first part: apple music查詢 爬試聽連結
         sPart1url = "https://music.apple.com/tw/search?term=" + searchText
+        print("GetAppleMusicHtmlServiceTag:" + sPart1url)
         sJson = GetAppleMusicHtmlServiceTag(sPart1url)
+        
         #secend part:試聽連結 爬試聽檔案連結
         sPart2url = GetAppleMusicJsonUrl(sJson)
+        print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         
         sAudioUrl = GetAppleMusicJsonUrl(sJson)
+        print("GetAppleMusicJsonUrl:" + sAudioUrl)
         
         line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
     except:
@@ -51,7 +55,6 @@ def GetAppleMusicHtmlServiceTag(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     sRet = soup.find("script",id="serialized-server-data").getText()
-    print("script:" + sRet)
     return sRet
 
 def GetAppleMusicJsonUrl(sJson):
