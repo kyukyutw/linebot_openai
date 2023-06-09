@@ -16,9 +16,10 @@ import time
 import json
 import random
 import requests
-from datetime import datetime,timedelta
-import pytz
-from bs4 import BeautifulSoup
+from datetime import datetime,timedelta 
+import pytz #時區設定
+from bs4 import BeautifulSoup #爬蟲
+import convertapi #webp to png
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -29,6 +30,15 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
+
+#webp to png
+def TranUrlWebpToPNG(url):
+    convertapi.api_secret = 'AEbLcbeEhO9cQwtU'
+    response = convertapi.convert('png', {'Url': url}, from_format = 'webp')
+    print(response)
+    ret = response['Files'][0]['Url']
+    print(ret)
+    return ret
 
 # 爬蟲-Apple Music
 def SendAudioMessage(event,searchText):

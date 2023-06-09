@@ -4,3 +4,4 @@ openai
 gunicorn
 pytz
 beautifulsoup4
+--upgrade convertapi
