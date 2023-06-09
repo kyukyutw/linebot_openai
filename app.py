@@ -40,9 +40,10 @@ def TranUrlWebpToPNG(webpUrl):
         # 獲取轉換後的jpg檔案的url
         web = requests.get(webp_to_jpg_url)
         soup = BeautifulSoup(web.text, "html.parser")
-        jpg_url = soup.find("img", id="output-image")["src"]
-        ret = jpg_url
-        print(ret)
+        #jpg_url = soup.find("img", id="output-image")["src"]
+        print(soup.find("img"))
+        #ret = jpg_url
+        #print(ret)
         """
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
