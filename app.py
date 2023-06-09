@@ -35,6 +35,15 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
+        # 將webp檔案的url傳遞給ezgif.com/webp-to-jpg
+        webp_to_jpg_url = f"https://ezgif.com/webp-to-jpg?url={" + webpUrl + "}"
+        # 獲取轉換後的jpg檔案的url
+        web = requests.get(webp_to_jpg_url)
+        soup = BeautifulSoup(web.text, "html.parser")
+        jpg_url = soup.find("img", id="output-image")["src"]
+        ret = jpg_url
+        print(ret)
+        """
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
         url = "https://ezgif.com/webp-to-gif"
@@ -67,13 +76,14 @@ def TranUrlWebpToPNG(webpUrl):
         result_soup = BeautifulSoup(response.text, "html.parser")
         result_image = result_soup.find("div", {"id": "output"})
         print(result_image)
-        
+    
         if result_image:
             ret = result_image.find("img").get("src")
 
             print("轉換完成並下載為JPG檔案:", output_path)
         else:
             print("轉換失敗")
+        """
     except Exception as ex:
         print("轉換失敗:" + ex)
         
