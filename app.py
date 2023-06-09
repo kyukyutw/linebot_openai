@@ -32,12 +32,40 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #webp to png
-def OLD_TranUrlWebpToPNG(url):
-    convertapi.api_secret = 'AEbLcbeEhO9cQwtU'
-    response = convertapi.convert('png', {'Url': url})
-    print(response)
-    ret = response['Files'][0]['Url']
-    print(ret)
+def TranUrlWebpToPNG(webpUrl):
+    ret = ''
+    # 發送GET請求獲取網頁內容
+    url = "https://ezgif.com/webp-to-gif"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # 找到表單輸入框和提交按鈕
+    input_form = soup.find("form", {"class": "main-form"})
+    input_field = input_form.find("input", {"name": "file"})
+    submit_button = input_form.find("input", {"type": "submit"})
+
+    # 構建POST請求的資料
+    data = {
+        "file": webp_url,
+        "convert": "Convert to JPG"
+    }
+
+    # 發送POST請求進行轉換
+    convert_url = url + input_form.get("action")
+    response = requests.post(convert_url, data=data)
+
+    # 找到轉換後的圖像URL
+    result_soup = BeautifulSoup(response.text, "html.parser")
+    result_image = result_soup.find("div", {"id": "output"})
+    print(result_image)
+    
+    if result_image:
+        ret = result_image.find("img").get("src")
+
+        print("轉換完成並下載為JPG檔案:", output_path)
+    else:
+        print("轉換失敗")
+        
     return ret
 
 # 爬蟲-Apple Music
@@ -54,44 +82,16 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         #撈出專輯封面
-        picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
+        picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
         
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
-        #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
-        line_bot_api.reply_message(event.reply_token,[ImagemapSendMessage(
-            base_url='https://stickershop.line-scdn.net/stickershop/v1/product/17720848/LINEStorePC/main.png',
-            alt_text='this is an imagemap',
-            base_size=BaseSize(height=360, width=360),
-            #video=Video(
-            #    original_content_url=sAudioUrl,
-            #    preview_image_url='https://attach.setn.com/newsimages/2022/12/27/3979815-PH.jpg',
-            #    area=ImagemapArea(
-            #        x=0, y=0, width=296, height=296
-            #    ),
-            #    external_link=ExternalLink(
-            #        link_uri=sPart2url,
-            #        label='See More',
-            #    ),
-            #),
-            actions=[
-                URIImagemapAction(
-                    link_uri=sPart2url,
-                    area=ImagemapArea(
-                        x=0, y=0, width=296, height=296
-                    )
-                ),
-                MessageImagemapAction(
-                    text='hello',
-                    area=ImagemapArea(
-                        x=520, y=0, width=296, height=296
-                    )
-                )
-            ]
-        )
-        ,AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+        if picUrl != '':
+            line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+        else:
+            line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=59000))
         
     except Exception as ex:
         print(ex)
