@@ -36,7 +36,7 @@ def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
         # 將webp檔案的url傳遞給ezgif.com/webp-to-jpg
-        webp_to_jpg_url = f"https://ezgif.com/webp-to-jpg?url={" + webpUrl + "}"
+        webp_to_jpg_url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
         # 獲取轉換後的jpg檔案的url
         web = requests.get(webp_to_jpg_url)
         soup = BeautifulSoup(web.text, "html.parser")
