@@ -65,17 +65,17 @@ def SendAudioMessage(event,searchText):
             base_url='https://stickershop.line-scdn.net/stickershop/v1/product/17720848/LINEStorePC/main.png',
             alt_text='this is an imagemap',
             base_size=BaseSize(height=360, width=360),
-            video=Video(
-                original_content_url=sAudioUrl,
-                preview_image_url='https://attach.setn.com/newsimages/2022/12/27/3979815-PH.jpg',
-                area=ImagemapArea(
-                    x=0, y=0, width=296, height=296
-                ),
-                external_link=ExternalLink(
-                    link_uri=sPart2url,
-                    label='See More',
-                ),
-            ),
+            #video=Video(
+            #    original_content_url=sAudioUrl,
+            #    preview_image_url='https://attach.setn.com/newsimages/2022/12/27/3979815-PH.jpg',
+            #    area=ImagemapArea(
+            #        x=0, y=0, width=296, height=296
+            #    ),
+            #    external_link=ExternalLink(
+            #        link_uri=sPart2url,
+            #        label='See More',
+            #    ),
+            #),
             actions=[
                 URIImagemapAction(
                     link_uri=sPart2url,
