@@ -61,20 +61,35 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
         #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
-        line_bot_api.reply_message(event.reply_token,[TemplateSendMessage(
-            alt_text='ImageCarousel template',
-            template=ImageCarouselTemplate(
-                columns=[
-                    ImageCarouselColumn(
-                        image_url=picUrl,
-                        action=PostbackAction(
-                            label='postback1',
-                            display_text='postback text1',
-                            data='action=buy&itemid=1'
-                        )
+        line_bot_api.reply_message(event.reply_token,[magemapSendMessage(
+            base_url=picUrl,
+            alt_text='this is an imagemap',
+            base_size=BaseSize(height=400, width=400),
+            video=Video(
+                original_content_url=picUrl,
+                preview_image_url=picUrl,
+                area=ImagemapArea(
+                    x=0, y=0, width=400, height=400
+                ),
+                external_link=ExternalLink(
+                    link_uri=sPart2url,
+                    label='See More',
+                ),
+            ),
+            actions=[
+                URIImagemapAction(
+                    link_uri=sPart2url,
+                    area=ImagemapArea(
+                        x=0, y=0, width=520, height=400
                     )
-                ]
-            )
+                ),
+                MessageImagemapAction(
+                    text='hello',
+                    area=ImagemapArea(
+                        x=520, y=0, width=400, height=400
+                    )
+                )
+            ]
         )
         ,AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
         
