@@ -34,7 +34,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 #webp to png
 def TranUrlWebpToPNG(url):
     convertapi.api_secret = 'AEbLcbeEhO9cQwtU'
-    response = convertapi.convert('png', {'Url': url}, from_format = 'webp',timeout=150)
+    response = convertapi.convert('png', {'Url': url})
     print(response)
     ret = response['Files'][0]['Url']
     print(ret)
