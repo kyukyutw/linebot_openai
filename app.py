@@ -62,14 +62,14 @@ def SendAudioMessage(event,searchText):
         
         #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
         line_bot_api.reply_message(event.reply_token,[ImagemapSendMessage(
-            base_url=picUrl,
+            base_url='https://stickershop.line-scdn.net/stickershop/v1/product/17720848/LINEStorePC/main.png',
             alt_text='this is an imagemap',
-            base_size=BaseSize(height=400, width=400),
+            base_size=BaseSize(height=360, width=360),
             video=Video(
-                original_content_url=picUrl,
-                preview_image_url=picUrl,
+                original_content_url=sAudioUrl,
+                preview_image_url='https://attach.setn.com/newsimages/2022/12/27/3979815-PH.jpg',
                 area=ImagemapArea(
-                    x=0, y=0, width=400, height=400
+                    x=0, y=0, width=296, height=296
                 ),
                 external_link=ExternalLink(
                     link_uri=sPart2url,
@@ -80,13 +80,13 @@ def SendAudioMessage(event,searchText):
                 URIImagemapAction(
                     link_uri=sPart2url,
                     area=ImagemapArea(
-                        x=0, y=0, width=520, height=400
+                        x=0, y=0, width=296, height=296
                     )
                 ),
                 MessageImagemapAction(
                     text='hello',
                     area=ImagemapArea(
-                        x=520, y=0, width=400, height=400
+                        x=520, y=0, width=296, height=296
                     )
                 )
             ]
