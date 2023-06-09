@@ -35,6 +35,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
+        """
         # 將webp檔案的url傳遞給ezgif.com/webp-to-jpg
         webp_to_jpg_url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
         # 獲取轉換後的jpg檔案的url
@@ -47,16 +48,16 @@ def TranUrlWebpToPNG(webpUrl):
         """
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
-        url = "https://ezgif.com/webp-to-gif"
+        url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
         response = requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
 
         # 找到表單輸入框和提交按鈕
         print('找到表單輸入框和提交按鈕')
-        input_form = soup.find("form", {"class": "main-form"})
+        input_form = soup.find("form", {"class": "form ajax-form"})
+        """
         print('找到表單輸入框和提交按鈕2')
-        print(input_form)
-        input_field = input_form.find("input", {"name": "file"})
+        input_action = input_form.find("input", {"name": "file"})
         print('找到表單輸入框和提交按鈕3')
         submit_button = input_form.find("input", {"type": "submit"})
 
@@ -66,11 +67,12 @@ def TranUrlWebpToPNG(webpUrl):
             "file": webpUrl,
             "convert": "Convert to JPG"
         }
-
+        """
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換')
-        convert_url = url + input_form.get("action")
-        response = requests.post(convert_url, data=data)
+        convert_url = input_form.get("action") + '?ajax=true'
+        response = requests.post(convert_url)
+        #response = requests.post(convert_url, data=data)
 
         # 找到轉換後的圖像URL
         print('找到轉換後的圖像URL')
@@ -84,7 +86,6 @@ def TranUrlWebpToPNG(webpUrl):
             print("轉換完成並下載為JPG檔案:", output_path)
         else:
             print("轉換失敗")
-        """
     except Exception as ex:
         print("轉換失敗:" + ex)
         
