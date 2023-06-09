@@ -50,7 +50,7 @@ def SendAudioMessage(event,searchText):
         sAudioUrl = GetAppleMusicSongUrl(sJson)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
+        line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
     except Exception as ex:
         print(ex)
         line_bot_api.reply_message(event.reply_token, TextSendMessage("哎呀，找不到。"))
