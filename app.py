@@ -32,7 +32,7 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #webp to png
-def TranUrlWebpToPNG(url):
+def OLD_TranUrlWebpToPNG(url):
     convertapi.api_secret = 'AEbLcbeEhO9cQwtU'
     response = convertapi.convert('png', {'Url': url})
     print(response)
@@ -54,13 +54,30 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         #撈出專輯封面
-        picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
+        picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
         
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
-        line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+        #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+        line_bot_api.reply_message(event.reply_token,[TemplateSendMessage(
+            alt_text='ImageCarousel template',
+            template=ImageCarouselTemplate(
+                columns=[
+                    ImageCarouselColumn(
+                        image_url=picUrl,
+                        action=PostbackAction(
+                            label='postback1',
+                            display_text='postback text1',
+                            data='action=buy&itemid=1'
+                        )
+                    )
+                ]
+            )
+        )
+        ,AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+        
     except Exception as ex:
         print(ex)
         line_bot_api.reply_message(event.reply_token, TextSendMessage("哎呀，找不到。"))
