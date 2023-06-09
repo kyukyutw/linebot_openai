@@ -43,7 +43,7 @@ def SendAudioMessage(event,searchText):
         sPart2url = GetAppleMusicJsonUrl(sJson)
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
-        #picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
+        picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
         
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
