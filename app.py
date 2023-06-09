@@ -46,7 +46,7 @@ def TranUrlWebpToPNG(webpUrl):
 
     # 構建POST請求的資料
     data = {
-        "file": webp_url,
+        "file": webpUrl,
         "convert": "Convert to JPG"
     }
 
