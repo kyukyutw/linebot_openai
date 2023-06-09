@@ -43,7 +43,9 @@ def TranUrlWebpToPNG(webpUrl):
     # 找到表單輸入框和提交按鈕
     print('找到表單輸入框和提交按鈕')
     input_form = soup.find("form", {"class": "main-form"})
+    print('找到表單輸入框和提交按鈕2')
     input_field = input_form.find("input", {"name": "file"})
+    print('找到表單輸入框和提交按鈕3')
     submit_button = input_form.find("input", {"type": "submit"})
 
     # 構建POST請求的資料
