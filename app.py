@@ -35,26 +35,31 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     # 發送GET請求獲取網頁內容
+    print('發送GET請求獲取網頁內容')
     url = "https://ezgif.com/webp-to-gif"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
 
     # 找到表單輸入框和提交按鈕
+    print('找到表單輸入框和提交按鈕')
     input_form = soup.find("form", {"class": "main-form"})
     input_field = input_form.find("input", {"name": "file"})
     submit_button = input_form.find("input", {"type": "submit"})
 
     # 構建POST請求的資料
+    print('構建POST請求的資料')
     data = {
         "file": webpUrl,
         "convert": "Convert to JPG"
     }
 
     # 發送POST請求進行轉換
+    print('發送POST請求進行轉換')
     convert_url = url + input_form.get("action")
     response = requests.post(convert_url, data=data)
 
     # 找到轉換後的圖像URL
+    print('找到轉換後的圖像URL')
     result_soup = BeautifulSoup(response.text, "html.parser")
     result_image = result_soup.find("div", {"id": "output"})
     print(result_image)
