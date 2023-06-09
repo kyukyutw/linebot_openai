@@ -43,13 +43,14 @@ def SendAudioMessage(event,searchText):
         sPart2url = GetAppleMusicJsonUrl(sJson)
         print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
+        #撈出專輯封面
         picUrl = GetAppleMusicHtmlServiceTag2(sPart2url)
         
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
-        line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=30000))
     except Exception as ex:
         print(ex)
         line_bot_api.reply_message(event.reply_token, TextSendMessage("哎呀，找不到。"))
@@ -64,7 +65,8 @@ def GetAppleMusicHtmlServiceTag2(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     result = soup.find("picture",class_="svelte-yxysdi")
-    sRet = result.select_one("source").get("srcset")
+    sHtmlAttribute = result.select_one("source").get("srcset")
+    sRet = sHtmlAttribute[:sHtmlAttribute.find(".webp") + 5]
     print(sRet)
     return sRet
 
