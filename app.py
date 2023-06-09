@@ -61,7 +61,7 @@ def SendAudioMessage(event,searchText):
         print("GetAppleMusicSongUrl:" + sAudioUrl)
         
         #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
-        line_bot_api.reply_message(event.reply_token,[magemapSendMessage(
+        line_bot_api.reply_message(event.reply_token,[ImagemapSendMessage(
             base_url=picUrl,
             alt_text='this is an imagemap',
             base_size=BaseSize(height=400, width=400),
