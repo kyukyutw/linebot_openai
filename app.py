@@ -35,31 +35,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
-        # 建立 Browser 物件
-        browser = mechanicalsoup.StatefulBrowser()
-
-        # 發送 GET 請求並取得網頁內容
-        url = 'https://ezgif.com/webp-to-jpg?url=https://is1-ssl.mzstatic.com/image/thumb/Music6/v4/37/11/5c/37115cee-34e2-3612-37d3-507966395b85/dj.bmmucjcs.jpg/296x296bb.webp'
-        browser.open(url)
-
-        # 點擊 "Convert to jpg" 按鈕
-        browser.select_form('#webp2jpg_form')
-        browser.submit_selected()
-
-        # 取得回應的 HTML 內容
-        response_html = browser.get_current_page().prettify()
-
-        # 解析回應的 HTML 內容
-        soup = BeautifulSoup(response_html, 'html.parser')
-
-        # 找到顯示 jpg 圖片的 img 元素
-        img = soup.find('img')
-
-        # 取得圖片的 img URL
-        img_url = img.get('src')
-        print("圖片 URL:", img_url)
-        ret = img_url
-        '''
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
         url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
@@ -79,8 +54,7 @@ def TranUrlWebpToPNG(webpUrl):
         # 構建POST請求的資料
         print('構建POST請求的資料')
         data = {
-            "file": webpUrl,
-            "convert": "Convert to JPG"
+            'convert-to-jpg': 'Convert to JPG!'
         }
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換')
@@ -100,7 +74,6 @@ def TranUrlWebpToPNG(webpUrl):
             print("轉換完成並下載為JPG檔案:", output_path)
         else:
             print("轉換失敗")
-        '''
     except Exception as ex:
         print("轉換失敗:" + ex)
         
