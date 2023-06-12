@@ -62,8 +62,7 @@ def TranUrlWebpToPNG(webpUrl):
         }
         headers = {
             'Content-Encoding': 'gzip',
-            'Content-Type': 'text/html;
-                charset=UTF-8;'
+            'Content-Type': 'text/html;charset=UTF-8'
         }
         response2 = requests.post(convert_url + '?ajax=true', headers=headers, data=payload, files=files)
         
