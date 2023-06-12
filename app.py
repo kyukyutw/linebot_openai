@@ -59,7 +59,7 @@ def TranUrlWebpToPNG(webpUrl):
         img_url = img.get('src')
         print("圖片 URL:", img_url)
         ret = img_url
-    '''
+        '''
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
         url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
@@ -100,7 +100,7 @@ def TranUrlWebpToPNG(webpUrl):
             print("轉換完成並下載為JPG檔案:", output_path)
         else:
             print("轉換失敗")
-    '''
+        '''
     except Exception as ex:
         print("轉換失敗:" + ex)
         
