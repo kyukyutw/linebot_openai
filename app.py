@@ -44,36 +44,30 @@ def TranUrlWebpToPNG(webpUrl):
         # 找到表單輸入框和提交按鈕
         print('找到表單輸入框和提交按鈕')
         input_form = soup.find("form", {"class": "form ajax-form"})
-        print('找到表單輸入框和提交按鈕2')
-        submit_button = input_form.find("input", {"type": "submit"})
         
-        # 取得按鈕的相關資訊
-        button_action = submit_button.get('onclick')  # 或替換為其他屬性，例如 'href' 或 'data-action'
-
-
         # 構建POST請求的資料
         print('構建POST請求的資料')
-        data = {
-            'convert-to-jpg': 'Convert to JPG!'
+        pyload = {
+            'file': 'ezgif-1-f3cd9e6b81.webp',
+            'percentage': '85',
+            'background': '#ffffff'
+        }
+        headers = {
+        'Content-Encoding':'gzip'
+        'Content-Type': 'text/html; charset=UTF-8'
         }
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換')
         convert_url = input_form.get("action") + '?ajax=true'
-        response = requests.post(convert_url, data=data)
-
+        response = requests.post(convert_url, headers=headers, data=pyload)
+        
         # 找到轉換後的圖像URL
         print('找到轉換後的圖像URL')
         result_soup = BeautifulSoup(response.text, "html.parser")
-        #img 在script之下 div id=output是空的(?)
-        result_image = result_soup.find("div", {"id": "output"}) 
-        print(result_image)
+        
+        ret = result_soup.find("img").get("src")
+        print("轉換成功:" + ret)
     
-        if result_image:
-            ret = result_image.find("img").get("src")
-
-            print("轉換完成並下載為JPG檔案:", output_path)
-        else:
-            print("轉換失敗")
     except Exception as ex:
         print("轉換失敗:" + ex)
         
