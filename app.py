@@ -35,7 +35,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
-        '''
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
         url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
@@ -64,24 +63,11 @@ def TranUrlWebpToPNG(webpUrl):
             'Content-Encoding': 'gzip',
             'Content-Type': 'text/html;charset=UTF-8'
         }
-        convert_url = convert_url + '?ajax=true'
-        print('=url====' + convert_url + '====' + headers + '====' + payload + '====')
-        response2 = requests.post(convert_url, headers=headers, data=payload, files=files)
-        '''
-        url = "https://ezgif.com/webp-to-jpg/ezgif-2-f3cd9e6b81.webp?ajax=true"
-
-        payload={'file': 'ezgif-2-f3cd9e6b81.webp',
-        'background': '#ffffff'}
-        files=[
-
-        ]
-        headers = {
-          'Content-Encoding': 'gzip',
-          'Content-Type': 'text/html; charset=UTF-8'
-        }
-
-        response2 = requests.request("POST", url, headers=headers, data=payload, files=files)
-
+        print('url====' + convert_url)
+        convert_url2 = convert_url + '?ajax=true'
+        print('=url====' + convert_url2 + '====' + headers + '====' + payload + '====')
+        response2 = requests.post(convert_url2, headers=headers, data=payload, files=files)
+        
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
         result_soup = BeautifulSoup(response2.text, "html.parser")
