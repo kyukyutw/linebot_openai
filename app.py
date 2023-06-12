@@ -49,8 +49,7 @@ def TranUrlWebpToPNG(webpUrl):
         print('發送POST請求進行轉換ing...')
         convert_url = input_form.get("action")
         sFile = convert_url.replace('https://ezgif.com/webp-to-jpg/','')
-        print('=url===' + convert_url + '===')
-        print('file===' + sFile + '===')
+        print('file====' + sFile + '====')
         
         # 構建POST請求的資料
         print('構建POST請求的資料')
@@ -64,13 +63,15 @@ def TranUrlWebpToPNG(webpUrl):
             'Content-Encoding': 'gzip',
             'Content-Type': 'text/html;charset=UTF-8'
         }
-        response2 = requests.post(convert_url + '?ajax=true', headers=headers, data=payload, files=files)
+        convert_url = convert_url + '?ajax=true'
+        print('=url====' + convert_url + '====' + headers + '====' + payload + '====')
+        response2 = requests.post(convert_url, headers=headers, data=payload, files=files)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
         result_soup = BeautifulSoup(response2.text, "html.parser")
         
-        print(result_soup)
+        #print(result_soup)
         #response = result_soup.find("div", {"id": "output"})
         
         ret = result_soup.find("img").get("src")
