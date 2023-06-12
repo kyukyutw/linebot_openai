@@ -19,7 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import selenium #動態網頁爬蟲
+import mechanicalsoup
 #======python的函數庫==========
 
 app = Flask(__name__)
