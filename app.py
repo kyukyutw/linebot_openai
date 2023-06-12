@@ -19,7 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import convertapi #webp to png
+import selenium #動態網頁爬蟲
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -35,17 +35,6 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
-        """
-        # 將webp檔案的url傳遞給ezgif.com/webp-to-jpg
-        webp_to_jpg_url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
-        # 獲取轉換後的jpg檔案的url
-        web = requests.get(webp_to_jpg_url)
-        soup = BeautifulSoup(web.text, "html.parser")
-        #jpg_url = soup.find("img", id="output-image")["src"]
-        print(soup.find("img"))
-        #ret = jpg_url
-        #print(ret)
-        """
         # 發送GET請求獲取網頁內容
         print('發送GET請求獲取網頁內容')
         url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
@@ -55,11 +44,12 @@ def TranUrlWebpToPNG(webpUrl):
         # 找到表單輸入框和提交按鈕
         print('找到表單輸入框和提交按鈕')
         input_form = soup.find("form", {"class": "form ajax-form"})
-        """
         print('找到表單輸入框和提交按鈕2')
-        input_action = input_form.find("input", {"name": "file"})
-        print('找到表單輸入框和提交按鈕3')
         submit_button = input_form.find("input", {"type": "submit"})
+        
+        # 取得按鈕的相關資訊
+        button_action = submit_button.get('onclick')  # 或替換為其他屬性，例如 'href' 或 'data-action'
+
 
         # 構建POST請求的資料
         print('構建POST請求的資料')
@@ -67,17 +57,16 @@ def TranUrlWebpToPNG(webpUrl):
             "file": webpUrl,
             "convert": "Convert to JPG"
         }
-        """
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換')
         convert_url = input_form.get("action") + '?ajax=true'
-        response = requests.post(convert_url)
-        #response = requests.post(convert_url, data=data)
+        response = requests.post(convert_url, data=data)
 
         # 找到轉換後的圖像URL
         print('找到轉換後的圖像URL')
         result_soup = BeautifulSoup(response.text, "html.parser")
-        result_image = result_soup.find("div", {"id": "output"})
+        #img 在script之下 div id=output是空的(?)
+        result_image = result_soup.find("div", {"id": "output"}) 
         print(result_image)
     
         if result_image:

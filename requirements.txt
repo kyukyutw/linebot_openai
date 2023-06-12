@@ -4,4 +4,4 @@ openai
 gunicorn
 pytz
 beautifulsoup4
-convertapi
+MechanicalSoup
