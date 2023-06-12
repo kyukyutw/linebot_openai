@@ -47,6 +47,9 @@ def TranUrlWebpToPNG(webpUrl):
         
         # 構建POST請求的資料
         print('構建POST請求的資料')
+        params = {
+            'ajax': 'true'
+        }
         pyload = {
             'file': 'ezgif-1-f3cd9e6b81.webp',
             'percentage': '85',
@@ -57,12 +60,13 @@ def TranUrlWebpToPNG(webpUrl):
             'Content-Type': 'text/html; charset=UTF-8'
         }
         # 發送POST請求進行轉換
-        print('發送POST請求進行轉換')
-        convert_url = input_form.get("action") + '?ajax=true'
-        response = requests.post(convert_url, headers=headers, data=pyload)
+        print('發送POST請求進行轉換ing...')
+        convert_url = input_form.get("action")
+        response = requests.post(convert_url, params=params, headers=headers, data=pyload)
+        #print(response)
         
         # 找到轉換後的圖像URL
-        print('找到轉換後的圖像URL')
+        print('找轉換後的圖像URL')
         result_soup = BeautifulSoup(response.text, "html.parser")
         
         ret = result_soup.find("img").get("src")
