@@ -62,14 +62,17 @@ def TranUrlWebpToPNG(webpUrl):
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換ing...')
         convert_url = input_form.get("action")
-        response = requests.post(convert_url, params=params, headers=headers, data=pyload)
-        #print(response)
+        response2 = requests.post(convert_url, params=params, headers=headers, data=pyload)
+        #print(response2)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
-        result_soup = BeautifulSoup(response.text, "html.parser")
+        result_soup = BeautifulSoup(response2.text, "html.parser")
         
-        ret = result_soup.find("img").get("src")
+        #print(result_soup)
+        response = result_soup.find("div", {"id": "output"})
+        
+        ret = response.find("img").get("src")
         print("轉換成功:" + ret)
     
     except Exception as ex:
