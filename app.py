@@ -45,26 +45,27 @@ def TranUrlWebpToPNG(webpUrl):
         print('找到表單輸入框和提交按鈕')
         input_form = soup.find("form", {"class": "form ajax-form"})
         
+        # 發送POST請求進行轉換
+        print('發送POST請求進行轉換ing...')
+        convert_url = input_form.get("action")
+        sFile = convert_url.replace('https://ezgif.com/webp-to-jpg/','')
+        print('===' + sFile + '===')
+        
         # 構建POST請求的資料
         print('構建POST請求的資料')
         params = {
             'ajax': 'true'
         }
-        pyload = {
-            'file': 'ezgif-1-f3cd9e6b81.webp',
+        data = {
+            'file': sFile,
             'percentage': '85',
             'background': '#ffffff'
         }
         headers = {
-            'Content-Encoding':'gzip',
-            'Content-Type': 'text/html; charset=UTF-8'
+            'Content-Encoding': 'gzip',
+            'Content-Type': 'text/html;charset=UTF-8;'
         }
-        # 發送POST請求進行轉換
-        print('發送POST請求進行轉換ing...')
-        convert_url = input_form.get("action")
-        print('===' + convert_url + '===')
-        response2 = requests.post(convert_url, params=params, headers=headers, data=pyload)
-        print(response2)
+        response2 = requests.post(convert_url, params=params, headers=headers, data=data)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
