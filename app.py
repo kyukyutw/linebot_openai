@@ -53,8 +53,8 @@ def TranUrlWebpToPNG(webpUrl):
             'background': '#ffffff'
         }
         headers = {
-        'Content-Encoding':'gzip'
-        'Content-Type': 'text/html; charset=UTF-8'
+            'Content-Encoding':'gzip',
+            'Content-Type': 'text/html; charset=UTF-8'
         }
         # 發送POST請求進行轉換
         print('發送POST請求進行轉換')
