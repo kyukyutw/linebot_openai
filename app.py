@@ -65,7 +65,7 @@ def TranUrlWebpToPNG(webpUrl):
             'Content-Encoding': 'gzip',
             'Content-Type': 'text/html;charset=UTF-8;'
         }
-        response2 = requests.post(convert_url, params=params, headers=headers, data=payload)
+        response2 = requests.post(convert_url + '?ajax=true', headers=headers, data=payload)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
