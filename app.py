@@ -54,27 +54,27 @@ def TranUrlWebpToPNG(webpUrl):
         
         # 構建POST請求的資料
         print('構建POST請求的資料')
-        params = {
-            'ajax': 'true'
-        }
+        files=[
+        ]
         payload = {
             'file': sFile,
             'background': '#ffffff'
         }
         headers = {
             'Content-Encoding': 'gzip',
-            'Content-Type': 'text/html;charset=UTF-8;'
+            'Content-Type': 'text/html;
+                charset=UTF-8;'
         }
-        response2 = requests.post(convert_url + '?ajax=true', headers=headers, data=payload)
+        response2 = requests.post(convert_url + '?ajax=true', headers=headers, data=payload, files=files)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
         result_soup = BeautifulSoup(response2.text, "html.parser")
         
         print(result_soup)
-        response = result_soup.find("div", {"id": "output"})
+        #response = result_soup.find("div", {"id": "output"})
         
-        ret = response.find("img").get("src")
+        ret = result_soup.find("img").get("src")
         print("轉換成功:" + ret)
     
     except Exception as ex:
