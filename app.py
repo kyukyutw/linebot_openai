@@ -53,12 +53,14 @@ def TranUrlWebpToPNG(webpUrl):
         
         # 構建POST請求的資料
         print('構建POST請求的資料')
+        params={'ajax':True}
         files=[
         ]
         payload = {
             'file': sFile,
             'background': '#ffffff'
         }
+        emptyHeaders = {}
         headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36',
             'Content-Encoding': 'gzip',
@@ -67,18 +69,67 @@ def TranUrlWebpToPNG(webpUrl):
         #print('url====' + convert_url)
         convert_url2 = convert_url + '?ajax=true'
         print('url====' + convert_url2)
-        response2 = requests.post(convert_url2, headers=headers, json=payload, files=files)
+        
+        #=========1
+        response2 = requests.post(convert_url2, headers=emptyHeaders, json=payload)
         
         # 找到轉換後的圖像URL
-        print('找轉換後的圖像URL')
+        #print('找轉換後的圖像URL')
         result_soup = BeautifulSoup(response2.text, "html.parser")
         
         #print(result_soup)
         #response = result_soup.find("div", {"id": "output"})
         
         ret = result_soup.find("img").get("src")
-        print("轉換成功:" + ret)
+        print('==1:' + ret)
     
+        #=========
+        response2 = requests.post(convert_url2, json=payload)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==2:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url2, data=payload)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==3:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url, json=payload, params=params)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==4:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url, data=payload, params=params)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==5:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url2, data=payload, params=params, headers=emptyHeaders)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==6:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url2, data=payload, params=params, headers=emptyHeaders)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==7:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url, data=payload, params=params, headers=headers)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==8:' + ret)
+    
+        #=========
+        response2 = requests.post(convert_url, data=payload, params=params, headers=headers)
+        result_soup = BeautifulSoup(response2.text, "html.parser")
+        ret = result_soup.find("img").get("src")
+        print('==9:' + ret)
     except Exception as ex:
         print("轉換失敗:" + ex)
         
