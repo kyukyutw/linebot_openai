@@ -256,8 +256,11 @@ def GetAppleMusicSongUrl(sJsonString,artistName,albumName,songName):
     sJson = json.loads(sJsonString)
     sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews'][0]['url']
     songName = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['name']
+    print('songName:' + songName)
     artistName = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['artistName']
+    print('artistName:' + artistName)
     albumName =  sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['albumName']
+    print('albumName:' + albumName)
     return sRet
     
 def GPT_response(text):
