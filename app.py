@@ -494,7 +494,6 @@ def handle_message(event):
                 ssContent1 = requests.get(sGoogleSheetUrl).json()
                 nRandNumber = random.randint(1,60)
                 for item in ssContent1['values']:
-                    print('item[9] == nRandNumber?' + item[9] + '/' + str(nRandNumber))
                     if item[9] == str(nRandNumber):
                         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=item[0], preview_image_url=item[0]))
                         break
@@ -528,6 +527,7 @@ def handle_message(event):
 """ + item[3] + """
 ❇資料來源籤詩網❇
 http://www.chance.org.tw/"""
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(sMsg))
                 print("解籤 End.")
                 
     print("End of testing.")
