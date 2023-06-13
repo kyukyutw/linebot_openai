@@ -541,6 +541,22 @@ http://www.chance.org.tw/"""
                 /* https://www.cwb.gov.tw/Data/temperature/2022-07-25_0600.GTP8.jpg  */
                 '''
                 
+            elif (msg.find("累積雨量") > -1) :
+                print("Into 累積雨量")
+                sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
+                sMin30 = int(int(sTempMin)/30) * 3
+                sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y-%m-%d_%H') + str(sMin30) + ".QZJ8"
+                
+                photourl = "www.cwb.gov.tw/Data/rainfall/" + sTempFName + '.jpg'
+                print(photourl)
+                line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                '''累積雨量
+					$sTempMin = date("i", strtotime('-7 minute'));
+					$sMin30 = intval($sTempMin/30) * 3;
+					$photourl = 'https://www.cwb.gov.tw/Data/rainfall/' . date("Y-m-d", strtotime('-7 minute')) . '_' . date("H", strtotime('-7 minute')) . $sMin30 . '0.QZJ8.jpg';
+					https://www.cwb.gov.tw/Data/rainfall/2023-06-13_1500.QZJ8.jpg
+                '''
+                
     print("End of testing.")
     
     
