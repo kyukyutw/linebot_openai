@@ -105,7 +105,7 @@ def SendAudioMessage(event,searchText):
         picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
         
         tempObj = {
-            artistName:'',albumName:'',songName=''
+            artistName:'',albumName:'',songName:''
         }
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson,tempObj)
