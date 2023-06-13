@@ -531,7 +531,7 @@ http://www.chance.org.tw/"""
                 print("解籤 End.")
             elif (msg.find("溫度分布") > -1) or (msg.find("溫度分佈") > -1):
                 print("Into 溫度分佈")
-                sTempFName = ( now + timedelta(minutes=-19)).strftime('%Y-%m-%d_%H') + "00.GTP8"
+                sTempFName = ( now + timedelta(minutes=-19)).strftime('%Y-%m-%d_%H') + "00.GTP8w"
                 photourl = "https://www.cwb.gov.tw/Data/temperature/" + sTempFName + '.jpg'
                 print(photourl)
                 line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
