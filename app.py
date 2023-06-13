@@ -104,10 +104,13 @@ def SendAudioMessage(event,searchText):
         #撈出專輯封面
         picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
         
+        tempObj = {
+            artistName:'',albumName:'',songName=''
+        }
         #最後的Json撈出檔案url
-        sAudioUrl = GetAppleMusicSongUrl(sJson,sArtistName,sAlbumName,sSongName)
+        sAudioUrl = GetAppleMusicSongUrl(sJson,tempObj)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
-        print(sArtistName + ',' + sAlbumName + ',' + sSongName)
+        print(tempObj['artistName'] + ',' + tempObj['albumName'] + ',' + tempObj['songName'])
         
         if picUrl != '':
             
@@ -249,15 +252,15 @@ def GetAppleMusicJsonUrl(sJsonString):
     sRet = sJson[0]['data']['sections'][0]['items'][0]['contentDescriptor']['url']
     return sRet
     
-def GetAppleMusicSongUrl(sJsonString,artistName,albumName,songName):
+def GetAppleMusicSongUrl(sJsonString,obj):
     sJson = json.loads(sJsonString)
     sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews'][0]['url']
-    songName = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['name']
-    print('songName:' + songName)
-    artistName = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['artistName']
-    print('artistName:' + artistName)
-    albumName =  sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['albumName']
-    print('albumName:' + albumName)
+    obj['songName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['name']
+    print('songName:' + obj['songName'])
+    obj['artistName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['artistName']
+    print('artistName:' + obj['artistName'])
+    obj['albumName'] =  sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['albumName']
+    print('albumName:' + obj['albumName'])
     return sRet
     
 def GPT_response(text):
