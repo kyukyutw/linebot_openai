@@ -88,113 +88,6 @@ def TranUrlWebpToPNG(webpUrl):
         
     return ret
 
-def LineFlexMessage(picUrl,sArtistName,sAlbumName,sSongName):
-    return FlexSendMessage(alt_text="profile",contents={
-      "type": "carousel",
-      "contents": [
-        {
-          "type": "bubble",
-          "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "image",
-                "url": picUrl,
-                "size": "full",
-                "aspectMode": "cover",
-                "aspectRatio": "3:3",
-                "gravity": "top",
-                "action": {
-                  "type": "uri",
-                  "label": "action",
-                  "uri": "http://linecorp.com/"
-                }
-              },
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "text": sSongName,
-                        "size": "xl",
-                        "color": "#ffffff",
-                        "weight": "bold"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "text": sArtistName,
-                        "color": "#ebebeb",
-                        "size": "sm",
-                        "flex": 0
-                      }
-                    ],
-                    "spacing": "lg"
-                  },
-                  {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "text": sAlbumName,
-                        "color": "#ECEAEA",
-                        "size": "xs",
-                        "flex": 0,
-                        "style": "italic"
-                      }
-                    ],
-                    "spacing": "lg"
-                  }
-                ],
-                "position": "absolute",
-                "offsetBottom": "0px",
-                "offsetStart": "0px",
-                "offsetEnd": "0px",
-                "backgroundColor": "#03303Acc",
-                "paddingAll": "20px",
-                "paddingTop": "18px"
-              },
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "Apple Music",
-                    "color": "#ffffff",
-                    "align": "center",
-                    "size": "xxs",
-                    "offsetTop": "3px"
-                  }
-                ],
-                "position": "absolute",
-                "cornerRadius": "20px",
-                "offsetTop": "18px",
-                "backgroundColor": "#ff334b",
-                "offsetStart": "18px",
-                "height": "25px",
-                "width": "73px"
-              }
-            ],
-            "paddingAll": "0px"
-          }
-        }
-      ]
-    }
-    )
-
 # 爬蟲-Apple Music
 def SendAudioMessage(event,searchText):
     try:
@@ -217,10 +110,120 @@ def SendAudioMessage(event,searchText):
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson,sArtistName,sAlbumName,sSongName)
         print("GetAppleMusicSongUrl:" + sAudioUrl)
+        print(sArtistName + ',' + sAlbumName + ',' + sSongName)
         
         if picUrl != '':
             
-            line_bot_api.reply_message(event.reply_token,[LineFlexMessage(picUrl,sArtistName,sAlbumName,sSongName),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
+            line_bot_api.reply_message(
+                event.reply_token,
+                [FlexSendMessage(alt_text="profile",contents={
+                    "type": "carousel",
+                    "contents": [
+                    {
+                      "type": "bubble",
+                      "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "type": "image",
+                            "url": picUrl,
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "3:3",
+                            "gravity": "top",
+                            "action": {
+                              "type": "uri",
+                              "label": "action",
+                              "uri": "http://linecorp.com/"
+                            }
+                          },
+                          {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                              {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "text": sSongName,
+                                    "size": "xl",
+                                    "color": "#ffffff",
+                                    "weight": "bold"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "text": sArtistName,
+                                    "color": "#ebebeb",
+                                    "size": "sm",
+                                    "flex": 0
+                                  }
+                                ],
+                                "spacing": "lg"
+                              },
+                              {
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "text": sAlbumName,
+                                    "color": "#ECEAEA",
+                                    "size": "xs",
+                                    "flex": 0,
+                                    "style": "italic"
+                                  }
+                                ],
+                                "spacing": "lg"
+                              }
+                            ],
+                            "position": "absolute",
+                            "offsetBottom": "0px",
+                            "offsetStart": "0px",
+                            "offsetEnd": "0px",
+                            "backgroundColor": "#03303Acc",
+                            "paddingAll": "20px",
+                            "paddingTop": "18px"
+                          },
+                          {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "Apple Music",
+                                "color": "#ffffff",
+                                "align": "center",
+                                "size": "xxs",
+                                "offsetTop": "3px"
+                              }
+                            ],
+                            "position": "absolute",
+                            "cornerRadius": "20px",
+                            "offsetTop": "18px",
+                            "backgroundColor": "#ff334b",
+                            "offsetStart": "18px",
+                            "height": "25px",
+                            "width": "73px"
+                          }
+                        ],
+                        "paddingAll": "0px"
+                      }
+                    }
+                  ]
+                }
+                )
+                ,AudioSendMessage(original_content_url=sAudioUrl, duration=59000)
+                ]
+            )
             #line_bot_api.reply_message(event.reply_token,[ImageSendMessage(original_content_url=picUrl, preview_image_url=picUrl),AudioSendMessage(original_content_url=sAudioUrl, duration=59000)])
         else:
             line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url=sAudioUrl, duration=59000))
