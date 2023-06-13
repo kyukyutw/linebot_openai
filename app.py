@@ -546,7 +546,7 @@ http://www.chance.org.tw/"""
                 sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
                 sMin30 = int(int(sTempMin)/30) * 3
                 sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y-%m-%d_%H') + str(sMin30) + "0.QZJ8"
-                photourl = "www.cwb.gov.tw/Data/rainfall/" + sTempFName + '.jpg'
+                photourl = "https://www.cwb.gov.tw/Data/rainfall/" + sTempFName + '.jpg'
                 print(photourl)
                 line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                 '''累積雨量
