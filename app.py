@@ -89,7 +89,7 @@ def TranUrlWebpToPNG(webpUrl):
     return ret
 
 def LineFlexMessage(picUrl,sArtistName,sAlbumName,sSongName):
-    return FlexSendMessage(type="flex",altText="",contents={
+    return FlexSendMessage(altText="profile",contents={
       "type": "carousel",
       "contents": [
         {
