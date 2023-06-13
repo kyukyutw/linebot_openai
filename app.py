@@ -80,7 +80,7 @@ def TranUrlWebpToPNG(webpUrl):
         #print(result_soup)
         #response = result_soup.find("div", {"id": "output"})
         
-        ret = result_soup.find("img").get("src")
+        ret = 'https:' + result_soup.find("img").get("src")
         print('==1:' + ret)
     
     except Exception as ex:
