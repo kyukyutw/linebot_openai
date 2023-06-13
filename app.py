@@ -137,7 +137,7 @@ def SendAudioMessage(event,searchText):
                             "action": {
                               "type": "uri",
                               "label": "action",
-                              "uri": "http://linecorp.com/"
+                              "uri": sPart2url
                             }
                           },
                           {
@@ -215,6 +215,28 @@ def SendAudioMessage(event,searchText):
                             "offsetStart": "18px",
                             "height": "25px",
                             "width": "73px"
+                          },
+                          {
+                            "type": "box",
+                            "layout": "baseline",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "QQ弱吧",
+                                "color": "#ffffff",
+                                "size": "md",
+                                "offsetTop": "3px",
+                                "weight": "bold",
+                                "align": "center"
+                              }
+                            ],
+                            "position": "absolute",
+                            "cornerRadius": "20px",
+                            "offsetTop": "260px",
+                            "offsetStart": "230px",
+                            "height": "25px",
+                            "width": "70px",
+                            "backgroundColor": "#FF60AF"
                           }
                         ],
                         "paddingAll": "0px"
@@ -237,6 +259,7 @@ def SendAudioMessage(event,searchText):
 
 def GetAppleMusicHtmlServiceTag(url):
     response = requests.get(url)
+    response.encoding = 'utf-8'
     soup = BeautifulSoup(response.text, "html.parser")
     sRet = soup.find("script",id="serialized-server-data").getText()
     return sRet
@@ -257,6 +280,7 @@ def GetAppleMusicJsonUrl(sJsonString):
 def GetAppleMusicSongUrl(sJsonString,obj):
     sJson = json.loads(sJsonString)
     sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews'][0]['url']
+    print(sJson[0]['data']['seoData']['ogSongs'][0]['attributes'])
     obj['songName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['name']
     print('songName:' + obj['songName'])
     obj['artistName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['artistName']
