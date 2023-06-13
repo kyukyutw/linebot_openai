@@ -386,7 +386,8 @@ def handle_message(event):
         nStartHourOfOff = 0
         nEndHourOfOff = 11
         bOutOfWorkTime = False
-            
+        bGetKeyDone = False
+        
         for item in ssContent1['values']:
             keywords = item[3].split(',')
             
@@ -467,7 +468,67 @@ def handle_message(event):
                         requests.get(sTouchUrl1)
                         requests.get(sTouchUrl2)
                         requests.get(sTouchUrl3)
+                        bGetKeyDone = True
                     break
+        if !bGetKeyDone :
+            if (msg.find("運氣") > -1) :
+                print("Into 運氣.")
+                
+            elif (msg.find("運勢") > -1) :
+                print("Into 運勢.")
+                #抽籤google表單
+                '''
+                 0 "url",
+                 1 "ourl",
+                 2 "keyword",
+                 3 "descr",
+                 4 "q1",
+                 5 "q2",
+                 6 "q3",
+                 7 "q4",
+                 8 "q5",
+                 9 "index",
+                 10"group"
+                '''
+                sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1hdB4W5tbTsr_bcNhPmR6OG7-rqJPdqGIKq_0SwL4Ngk/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+                ssContent1 = requests.get(sGoogleSheetUrl).json()
+                nRandNumber = random.randint(1,60)
+                for item in ssContent1['values']:
+                    if item[9] == nRandNumber:
+                        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=item[0], preview_image_url=item[0]))
+                        break
+               
+            elif (msg.find("解籤") > -1) :
+                print("Into 解籤.")
+                #抽籤google表單
+                '''
+                 0 "url",
+                 1 "ourl",
+                 2 "keyword",
+                 3 "descr",
+                 4 "q1",
+                 5 "q2",
+                 6 "q3",
+                 7 "q4",
+                 8 "q5",
+                 9 "index",
+                 10"group"
+                '''
+                sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1hdB4W5tbTsr_bcNhPmR6OG7-rqJPdqGIKq_0SwL4Ngk/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+                ssContent1 = requests.get(sGoogleSheetUrl).json()
+                for item in ssContent1['values']:
+                    keywords = item[2].split(',')
+                    for keyword in keywords:
+                        nTemp = msg.find(keyword)
+                        bHasKeyword = (nTemp > -1) and keyword != ""
+                        if bHasKeyword == True:
+                            sMsg = '第' + item[4] + '籤-' + item[7] + item[8] + """
+解籤參考：
+""" + item[3] + """
+❇資料來源籤詩網❇
+http://www.chance.org.tw/"""
+                print("解籤 End.")
+                
     print("End of testing.")
     
     
