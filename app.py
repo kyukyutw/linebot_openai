@@ -67,7 +67,7 @@ def TranUrlWebpToPNG(webpUrl):
         #print('url====' + convert_url)
         convert_url2 = convert_url + '?ajax=true'
         print('url====' + convert_url2)
-        response2 = requests.post(convert_url2, headers=headers, data=payload, files=files)
+        response2 = requests.post(convert_url2, headers=headers, json=payload, files=files)
         
         # 找到轉換後的圖像URL
         print('找轉換後的圖像URL')
