@@ -470,7 +470,7 @@ def handle_message(event):
                         requests.get(sTouchUrl3)
                         bGetKeyDone = True
                     break
-        if !bGetKeyDone :
+        if bGetKeyDone == False :
             if (msg.find("運氣") > -1) :
                 print("Into 運氣.")
                 
