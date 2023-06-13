@@ -36,23 +36,23 @@ def TranUrlWebpToPNG(webpUrl):
     ret = ''
     try:
         # 發送GET請求獲取網頁內容
-        print('發送GET請求獲取網頁內容')
+        #print('發送GET請求獲取網頁內容')
         url = f"https://ezgif.com/webp-to-jpg?url={webpUrl}"
         response = requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
 
         # 找到表單輸入框和提交按鈕
-        print('找到表單輸入框和提交按鈕')
+        #print('找到表單輸入框和提交按鈕')
         input_form = soup.find("form", {"class": "form ajax-form"})
         
         # 發送POST請求進行轉換
-        print('發送POST請求進行轉換ing...')
+        #print('發送POST請求進行轉換ing...')
         convert_url = input_form.get("action")
         sFile = convert_url.replace('https://ezgif.com/webp-to-jpg/','')
-        print('file====' + sFile + '====')
+        #print('file====' + sFile + '====')
         
         # 構建POST請求的資料
-        print('構建POST請求的資料')
+        #print('構建POST請求的資料')
         params={'ajax':True}
         files=[
         ]
@@ -68,7 +68,7 @@ def TranUrlWebpToPNG(webpUrl):
         }
         #print('url====' + convert_url)
         convert_url2 = convert_url + '?ajax=true'
-        print('url====' + convert_url2)
+        #print('url====' + convert_url2)
         
         #=========1
         response2 = requests.post(convert_url2, data=payload)
@@ -81,7 +81,7 @@ def TranUrlWebpToPNG(webpUrl):
         #response = result_soup.find("div", {"id": "output"})
         
         ret = 'https:' + result_soup.find("img").get("src")
-        print('==1:' + ret)
+        #print('==1:' + ret)
     
     except Exception as ex:
         print("轉換失敗:" + ex)
@@ -94,18 +94,20 @@ def SendAudioMessage(event,searchText):
         print("Into 弱吧唱一下:" + searchText)
         #first part: apple music查詢 爬試聽連結
         sPart1url = "https://music.apple.com/tw/search?term=" + searchText
-        print("GetAppleMusicHtmlServiceTag:" + sPart1url)
+        #print("GetAppleMusicHtmlServiceTag:" + sPart1url)
         sJson = GetAppleMusicHtmlServiceTag(sPart1url)
         
         #secend part:試聽連結 爬試聽檔案連結
         sPart2url = GetAppleMusicJsonUrl(sJson)
-        print("GetAppleMusicHtmlServiceTag:" + sPart2url)
+        #print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         #撈出專輯封面
         picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
         
         tempObj = {
-            artistName:'',albumName:'',songName:''
+            'artistName':'artistName',
+            'albumName':'albumName',
+            'songName':'songName'
         }
         #最後的Json撈出檔案url
         sAudioUrl = GetAppleMusicSongUrl(sJson,tempObj)
@@ -244,7 +246,7 @@ def GetAppleMusicHtmlServiceTag2(url):
     result = soup.find("picture",class_="svelte-yxysdi")
     sHtmlAttribute = result.select_one("source").get("srcset")
     sRet = sHtmlAttribute[:sHtmlAttribute.find(".webp") + 5]
-    print(sRet)
+    #print(sRet)
     return sRet
 
 def GetAppleMusicJsonUrl(sJsonString):
