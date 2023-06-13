@@ -529,6 +529,17 @@ def handle_message(event):
 http://www.chance.org.tw/"""
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(sMsg))
                 print("解籤 End.")
+            elif (msg.find("溫度分布") > -1) or (msg.find("溫度分佈") > -1):
+                print("Into 溫度分佈")
+                sTempFName = ( now + timedelta(minutes=-19)).strftime('%Y-%m-%d_%H') + "00.GTP8"
+                photourl = "https://www.cwb.gov.tw/Data/temperature/" + sTempFName + '.jpg'
+                print(photourl)
+                line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                '''
+                $fewMinAgo = strtotime('-19 minute');
+                $photourl = 'https://www.cwb.gov.tw/Data/temperature/' . date("Y", $fewMinAgo) . '-' . date("m", $fewMinAgo) . '-' . date("d", $fewMinAgo) . '_' . date("H", $fewMinAgo) . '00.GTP8w.jpg';
+                /* https://www.cwb.gov.tw/Data/temperature/2022-07-25_0600.GTP8.jpg  */
+                '''
                 
     print("End of testing.")
     
