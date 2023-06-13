@@ -150,7 +150,7 @@ def SendAudioMessage(event,searchText):
                                 "contents": [
                                   {
                                     "type": "text",
-                                    "text": sSongName,
+                                    "text": tempObj['songName'],
                                     "size": "xl",
                                     "color": "#ffffff",
                                     "weight": "bold"
@@ -163,7 +163,7 @@ def SendAudioMessage(event,searchText):
                                 "contents": [
                                   {
                                     "type": "text",
-                                    "text": sArtistName,
+                                    "text": tempObj['artistName'],
                                     "color": "#ebebeb",
                                     "size": "sm",
                                     "flex": 0
@@ -177,7 +177,7 @@ def SendAudioMessage(event,searchText):
                                 "contents": [
                                   {
                                     "type": "text",
-                                    "text": sAlbumName,
+                                    "text": tempObj['albumName'],
                                     "color": "#ECEAEA",
                                     "size": "xs",
                                     "flex": 0,
