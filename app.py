@@ -306,7 +306,7 @@ def GPT_IMAGE_response(image) :
 def Update390url(event,url):
     sIndex = '390' #跨服表的index:390
     sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=v77AE443E7A89FBD&data=" + sIndex + "," + url
-    result = requests.get(sTouchUrl1)
+    result = requests.get(sTouchUrl)
     print(result)
 
 
