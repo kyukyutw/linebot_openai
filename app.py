@@ -302,6 +302,13 @@ def GPT_IMAGE_response(image) :
     print(response)
     answer = response['data'][0]['url']
     return answer
+    
+def Update390url(event,url):
+    sIndex = '390' #跨服表的index:390
+    sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=v77AE443E7A89FBD&data=" + sIndex + "," + url
+    result = requests.get(sTouchUrl1)
+    print(result)
+
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -349,7 +356,12 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
-    if (msg.find("弱吧唱一下") > -1) :
+    if (msg.find("跨服表更新") > -1) :
+        print("Into Music Search.")
+        sInputUrl = msg.replace("跨服表更新","").strip()
+        if len(sInputUrl) > 0 :
+            Update390url(event,sInputUrl)
+    elif (msg.find("弱吧唱一下") > -1) :
         print("Into Music Search.")
         sInputMusic = msg.replace("弱吧唱一下","").strip()
         if len(sInputMusic) > 0 :
