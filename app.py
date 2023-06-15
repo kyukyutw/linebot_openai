@@ -309,7 +309,8 @@ def Update390url(event,url):
     result = requests.get(sTouchUrl)
     print(result)
 
-#def HasWaittingProcess(userid):
+def HasWaittingProcess(userid):
+    print('HasWaittingProcess:' + 'do nothing.')
 
 def glucose_graph(client_id, imgpath):
 	im = pyimgur.Imgur(client_id)
