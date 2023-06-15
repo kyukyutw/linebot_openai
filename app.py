@@ -19,7 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import mechanicalsoup
+import pyimgur
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -309,7 +309,30 @@ def Update390url(event,url):
     result = requests.get(sTouchUrl)
     print(result)
 
+def HasWaittingProcess(userid):
 
+def glucose_graph(client_id, imgpath):
+	im = pyimgur.Imgur(client_id)
+	upload_image = im.upload_image(imgpath, title="Uploaded with PyImgur")
+	return upload_image.link
+
+# 處理圖片訊息
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_message(event):
+    print(Into Image Message.)
+    client_id = "05f738e527b6fea"
+    SendImage = line_bot_api.get_message_content(event.message.id)
+
+    local_save = './Image/test0615.png'
+    #local_save = './Image/' + event.message.id + '.png'
+    with open(local_save, 'wb') as fd:
+        for chenk in SendImage.iter_content():
+            fd.write(chenk)
+
+    img_url = glucose_graph(client_id, local_save)
+    print(img_url)
+    #line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=img_url, preview_image_url=img_url))
+    
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -356,6 +379,8 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
+    if HasWaittingProcess(userid) :
+        print('查有尚未完成作業.')
     if (msg.find("跨服表更新") > -1) :
         print("Into Music Search.")
         sInputUrl = msg.replace("跨服表更新","").strip()
