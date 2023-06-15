@@ -319,7 +319,7 @@ def glucose_graph(client_id, imgpath):
 # 處理圖片訊息
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-    print(Into Image Message.)
+    print('Into Image Message.')
     client_id = "05f738e527b6fea"
     SendImage = line_bot_api.get_message_content(event.message.id)
 
