@@ -406,7 +406,9 @@ def handle_message(event):
             if (len(item) > 8) : 
                 if item[8] == userid:
                     indexInList = g_checkIndexList.index(item[5])
+                    print(g_checkIndexList.index(item[5])
                     break
+    print(indexInList)
     if indexInList != 0 :
         print('Into Image Message.')
         #圖片上傳imgur並取得url
