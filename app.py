@@ -19,7 +19,6 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import pyimgur
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -103,6 +102,8 @@ def SendAudioMessage(event,searchText):
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         #撈出專輯封面
         picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
+        #上傳專輯封面到imgur
+        picUrl = UploadImageByUrl(picUrl)
         
         tempObj = {
             'artistName':'artistName',
@@ -312,22 +313,50 @@ def Update390url(event,url):
 def HasWaittingProcess(userid):
     print('HasWaittingProcess:' + 'do nothing.')
 
-'''
-def glucose_graph(client_id, imgpath):
-	im = pyimgur.Imgur(client_id)
-	upload_image = im.upload_image(imgpath, title="Uploaded with PyImgur")
-	return upload_image.link
-'''
+def UploadImageByBtyes(pBytes): 
+    client_id = "05f738e527b6fea"
+    # 建立 API 請求的標頭
+    headers = {'Authorization': f'Client-ID {client_id}'}
+    # 發送 POST 請求並上傳圖片
+    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
+    # 解析回傳的 JSON 資料
+    data = response.json()
+    if response.status_code == 200 and data['success']:
+        uploaded_url = data['data']['link']
+        print('圖片上傳成功！')
+        print('圖片連結：', uploaded_url)
+    else:
+        print('圖片上傳失敗！')
+        print('錯誤訊息：', data['data']['error'])
+    return uploaded_url
+
+def UploadImageByUrl(pUrl):
+    client_id = "05f738e527b6fea"
+    # 建立 API 請求的標頭
+    headers = {'Authorization': f'Client-ID {client_id}'}
+    # 發送 POST 請求並上傳圖片
+    response = requests.post('https://api.imgur.com/3/image', headers=headers, json={'image': pUrl})
+    # 解析回傳的 JSON 資料
+    data = response.json()
+    if response.status_code == 200 and data['success']:
+        uploaded_url = data['data']['link']
+        print('圖片上傳成功！')
+        print('圖片連結：', uploaded_url)
+    else:
+        print('圖片上傳失敗！')
+        print('錯誤訊息：', data['data']['error'])
+    return uploaded_url
 
 # 處理圖片訊息
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
     print('Into Image Message.')
+    '''
     client_id = "05f738e527b6fea"
     SendImage = line_bot_api.get_message_content(event.message.id)
-    print('message.id:' + event.message.id)
-    print(type(SendImage))
-    print(type(SendImage.content))
+    #print('message.id:' + event.message.id)
+    #print(type(SendImage))
+    #print(type(SendImage.content))
     
     # 讀取圖片檔案的二進制內容
     image_binary = SendImage.content
@@ -346,7 +375,7 @@ def handle_message(event):
     else:
         print('圖片上傳失敗！')
         print('錯誤訊息：', data['data']['error'])
-        
+    ''' 
     #line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=img_url, preview_image_url=img_url))
     
 # 監聽所有來自 /callback 的 Post Request
@@ -398,7 +427,7 @@ def handle_message(event):
     if HasWaittingProcess(userid) :
         print('查有尚未完成作業.')
     if (msg.find("跨服表更新") > -1) :
-        print("Into Music Search.")
+        print("Into image Update No.390")
         sInputUrl = msg.replace("跨服表更新","").strip()
         if len(sInputUrl) > 0 :
             Update390url(event,sInputUrl)
