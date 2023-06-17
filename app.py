@@ -406,8 +406,8 @@ def handle_message(event):
             if (len(item) > 8) : 
                 if item[8] == userid:
                     indexInList = g_checkIndexList.index( str(item[5]) )
-                    print('item[5]:' + str(item[5]))
-                    print('g_checkIndexList.index(item[5]):' + str(g_checkIndexList.index( str( item[5] ) )))
+                    #print('item[5]:' + str(item[5]))
+                    #print('g_checkIndexList.index(item[5]):' + str(g_checkIndexList.index( str( item[5] ) )))
                     break
     print('indexInList:' + str(indexInList))
     if indexInList != -1 :
@@ -420,6 +420,11 @@ def handle_message(event):
         #更新google表單
         if image_url != '' : 
             UpdateSheetUrl(indexInList,image_url)
+            #上傳成功訊息
+            sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
+            displayName = get_display_name(userid,sToken)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
+圖片上傳完成。'''))
         print('End Of Image Upload.')
     
 # 監聽所有來自 /callback 的 Post Request
