@@ -312,10 +312,12 @@ def Update390url(event,url):
 def HasWaittingProcess(userid):
     print('HasWaittingProcess:' + 'do nothing.')
 
+'''
 def glucose_graph(client_id, imgpath):
 	im = pyimgur.Imgur(client_id)
 	upload_image = im.upload_image(imgpath, title="Uploaded with PyImgur")
 	return upload_image.link
+'''
 
 # 處理圖片訊息
 @handler.add(MessageEvent, message=ImageMessage)
@@ -323,19 +325,24 @@ def handle_message(event):
     print('Into Image Message.')
     client_id = "05f738e527b6fea"
     SendImage = line_bot_api.get_message_content(event.message.id)
-
     print('message.id:' + event.message.id)
     print(type(SendImage))
-    '''
-    local_save = '/Image/test0615.png'
-    #local_save = './Image/' + event.message.id + '.png'
-    with open(local_save, 'wb') as fd:
-        for chenk in SendImage.iter_content():
-            fd.write(chenk)
     
-    img_url = glucose_graph(client_id, local_save)
-    print(img_url)
-    '''
+    # 建立 API 請求的標頭
+    headers = {'Authorization': f'Client-ID {client_id}'}
+    # 發送 POST 請求並上傳圖片
+    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=SendImage.iter_content)
+
+    # 解析回傳的 JSON 資料
+    data = response.json()
+    if response.status_code == 200 and data['success']:
+        uploaded_url = data['data']['link']
+        print('圖片上傳成功！')
+        print('圖片連結：', uploaded_url)
+    else:
+        print('圖片上傳失敗！')
+        print('錯誤訊息：', data['data']['error'])
+        
     #line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=img_url, preview_image_url=img_url))
     
 # 監聽所有來自 /callback 的 Post Request
