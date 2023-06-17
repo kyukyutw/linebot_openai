@@ -30,6 +30,10 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+#檢查項目
+g_checkIndexList = ['391']
+g_uploadIndexList = ['390']
+
 #webp to png
 def TranUrlWebpToPNG(webpUrl):
     ret = ''
@@ -281,7 +285,7 @@ def GetAppleMusicJsonUrl(sJsonString):
 def GetAppleMusicSongUrl(sJsonString,obj):
     sJson = json.loads(sJsonString)
     sRet = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['previews'][0]['url']
-    print(sJson[0]['data']['seoData']['ogSongs'][0]['attributes'])
+    #print(sJson[0]['data']['seoData']['ogSongs'][0]['attributes'])
     obj['songName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['name']
     print('songName:' + obj['songName'])
     obj['artistName'] = sJson[0]['data']['seoData']['ogSongs'][0]['attributes']['artistName']
@@ -304,14 +308,53 @@ def GPT_IMAGE_response(image) :
     answer = response['data'][0]['url']
     return answer
     
+def UpdateSheetUrl(listIndex,url):
+    #更新表單URL(位置:g_uploadIndexList[listIndex])
+    sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=v77AE443E7A89FBD&data=" + g_uploadIndexList[listIndex] + "," + url
+    result = requests.get(sTouchUrl)
+    #清空待處理人員ID(位置:g_checkIndexList[listIndex])
+    sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_checkIndexList[listIndex] + "," + ''
+    result = requests.get(sTouchUrl3)
+    
 def Update390url(event,url):
     sIndex = '390' #跨服表的index:390
     sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=v77AE443E7A89FBD&data=" + sIndex + "," + url
     result = requests.get(sTouchUrl)
     print(result)
 
+def get_display_name(user_id, channel_access_token):
+    url = f"https://api.line.me/v2/bot/profile/{user_id}"
+    headers = {
+        "Authorization": f"Bearer {channel_access_token}"
+    }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        display_name = data.get("displayName")
+        return display_name
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+        return None
+        
 def HasWaittingProcess(userid):
-    print('HasWaittingProcess:' + 'do nothing.')
+    print('HasWaittingProcess:')
+    #檢查項目
+    #checkIndexList = ['391']
+    
+    #檢查人員有沒有待上傳圖片
+    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+    ssContent1 = requests.get(sGoogleSheetUrl).json()
+    #5:index、8:lineId
+    for item in ssContent1['values']:
+        if item[5] in g_checkIndexList:
+            if item[8] == userid:
+                sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
+                displayName = get_display_name(userid,sToken)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
+請上傳圖片'''))
+                return True
+        
 
 def UploadImageByBtyes(pBytes): 
     client_id = "05f738e527b6fea"
@@ -329,7 +372,6 @@ def UploadImageByBtyes(pBytes):
         print('圖片上傳失敗！')
         print('錯誤訊息：', data['data']['error'])
     return uploaded_url
-
 def UploadImageByUrl(pUrl):
     client_id = "05f738e527b6fea"
     # 建立 API 請求的標頭
@@ -350,33 +392,27 @@ def UploadImageByUrl(pUrl):
 # 處理圖片訊息
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-    print('Into Image Message.')
-    '''
-    client_id = "05f738e527b6fea"
-    SendImage = line_bot_api.get_message_content(event.message.id)
-    #print('message.id:' + event.message.id)
-    #print(type(SendImage))
-    #print(type(SendImage.content))
-    
-    # 讀取圖片檔案的二進制內容
-    image_binary = SendImage.content
-    
-    # 建立 API 請求的標頭
-    headers = {'Authorization': f'Client-ID {client_id}'}
-    # 發送 POST 請求並上傳圖片
-    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=image_binary)
-
-    # 解析回傳的 JSON 資料
-    data = response.json()
-    if response.status_code == 200 and data['success']:
-        uploaded_url = data['data']['link']
-        print('圖片上傳成功！')
-        print('圖片連結：', uploaded_url)
-    else:
-        print('圖片上傳失敗！')
-        print('錯誤訊息：', data['data']['error'])
-    ''' 
-    #line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=img_url, preview_image_url=img_url))
+    #檢查人員有沒有待上傳圖片
+    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+    ssContent1 = requests.get(sGoogleSheetUrl).json()
+    #5:index、8:lineId
+    indexInList = 0
+    for item in ssContent1['values']:
+        if item[5] in g_checkIndexList:
+            if item[8] == userid:
+                indexInList = g_checkIndexList.index(item[5])
+                break
+    if indexInList != 0 :
+        print('Into Image Message.')
+        #圖片上傳imgur並取得url
+        response = line_bot_api.get_message_content(event.message.id)
+        # 讀取圖片檔案的二進制內容
+        image_binary = response.content
+        image_url = UploadImageByBtyes(image_binary)
+        #更新google表單
+        if image_url != '' : 
+            UpdateSheetUrl(indexInList,image_url)
+        print('End Of Image Upload.')
     
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -426,11 +462,13 @@ def handle_message(event):
     now=datetime.now(timezone_TW)
     if HasWaittingProcess(userid) :
         print('查有尚未完成作業.')
-    if (msg.find("跨服表更新") > -1) :
+        '''
+    elif (msg.find("跨服表更新") > -1) :
         print("Into image Update No.390")
         sInputUrl = msg.replace("跨服表更新","").strip()
         if len(sInputUrl) > 0 :
             Update390url(event,sInputUrl)
+        '''
     elif (msg.find("弱吧唱一下") > -1) :
         print("Into Music Search.")
         sInputMusic = msg.replace("弱吧唱一下","").strip()
