@@ -337,7 +337,7 @@ def get_display_name(user_id, channel_access_token):
         print(f"Error: {response.status_code} - {response.text}")
         return None
         
-def HasWaittingProcess(event,userid):
+def HasWaittingProcess(event,userid,msg):
     print('HasWaittingProcess:')
     #檢查項目
     #checkIndexList = ['391']
@@ -352,7 +352,20 @@ def HasWaittingProcess(event,userid):
                 if item[8] == userid:
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
                     displayName = get_display_name(userid,sToken)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
+                    #取消上傳                    
+                    if (msg.find("取消上傳") > -1) :
+                        indexInList = g_checkIndexList.index( str(item[5]) )
+                        #清空待處理人員ID(位置:g_checkIndexList[listIndex])
+                        sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_checkIndexList[indexInList] + "," + ''
+                        sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_checkIndexList[indexInList] + "," + ''
+                        result = requests.get(sTouchUrl2)
+                        result = requests.get(sTouchUrl3)
+                        #回覆訊息
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(displayName + '''取消上傳
+我還你原形 (‧⃘︠˾ͨ̅‧⃘︡˒᷅̈́) '''))
+                    else :
+                        #提示上傳圖片
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
 請上傳圖片'''))
                     return True
         
@@ -423,7 +436,7 @@ def handle_message(event):
             #上傳成功訊息
             sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
             displayName = get_display_name(userid,sToken)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('安安尼豪 ' + displayName + '''
 圖片上傳完成。'''))
         print('End Of Image Upload.')
     
@@ -473,15 +486,9 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
-    if HasWaittingProcess(event,userid) :
+    if HasWaittingProcess(event,userid,msg) :
         print('查有尚未完成作業.')
-        '''
-    elif (msg.find("跨服表更新") > -1) :
-        print("Into image Update No.390")
-        sInputUrl = msg.replace("跨服表更新","").strip()
-        if len(sInputUrl) > 0 :
-            Update390url(event,sInputUrl)
-        '''
+        
     elif (msg.find("弱吧唱一下") > -1) :
         print("Into Music Search.")
         sInputMusic = msg.replace("弱吧唱一下","").strip()
