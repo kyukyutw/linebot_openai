@@ -400,7 +400,7 @@ def handle_message(event):
     sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
     ssContent1 = requests.get(sGoogleSheetUrl).json()
     #5:index、8:lineId
-    indexInList = 0
+    indexInList = -1
     for item in ssContent1['values']:
         if item[5] in g_checkIndexList:
             if (len(item) > 8) : 
@@ -410,7 +410,7 @@ def handle_message(event):
                     print('g_checkIndexList.index(item[5]):' + str(g_checkIndexList.index( str( item[5] ) )))
                     break
     print('indexInList:' + str(indexInList))
-    if indexInList != 0 :
+    if indexInList != -1 :
         print('Into Image Message.')
         #圖片上傳imgur並取得url
         response = line_bot_api.get_message_content(event.message.id)
