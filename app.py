@@ -393,6 +393,9 @@ def UploadImageByUrl(pUrl):
 # 處理圖片訊息
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
+    jSource = json.loads(str(event.source))
+    userid = jSource["userId"]
+        
     #檢查人員有沒有待上傳圖片
     sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
     ssContent1 = requests.get(sGoogleSheetUrl).json()
