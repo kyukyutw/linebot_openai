@@ -327,11 +327,15 @@ def handle_message(event):
     SendImage = line_bot_api.get_message_content(event.message.id)
     print('message.id:' + event.message.id)
     print(type(SendImage))
+    print(type(SendImage.content))
+    
+    # 讀取圖片檔案的二進制內容
+    image_binary = SendImage.content
     
     # 建立 API 請求的標頭
     headers = {'Authorization': f'Client-ID {client_id}'}
     # 發送 POST 請求並上傳圖片
-    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=SendImage.iter_content)
+    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=image_binary)
 
     # 解析回傳的 JSON 資料
     data = response.json()
