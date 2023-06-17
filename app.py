@@ -348,12 +348,13 @@ def HasWaittingProcess(userid):
     #5:index、8:lineId
     for item in ssContent1['values']:
         if item[5] in g_checkIndexList:
-            if item[8] == userid:
-                sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
-                displayName = get_display_name(userid,sToken)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
+            if (len(item) > 8) : 
+                if item[8] == userid:
+                    sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
+                    displayName = get_display_name(userid,sToken)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
 請上傳圖片'''))
-                return True
+                    return True
         
 
 def UploadImageByBtyes(pBytes): 
@@ -399,9 +400,10 @@ def handle_message(event):
     indexInList = 0
     for item in ssContent1['values']:
         if item[5] in g_checkIndexList:
-            if item[8] == userid:
-                indexInList = g_checkIndexList.index(item[5])
-                break
+            if (len(item) > 8) : 
+                if item[8] == userid:
+                    indexInList = g_checkIndexList.index(item[5])
+                    break
     if indexInList != 0 :
         print('Into Image Message.')
         #圖片上傳imgur並取得url
