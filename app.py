@@ -337,7 +337,7 @@ def get_display_name(user_id, channel_access_token):
         print(f"Error: {response.status_code} - {response.text}")
         return None
         
-def HasWaittingProcess(userid):
+def HasWaittingProcess(event,userid):
     print('HasWaittingProcess:')
     #檢查項目
     #checkIndexList = ['391']
@@ -462,7 +462,7 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
-    if HasWaittingProcess(userid) :
+    if HasWaittingProcess(event,userid) :
         print('查有尚未完成作業.')
         '''
     elif (msg.find("跨服表更新") > -1) :
