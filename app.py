@@ -405,9 +405,9 @@ def handle_message(event):
         if item[5] in g_checkIndexList:
             if (len(item) > 8) : 
                 if item[8] == userid:
-                    indexInList = g_checkIndexList.index(item[5])
+                    indexInList = g_checkIndexList.index( str(item[5]) )
                     print('item[5]:' + str(item[5]))
-                    print('g_checkIndexList.index(item[5]):' + str(g_checkIndexList.index(item[5])))
+                    print('g_checkIndexList.index(item[5]):' + str(g_checkIndexList.index( str( item[5] ) )))
                     break
     print('indexInList:' + str(indexInList))
     if indexInList != 0 :
