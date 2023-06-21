@@ -19,7 +19,6 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import base64
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -643,7 +642,7 @@ def handle_message(event):
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
                 if bHostUser == True :
-                    sData = base64.b64encode('Y'.encode('UTF-8'))
+                    sData = 'WQ==' #base64.b64encode('Y'.encode('UTF-8'))
                     sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
                     requests.get(sTouchUrl)
                     photourl = 'https://i.imgur.com/qaar831.png'
@@ -654,7 +653,7 @@ def handle_message(event):
             elif (msg.find("弱吧起床") > -1) :
                 print("Into 起床.")
                 if bHostUser == True :
-                    sData = base64.b64encode('N'.encode('UTF-8'))
+                    sData = 'Tg==' #base64.b64encode('N'.encode('UTF-8'))
                     sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
                     requests.get(sTouchUrl)
                     photourl = 'https://i.imgur.com/2BGL0Wz.png'
