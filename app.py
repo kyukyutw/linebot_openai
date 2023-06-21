@@ -643,7 +643,6 @@ def handle_message(event):
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
                 if bHostUser == True :
-                    sData = 
                     sTouchUrl = 'http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + base64.b64encode('Y'.encode('UTF-8'))
                     requests.get(sTouchUrl)
                     photourl = 'https://i.imgur.com/qaar831.png'
