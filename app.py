@@ -536,7 +536,7 @@ def handle_message(event):
         bBanned = False
         
         #弱吧關鍵字黑名單
-        banListUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+        banListUrl = "https://sheets.googleapis.com/v4/spreadsheets/1guxbW0W8fvi-8h-M0iOroxS-9ug7TmJWq4iibY2W7PQ/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
         banListContent = requests.get(banListUrl).json()
         '''
         //  0 "linename",
