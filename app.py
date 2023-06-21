@@ -19,6 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
+import base64
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -531,7 +532,24 @@ def handle_message(event):
         nEndHourOfOff = 11
         bOutOfWorkTime = False
         bGetKeyDone = False
+        bHostUser = False
+        bBanned = False
         
+        #弱吧關鍵字黑名單
+        banListUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+        banListContent = requests.get(banListUrl).json()
+        '''
+        //  0 "linename",
+        //  1 "lineid",
+        //  2 "linehostname",
+        //  3 "linehostid",
+        '''
+        for item in banListContent['values']:
+            if (item[1] == userid) :
+                bBanned = True
+            elif (item[3] == userid) :
+                bHostUser = True
+                
         for item in ssContent1['values']:
             keywords = item[3].split(',')
             
@@ -551,6 +569,10 @@ def handle_message(event):
                 bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
                     sIndex = item[5]
+                    #被ban也能用上傳或公告 
+                    if bBanned == True and (sIndex in g_checkIndexList) == False and item[2] != "公告" : 
+                        continue #(被ban+不是觸發上傳檢查位置+不是公告 就跳過 繼續)
+                    
                     sTempDate = "2000-01-01"
                     sTempTime = "00:00:00"
                     if len(item) > 6 : 
@@ -583,7 +605,7 @@ def handle_message(event):
                     if (bOutOfWorkTime == True) : continue
                     if len(item) > 6 :
                         if ( (item[6] != "") and (item[2] == "once") ) : continue 
-                    
+                                            
                     if bCalled == True :
                         
                         photourls = item[0].split(',')
@@ -617,6 +639,26 @@ def handle_message(event):
         if bGetKeyDone == False :
             if (msg.find("運氣") > -1) :
                 print("Into 運氣.")
+                
+            elif (msg.find("弱吧閉嘴") > -1) :
+                print("Into 閉嘴.")
+                if bHostUser == True :
+                    sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + base64.b64encode('Y'.encode('UTF-8'))
+                    requests.get(sTouchUrl)
+                    photourl = 'https://i.imgur.com/qaar831.png'
+                    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                else :
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage('くぁwせdrftgyふじこlp'))
+                
+            elif (msg.find("弱吧起床") > -1) :
+                print("Into 起床.")
+                if bHostUser == True :
+                    sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + base64.b64encode('N'.encode('UTF-8'))
+                    requests.get(sTouchUrl)
+                    photourl = 'https://i.imgur.com/2BGL0Wz.png'
+                    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+                else :
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage('ＺｚZz...'))
                 
             elif (msg.find("運勢") > -1) :
                 print("Into 運勢.")
