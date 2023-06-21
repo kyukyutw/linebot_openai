@@ -546,10 +546,12 @@ def handle_message(event):
         '''
         for item in banListContent['values']:
             #print('ban:' + item[1] + '//' + 'host:' + item[3] )
-            if (item[1] == userid) :
-                bBanned = True
-            elif (item[3] == userid) :
-                bHostUser = True
+            if (len(item) > 1) : 
+                if (item[1] == userid) :
+                    bBanned = True
+            if (len(item) > 3) : 
+                if (item[3] == userid) :
+                    bHostUser = True
                 
         for item in ssContent1['values']:
             keywords = item[3].split(',')
