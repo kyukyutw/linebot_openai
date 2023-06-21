@@ -572,6 +572,7 @@ def handle_message(event):
                     sIndex = item[5]
                     #被ban也能用上傳或公告 
                     if bBanned == True and (sIndex in g_checkIndexList) == False and item[2] != "公告" : 
+                        print('user in banned list.')
                         continue #(被ban+不是觸發上傳檢查位置+不是公告 就跳過 繼續)
                     
                     sTempDate = "2000-01-01"
