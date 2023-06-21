@@ -647,7 +647,7 @@ def handle_message(event):
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
                 if bHostUser == True :
-                    sData = str( base64.b64encode('Y'.encode('UTF-8')) )
+                    sData = 'WQ==' #str( base64.b64encode('Y'.encode('UTF-8')) )
                     print(sData)
                     sTouchUrl = 'http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
                     requests.get(sTouchUrl)
@@ -659,7 +659,7 @@ def handle_message(event):
             elif (msg.find("弱吧起床") > -1) :
                 print("Into 起床.")
                 if bHostUser == True :
-                    sData = str( base64.b64encode('N'.encode('UTF-8')) )
+                    sData = 'Tg==' #str( base64.b64encode('N'.encode('UTF-8')) )
                     print(sData)
                     sTouchUrl = 'http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
                     requests.get(sTouchUrl)
