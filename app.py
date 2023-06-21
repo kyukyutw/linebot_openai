@@ -335,7 +335,7 @@ def get_display_name(user_id, channel_access_token):
         return display_name
     else:
         print(f"Error: {response.status_code} - {response.text}")
-        return None
+        return ''
         
 def HasWaittingProcess(event,userid,msg):
     print('HasWaittingProcess:')
