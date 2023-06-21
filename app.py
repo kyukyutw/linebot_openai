@@ -545,6 +545,7 @@ def handle_message(event):
         //  3 "linehostid",
         '''
         for item in banListContent['values']:
+            print('ban:' + item[1] + '//' + 'host:' + item[3] )
             if (item[1] == userid) :
                 bBanned = True
             elif (item[3] == userid) :
