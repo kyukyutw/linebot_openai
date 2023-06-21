@@ -464,7 +464,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    print(msg)
     
     #print(event.source)
     jSource = json.loads(str(event.source))
@@ -475,6 +474,7 @@ def handle_message(event):
         userid = jSource["userId"]
     elif jSource["type"] == "user" :
         userid = jSource["userId"]
+    print(userid + ':' + msg)
     
     bPass = False
     #C35ffb4e93a34ce198634429fb8e0df21 LINE-BOT-TEST-1
