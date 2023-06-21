@@ -313,7 +313,9 @@ def UpdateSheetUrl(listIndex,url):
     sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=v77AE443E7A89FBD&data=" + g_uploadIndexList[listIndex] + "," + url
     result = requests.get(sTouchUrl)
     #清空待處理人員ID(位置:g_checkIndexList[listIndex])
+    sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_checkIndexList[listIndex] + "," + ''
     sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_checkIndexList[listIndex] + "," + ''
+    result = requests.get(sTouchUrl2)
     result = requests.get(sTouchUrl3)
     
 def Update390url(event,url):
