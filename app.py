@@ -368,7 +368,7 @@ def HasWaittingProcess(event,userid,msg):
                     else :
                         #提示上傳圖片
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('哩賀 ' + displayName + '''
-請上傳圖片
+請上傳圖片或取消上傳
 不然我會跟在你後面
 へ(^^へ)～'''))
                     return True
