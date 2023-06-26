@@ -647,9 +647,9 @@ def handle_message(event):
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
                 if bHostUser == True :
-                    sData = 'WQ==' #str( base64.b64encode('Y'.encode('UTF-8')) )
+                    sData = '2,Y' #'WQ==' #str( base64.b64encode('Y'.encode('UTF-8')) )
                     print(sData)
-                    sTouchUrl = 'http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
+                    sTouchUrl = "http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=" + sData
                     requests.get(sTouchUrl)
                     photourl = 'https://i.imgur.com/qaar831.png'
                     line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
@@ -659,7 +659,7 @@ def handle_message(event):
             elif (msg.find("弱吧起床") > -1) :
                 print("Into 起床.")
                 if bHostUser == True :
-                    sData = 'Tg==' #str( base64.b64encode('N'.encode('UTF-8')) )
+                    sData = '2,N' #'Tg==' #str( base64.b64encode('N'.encode('UTF-8')) )
                     print(sData)
                     sTouchUrl = 'http://api.pushingbox.com/pushingbox?devid=vD90B70A853DD04D&data=' + sData
                     requests.get(sTouchUrl)
