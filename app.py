@@ -572,8 +572,12 @@ def handle_message(event):
                 bHasKeyword = (nTemp > -1) and keyword != ""
                 if bHasKeyword == True:
                     sIndex = item[5]
+                    if item[2] == "公告" :
+                        IsAnnouncement = True
+                    else
+                        IsAnnouncement = False
                     #被ban也能用上傳或公告 
-                    if bBanned == True and (sIndex in g_checkIndexList) == False and item[2] != "公告" : 
+                    if bBanned == True and (sIndex in g_checkIndexList) == False and IsAnnouncement == False : 
                         print('user in banned list.')
                         continue #(被ban+不是觸發上傳檢查位置+不是公告 就跳過 繼續)
                     
@@ -605,8 +609,8 @@ def handle_message(event):
                                     break
                     
                     if (bHasExclude == True) : continue
-                    if (bShutUp == True) : continue
-                    if (bOutOfWorkTime == True) : continue
+                    if (bShutUp == True and IsAnnouncement == False) : continue
+                    if (bOutOfWorkTime == True and IsAnnouncement == False) : continue
                     if len(item) > 6 :
                         if ( (item[6] != "") and (item[2] == "once") ) : continue 
                                             
