@@ -574,7 +574,7 @@ def handle_message(event):
                     sIndex = item[5]
                     if item[2] == "公告" :
                         IsAnnouncement = True
-                    else
+                    else :
                         IsAnnouncement = False
                     #被ban也能用上傳或公告 
                     if bBanned == True and (sIndex in g_checkIndexList) == False and IsAnnouncement == False : 
