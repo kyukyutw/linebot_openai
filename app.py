@@ -676,7 +676,7 @@ def handle_message(event):
                 if previousUser != '' :
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
                     g_RPS_url = ['https://i.imgur.com/B6pEdQM.png','https://i.imgur.com/ZZu4RwG.png','https://i.imgur.com/40FOKEx.png']
-                    imgVsUrl = 'https://i.imgur.com/C7aBWr3.png'
+                    imgVsUrl = 'https://i.imgur.com/yCjtT7u.png' #'https://i.imgur.com/C7aBWr3.png'
                     pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
                     pictureUrl2 = get_picture_url(groupid,userid,sToken)
                     print('player1: ' + previousUser + ' ' + pictureUrl1)
