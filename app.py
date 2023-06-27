@@ -701,11 +701,11 @@ def handle_message(event):
                     #bg.paste(imgVs,(300-122, 0)) #245,327
                     bg2 = Image.new('RGBA',bg.size, (0,0,0,0))
                     bg2.paste(imgVs,(300-122, 0)) #245,327
-                    Image.composite(bg,bg,bg2).convert('RGB')
+                    bg3 = Image.composite(bg,bg,bg2).convert('RGB')
                     
                     img_byte_arr = io.BytesIO()
                     #bg.save(img_byte_arr, format='PNG')
-                    bg2.save(img_byte_arr, format='PNG')
+                    bg3.save(img_byte_arr, format='PNG')
                     img_byte_arr = img_byte_arr.getvalue()
                     image_url = UploadImageByBtyes(img_byte_arr)
                     print(image_url)
