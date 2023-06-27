@@ -675,16 +675,25 @@ def handle_message(event):
                 previousUser = ssContent1['values'][397][8]
                 if previousUser != '' :
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
+                    g_RPS_url = ['https://i.imgur.com/B6pEdQM.png','https://i.imgur.com/ZZu4RwG.png','https://i.imgur.com/40FOKEx.png']
+                    imgVsUrl = 'https://i.imgur.com/C7aBWr3.png'
                     pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
                     pictureUrl2 = get_picture_url(groupid,userid,sToken)
                     img = Image.open(requests.get(pictureUrl1, stream=True).raw)
                     img = img.resize((300, 300))
                     img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
                     img2 = img2.resize((300, 300))
+                    imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
                     
                     bg = Image.new('RGB',(600, 300), '#000000')
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
+                    bg.paste(imgVs,(300-122, 0)) #245,327
+                    
+                    imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
+                    imgPlayer2 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
+                    bg.paste(imgPlayer1,(100, 200)) #差不多都100,100
+                    bg.paste(imgPlayer2,(400, 200)) #差不多都100,100
                     
                     img_byte_arr = io.BytesIO()
                     bg.save(img_byte_arr, format='PNG')
@@ -692,14 +701,13 @@ def handle_message(event):
                     image_url = UploadImageByBtyes(img_byte_arr)
                     print(image_url)
                     line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-                '''
-                sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + g_rockPaperScissorsIndex + ","
-                sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_rockPaperScissorsIndex + ","
-                sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_rockPaperScissorsIndex + ","
-                requests.get(sTouchUrl1)
-                requests.get(sTouchUrl2)
-                requests.get(sTouchUrl3)
-                '''
+                    
+                    sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + g_rockPaperScissorsIndex + ","
+                    sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_rockPaperScissorsIndex + ","
+                    sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_rockPaperScissorsIndex + ","
+                    requests.get(sTouchUrl1)
+                    requests.get(sTouchUrl2)
+                    requests.get(sTouchUrl3)
                 
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
