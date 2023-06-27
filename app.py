@@ -333,7 +333,7 @@ def get_picture_url(group_id, user_id, channel_access_token):
     headers = {
         "Authorization": f"Bearer {channel_access_token}"
     }
-
+    print(url)
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
