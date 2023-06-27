@@ -690,7 +690,9 @@ def handle_message(event):
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
                     
+                    random.seed(0)
                     imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
+                    random.seed(1)
                     imgPlayer2 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
                     imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
                     bg.paste(imgPlayer1,(100, 210)) #差不多都100,100
