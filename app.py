@@ -694,7 +694,7 @@ def handle_message(event):
                     
                     g_player2 = [[0,1,1,1,2,2,2],[0,0,0,1,2,2,2],[0,0,0,1,1,1,2]]
                     print('player1: ' + previousUser + ' ' + pictureUrl1 + ' ' + g_RPS_url[nPlayer1Index])
-                    print('player2: ' + userid + ' ' + pictureUrl2 + ' ' + random.choice(g_player2[nPlayer1Index]))
+                    print('player2: ' + userid + ' ' + pictureUrl2 + ' ' + str( random.choice(g_player2[nPlayer1Index]) ))
                     imgPlayer2 = Image.open(requests.get(g_RPS_url[random.choice(g_player2[nPlayer1Index])], stream=True).raw)
                     
                     imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
