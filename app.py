@@ -686,7 +686,7 @@ def handle_message(event):
                     img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
                     img2 = img2.resize((300, 300))
                     
-                    bg = Image.new('RGBA',(600, 300), '#000000')
+                    bg = Image.new('RGB',(600, 300), '#000000')
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
                     
@@ -695,25 +695,8 @@ def handle_message(event):
                     imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
                     bg.paste(imgPlayer1,(100, 200)) #差不多都100,100
                     bg.paste(imgPlayer2,(400, 200)) #差不多都100,100
-                    bg.paste(imgVs,(300-122, 0)) #245,327
-                    '''
-                    r,g,b,a = imgVs.split()
-                    opacity = 0.4
-                    alpha = ImageEnhance.Brightness(a).enhance(opacity)
-                    imgVs.putalpha(alpha)
-                    #bg.paste(imgVs,(300-122, 0)) #245,327
-                    bg2 = Image.new('RGBA',bg.size, (0,0,0,0))
-                    bg2.paste(imgVs,(300-122, 0)) #245,327
+                    bg.paste(imgVs,(300-50, 0)) #245,327
                     
-                    # 產生遮罩影像
-                    maskImg = Image.new("L", (600, 300))
-                    # 繪製遮罩區域
-                    maskDraw = ImageDraw.Draw(maskImg)
-                    maskDraw.ellipse((200, 50, 400, 250), fill=255)
-                    # 模糊化
-                    maskImg = maskImg.filter(ImageFilter.GaussianBlur(30))
-                    bg3 = Image.composite(bg,bg2,maskImg).convert('RGB')
-                    '''
                     img_byte_arr = io.BytesIO()
                     bg.save(img_byte_arr, format='PNG')
                     #bg3.save(img_byte_arr, format='PNG')
