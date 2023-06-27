@@ -20,7 +20,7 @@ from datetime import datetime,timedelta
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
-from PIL import Image,ImageEnhance
+from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -701,8 +701,15 @@ def handle_message(event):
                     #bg.paste(imgVs,(300-122, 0)) #245,327
                     bg2 = Image.new('RGBA',bg.size, (0,0,0,0))
                     bg2.paste(imgVs,(300-122, 0)) #245,327
-                    #bg3 = Image.composite(bg,bg2,bg2).convert('RGB')
-                    bg3 = Image.blend(bg, bg2, alpha = 0.3)
+                    
+                    # 產生遮罩影像
+                    maskImg = Image.new("L", (600, 300))
+                    # 繪製遮罩區域
+                    maskDraw = ImageDraw.Draw(maskImg)
+                    maskDraw.ellipse((200, 50, 400, 250), fill=255)
+                    # 模糊化
+                    maskImg = maskImg.filter(ImageFilter.GaussianBlur(30))
+                    bg3 = Image.composite(bg,bg2,maskImg).convert('RGB')
                     
                     img_byte_arr = io.BytesIO()
                     #bg.save(img_byte_arr, format='PNG')
