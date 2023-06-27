@@ -678,7 +678,8 @@ def handle_message(event):
                     g_RPS_url = ['https://i.imgur.com/B6pEdQM.png','https://i.imgur.com/ZZu4RwG.png','https://i.imgur.com/40FOKEx.png']
                     imgVsUrl = 'https://i.imgur.com/yCjtT7u.png' #'https://i.imgur.com/C7aBWr3.png'
                     
-                    imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
+                    nPlayer1Index = random.randint(0,2)
+                    imgPlayer1 = Image.open(requests.get(g_RPS_url[nPlayer1Index], stream=True).raw)
                     
                     pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
                     pictureUrl2 = get_picture_url(groupid,userid,sToken)
@@ -693,7 +694,8 @@ def handle_message(event):
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
                     
-                    imgPlayer2 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
+                    g_player2 = [[0,1,1,1,2,2,2],[0,0,0,1,2,2,2],[0,0,0,1,1,1,2]]
+                    imgPlayer2 = Image.open(requests.get(g_RPS_url[random.choice(g_player2[nPlayer1Index])], stream=True).raw)
                     
                     imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
                     bg.paste(imgPlayer1,(100, 210)) #差不多都100,100
