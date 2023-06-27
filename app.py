@@ -19,6 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
+import io
 from PIL import Image
 #======python的函數庫==========
 
@@ -669,8 +670,28 @@ def handle_message(event):
         if bGetKeyDone == False :
             if (msg.find("剪刀石頭布") > -1) :
                 print("Into 剪刀石頭布part2.")
-                print('index:' + ssContent1['values'][397][5])
-                print('userid:' + ssContent1['values'][397][8])
+                #print('index:' + ssContent1['values'][397][5])
+                #print('userid:' + ssContent1['values'][397][8])
+                previousUser = ssContent1['values'][397][8]
+                if previousUser != '' :
+                    sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
+                    pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
+                    pictureUrl2 = get_picture_url(groupid,userid,sToken)
+                    img = Image.open(requests.get(pictureUrl1, stream=True).raw)
+                    img = img.resize((300, 300))
+                    img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
+                    img2 = img2.resize((300, 300))
+                    
+                    bg = Image.new('RGB',(600, 300), '#000000')
+                    bg.paste(img,(0, 0))
+                    bg.paste(img2,(300, 0))
+                    
+                    img_byte_arr = io.BytesIO()
+                    bg.save(img_byte_arr, format='PNG')
+                    img_byte_arr = img_byte_arr.getvalue()
+                    image_url = UploadImageByBtyes(img_byte_arr)
+                    print(image_url)
+                    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
                 '''
                 sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + g_rockPaperScissorsIndex + ","
                 sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_rockPaperScissorsIndex + ","
