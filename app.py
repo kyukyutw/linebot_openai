@@ -333,7 +333,7 @@ def get_picture_url(group_id, user_id, channel_access_token):
     headers = {
         "Authorization": f"Bearer {channel_access_token}"
     }
-    print(url)
+    #print(url)
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
@@ -673,14 +673,14 @@ def handle_message(event):
                 #print('index:' + ssContent1['values'][397][5])
                 #print('userid:' + ssContent1['values'][397][8])
                 previousUser = ssContent1['values'][397][8]
-                if previousUser != '' :
+                if previousUser != '' and previousUser != userid :
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
                     g_RPS_url = ['https://i.imgur.com/B6pEdQM.png','https://i.imgur.com/ZZu4RwG.png','https://i.imgur.com/40FOKEx.png']
                     imgVsUrl = 'https://i.imgur.com/yCjtT7u.png' #'https://i.imgur.com/C7aBWr3.png'
                     pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
                     pictureUrl2 = get_picture_url(groupid,userid,sToken)
-                    print('player1: ' + previousUser + ' ' + pictureUrl1)
-                    print('player2: ' + userid + ' ' + pictureUrl2)
+                    #print('player1: ' + previousUser + ' ' + pictureUrl1)
+                    #print('player2: ' + userid + ' ' + pictureUrl2)
                     img = Image.open(requests.get(pictureUrl1, stream=True).raw)
                     img = img.resize((300, 300))
                     img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
