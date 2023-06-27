@@ -683,25 +683,29 @@ def handle_message(event):
                     img = img.resize((300, 300))
                     img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
                     img2 = img2.resize((300, 300))
-                    imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
+                    imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw).convert('RGBA')
                     
-                    bg = Image.new('RGB',(600, 300), '#000000')
+                    bg = Image.new('RGBA',(600, 300), '#000000')
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
-                    
-                    r,g,b,a = imgVs.split()
-                    opacity = 0.4
-                    alpha = ImageEnhance.Brightness(a).enhance(opacity)
-                    imgVs.putalpha(alpha)
-                    bg.paste(imgVs,(300-122, 0)) #245,327
                     
                     imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
                     imgPlayer2 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
                     bg.paste(imgPlayer1,(100, 200)) #差不多都100,100
                     bg.paste(imgPlayer2,(400, 200)) #差不多都100,100
                     
+                    r,g,b,a = imgVs.split()
+                    opacity = 0.4
+                    alpha = ImageEnhance.Brightness(a).enhance(opacity)
+                    imgVs.putalpha(alpha)
+                    #bg.paste(imgVs,(300-122, 0)) #245,327
+                    bg2 = Image.new('RGBA',bg.size, (0,0,0,0))
+                    bg2.paste(imgVs,(300-122, 0)) #245,327
+                    Image.compostite(bg2,bg,bg2).convert('RGB')
+                    
                     img_byte_arr = io.BytesIO()
-                    bg.save(img_byte_arr, format='PNG')
+                    #bg.save(img_byte_arr, format='PNG')
+                    bg2.save(img_byte_arr, format='PNG')
                     img_byte_arr = img_byte_arr.getvalue()
                     image_url = UploadImageByBtyes(img_byte_arr)
                     print(image_url)
