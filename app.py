@@ -19,7 +19,7 @@ import requests
 from datetime import datetime,timedelta 
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
-import base64
+from PIL import Image
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -34,6 +34,8 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 #檢查項目
 g_checkIndexList = ['391']
 g_uploadIndexList = ['390']
+#剪刀石頭布
+g_rockPaperScissorsIndex = '398'
 
 #webp to png
 def TranUrlWebpToPNG(webpUrl):
@@ -325,8 +327,22 @@ def Update390url(event,url):
     result = requests.get(sTouchUrl)
     print(result)
 
-def get_display_name(user_id, channel_access_token):
-    url = f"https://api.line.me/v2/bot/profile/{user_id}"
+def get_picture_url(group_id, user_id, channel_access_token):
+    url = f"https://api.line.me/v2/bot/group/{group_id}/member/{user_id}"
+    headers = {
+        "Authorization": f"Bearer {channel_access_token}"
+    }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        picture_url = data.get("pictureUrl")
+        return picture_url
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+        return ''
+def get_display_name(group_id, user_id, channel_access_token):
+    url = f"https://api.line.me/v2/bot/group/{group_id}/member/{user_id}"
     headers = {
         "Authorization": f"Bearer {channel_access_token}"
     }
@@ -340,7 +356,7 @@ def get_display_name(user_id, channel_access_token):
         print(f"Error: {response.status_code} - {response.text}")
         return ''
         
-def HasWaittingProcess(event,userid,msg):
+def HasWaittingProcess(event,groupid,userid,msg):
     #print('HasWaittingProcess:')
     #檢查項目
     #checkIndexList = ['391']
@@ -354,7 +370,7 @@ def HasWaittingProcess(event,userid,msg):
             if (len(item) > 8) : 
                 if item[8] == userid:
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
-                    displayName = get_display_name(userid,sToken)
+                    displayName = get_display_name(groupid,userid,sToken)
                     #取消上傳                    
                     if (msg.find("取消上傳") > -1) :
                         indexInList = g_checkIndexList.index( str(item[5]) )
@@ -412,7 +428,13 @@ def UploadImageByUrl(pUrl):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
     jSource = json.loads(str(event.source))
-    userid = jSource["userId"]
+    groupid = ""
+    userid = ""
+    if jSource["type"] == "group" :
+        groupid = jSource["groupId"]
+        userid = jSource["userId"]
+    elif jSource["type"] == "user" :
+        userid = jSource["userId"]
         
     #檢查人員有沒有待上傳圖片
     sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/113eh7bUFFUWuFRYRUF9N7dJyMt5hZxkpuxm49niTXRY/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
@@ -440,7 +462,7 @@ def handle_message(event):
             UpdateSheetUrl(indexInList,image_url)
             #上傳成功訊息
             sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
-            displayName = get_display_name(userid,sToken)
+            displayName = get_display_name(groupid,userid,sToken)
             line_bot_api.reply_message(event.reply_token, TextSendMessage('安安尼豪 ' + displayName + '''
 圖片上傳完成。'''))
         print('End Of Image Upload.')
@@ -491,7 +513,7 @@ def handle_message(event):
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
-    if HasWaittingProcess(event,userid,msg) :
+    if HasWaittingProcess(event,groupid,userid,msg) :
         print('查有尚未完成作業.')
         
     elif (msg.find("弱吧唱一下") > -1) :
@@ -645,8 +667,18 @@ def handle_message(event):
                         bGetKeyDone = True
                     break
         if bGetKeyDone == False :
-            if (msg.find("運氣") > -1) :
-                print("Into 運氣.")
+            if (msg.find("剪刀石頭布") > -1) :
+                print("Into 剪刀石頭布part2.")
+                print('index:' + ssContent1['values'][397][5])
+                print('userid:' + ssContent1['values'][397][8])
+                '''
+                sTouchUrl1 = "http://api.pushingbox.com/pushingbox?devid=v8FD032D0733DF5D&data=" + g_rockPaperScissorsIndex + ","
+                sTouchUrl2 = "http://api.pushingbox.com/pushingbox?devid=v14A88C7A33FC0DC&data=" + g_rockPaperScissorsIndex + ","
+                sTouchUrl3 = "http://api.pushingbox.com/pushingbox?devid=vB3E9F5CEA4E5E34&data=" + g_rockPaperScissorsIndex + ","
+                requests.get(sTouchUrl1)
+                requests.get(sTouchUrl2)
+                requests.get(sTouchUrl3)
+                '''
                 
             elif (msg.find("弱吧閉嘴") > -1) :
                 print("Into 閉嘴.")
