@@ -599,7 +599,7 @@ def handle_message(event):
                     else :
                         IsAnnouncement = False
                     #被ban也能用上傳或公告 
-                    if bBanned == True and (sIndex in g_checkIndexList) == False and IsAnnouncement == False : 
+                    if bBanned == True and (sIndex in g_checkIndexList) == False and IsAnnouncement == False and sIndex != g_rockPaperScissorsIndex : 
                         print('user in banned list.')
                         continue #(被ban+不是觸發上傳檢查位置+不是公告 就跳過 繼續)
                     
