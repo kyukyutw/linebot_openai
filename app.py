@@ -20,7 +20,7 @@ from datetime import datetime,timedelta
 import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
-from PIL import Image
+from PIL import Image,ImageEnhance
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -688,6 +688,11 @@ def handle_message(event):
                     bg = Image.new('RGB',(600, 300), '#000000')
                     bg.paste(img,(0, 0))
                     bg.paste(img2,(300, 0))
+                    
+                    r,g,b,a = imgVs.split()
+                    opacity = 0.4
+                    alpha = ImageEnhance.Brightness(a).enhance(opacity)
+                    imgVs.putalpha(alpha)
                     bg.paste(imgVs,(300-122, 0)) #245,327
                     
                     imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
