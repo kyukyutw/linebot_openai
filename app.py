@@ -693,8 +693,8 @@ def handle_message(event):
                     imgPlayer1 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
                     imgPlayer2 = Image.open(requests.get(g_RPS_url[random.randint(0,2)], stream=True).raw)
                     imgVs = Image.open(requests.get(imgVsUrl, stream=True).raw)
-                    bg.paste(imgPlayer1,(100, 220)) #差不多都100,100
-                    bg.paste(imgPlayer2,(400, 220)) #差不多都100,100
+                    bg.paste(imgPlayer1,(100, 210)) #差不多都100,100
+                    bg.paste(imgPlayer2,(400, 210)) #差不多都100,100
                     bg.paste(imgVs,(300-50, 0)) #245,327
                     
                     img_byte_arr = io.BytesIO()
