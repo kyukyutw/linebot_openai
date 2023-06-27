@@ -679,8 +679,8 @@ def handle_message(event):
                     imgVsUrl = 'https://i.imgur.com/C7aBWr3.png'
                     pictureUrl1 = get_picture_url(groupid,previousUser,sToken)
                     pictureUrl2 = get_picture_url(groupid,userid,sToken)
-                    print('player1: ' + pictureUrl1)
-                    print('player2: ' + pictureUrl2)
+                    print('player1: ' + previousUser + ' ' + pictureUrl1)
+                    print('player2: ' + userid + ' ' + pictureUrl2)
                     img = Image.open(requests.get(pictureUrl1, stream=True).raw)
                     img = img.resize((300, 300))
                     img2 = Image.open(requests.get(pictureUrl2, stream=True).raw)
