@@ -673,7 +673,7 @@ def handle_message(event):
                 #print('index:' + ssContent1['values'][397][5])
                 #print('userid:' + ssContent1['values'][397][8])
                 previousUser = ssContent1['values'][397][8]
-                if previousUser != '' and previousUser != userid :
+                if previousUser != '' :
                     sToken = os.getenv('CHANNEL_ACCESS_TOKEN')
                     g_RPS_url = ['https://i.imgur.com/B6pEdQM.png','https://i.imgur.com/ZZu4RwG.png','https://i.imgur.com/40FOKEx.png']
                     imgVsUrl = 'https://i.imgur.com/yCjtT7u.png' #'https://i.imgur.com/C7aBWr3.png'
