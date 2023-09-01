@@ -547,25 +547,46 @@ def handle_message(event):
         #https://www.cwb.gov.tw/Data/radar/CV1_1000_202308311730.png
     elif (msg.find("颱風動態") > -1) :
         print("Into 颱風動態.")
-        nTempHour = int(( now + timedelta(minutes=-135) ).strftime('%H'))
+        #nTempHour = int(( now + timedelta(minutes=-135) ).strftime('%H'))
+        nTempHour = int(( now ).strftime('%H'))
         sTempHour = ''
-        #回推135分鐘
-        #02(0)、08(6)、14(12)、20(18)
-        if nTempHour < 6 :
-            sTempHour = '02'
-        elif 6 <= nTempHour and nTempHour < 14 :
-            sTempHour = '08'
-        elif 14 <= nTempHour and nTempHour < 18 :
-            sTempHour = '14'
+        sTempFName = ''
+        if 4 <= nTempHour and nTempHour < 10 :
+            sTempHour = '1800-120' #前一天1800-120
+            sTempFName = ( now + timedelta(day=-1) ).strftime('%Y%m%d') + sTempHour
+        elif 10 <= nTempHour and nTempHour < 16 :
+            sTempHour = '0000-96'
+            sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
+        elif 16 <= nTempHour and nTempHour < 22 :
+            sTempHour = '0600-120'
+            sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         else :
-            sTempHour = '20'
+            sTempHour = '1200-96'
+            sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         
-        sTempFName = ( now + timedelta(minutes=-135)).strftime('%Y%m%d') + sTempHour
-        photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '00-120_zhtw.png'
+        photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '_zhtw.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+        
+        #(推測04點更新) 10點以前 是0200預測 連結是前一天1800-120
+        #0400~1000
+        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311800-120_zhtw.png
+        
+        #10點更新 0800預測 連結是0000-96
+        #1000~1600
+        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202309010000-96_zhtw.png
+        
+        #(推測16點更新) 1400預測 連結是0600-120
+        #1600~2200
         #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308310600-120_zhtw.png
+        
+        #(推測22點更新) 2000預測 連結是1200-96
+        #2200~0400
+        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311200-96_zhtw.png
+        
+        #推測
         #六小時一報 0200、0800、1400、2000
+        
     else :
         print("Into Keyword Search.")
         #google表單
