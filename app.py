@@ -547,11 +547,25 @@ def handle_message(event):
         #https://www.cwb.gov.tw/Data/radar/CV1_1000_202308311730.png
     elif (msg.find("颱風動態") > -1) :
         print("Into 颱風動態.")
-        sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d')
-        photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '0600-120_zhtw.png'
+        nTempHour = int(( now + timedelta(minutes=-135) ).strftime('%H'))
+        sTempHour = ''
+        #回推135分鐘
+        #02(0)、08(6)、14(12)、20(18)
+        if nTempHour < 6 :
+            sTempHour = '02'
+        else if 6 <= nTempHour and nTempHour < 14 :
+            sTempHour = '08'
+        else if 14 <= nTempHour and nTempHour < 18 :
+            sTempHour = '14'
+        else :
+            sTempHour = '20'
+        
+        sTempFName = ( now + timedelta(minutes=-135)).strftime('%Y%m%d') + sTempHour
+        photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '00-120_zhtw.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
         #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308310600-120_zhtw.png
+        #六小時一報 0200、0800、1400、2000
     else :
         print("Into Keyword Search.")
         #google表單
