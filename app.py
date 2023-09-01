@@ -553,13 +553,13 @@ def handle_message(event):
         url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/E-A0016-001?Authorization=CWB-898B8768-7E2C-4705-872C-735F05F3EB7E' #'你取得的地震資訊 JSON 網址'
         data = requests.get(url)
         data_json = data.json()
-        eq = data_json['records']['earthquake']
+        eq = data_json['records']['Earthquake']
         for i in eq:
-            loc = i['earthquakeInfo']['epiCenter']['location']
-            val = i['earthquakeInfo']['magnitude']['magnitudeValue']
-            dep = i['earthquakeInfo']['depth']['value']
-            eq_time = i['earthquakeInfo']['originTime']
-            sEarthquakeUrl = i['reportImageURI']
+            loc = i['EarthquakeInfo']['Epicenter']['Location']
+            val = i['EarthquakeInfo']['EarthquakeMagnitude']['MagnitudeValue']
+            dep = i['EarthquakeInfo']['FocalDepth']
+            eq_time = i['EarthquakeInfo']['OriginTime']
+            sEarthquakeUrl = i['ReportImageURI']
             sEarthquakeMsg = f'{loc}，芮氏規模 {val} 級，深度 {dep} 公里，發生時間 {eq_time}'
             break
     
