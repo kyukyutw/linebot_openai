@@ -553,9 +553,9 @@ def handle_message(event):
         #02(0)、08(6)、14(12)、20(18)
         if nTempHour < 6 :
             sTempHour = '02'
-        else if 6 <= nTempHour and nTempHour < 14 :
+        elif 6 <= nTempHour and nTempHour < 14 :
             sTempHour = '08'
-        else if 14 <= nTempHour and nTempHour < 18 :
+        elif 14 <= nTempHour and nTempHour < 18 :
             sTempHour = '14'
         else :
             sTempHour = '20'
