@@ -573,21 +573,22 @@ def handle_message(event):
         sTempHour = ''
         sTempFName = ''
         if 4 <= nTempHour and nTempHour < 10 :
-            sTempHour = '1800-120' #前一天1800-120
+            sTempHour = '1800-72' 
             sTempFName = ( now + timedelta(day=-1) ).strftime('%Y%m%d') + sTempHour
         elif 10 <= nTempHour and nTempHour < 16 :
-            sTempHour = '0000-96'
+            sTempHour = '0000-72'
             sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         elif 16 <= nTempHour and nTempHour < 22 :
-            sTempHour = '0600-120'
+            sTempHour = '0600-72'
             sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         else :
-            sTempHour = '1200-96'
+            sTempHour = '1200-72'
             sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         
         photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '_zhtw.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
+        #時間後面-72 -96 -120 觀察到有三種 數字越大越測越多天 但不一定會出圖 所以都用-72
         
         #(推測04點更新) 10點以前 是0200預測 連結是前一天1800-120
         #0400~1000
