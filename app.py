@@ -545,7 +545,7 @@ def handle_message(event):
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
         #https://www.cwb.gov.tw/Data/radar/CV1_1000_202308311730.png
-    elif (msg.find("查地震") > -1) OR (msg.find("有地震") > -1) OR (msg.find("地震!") > -1) :
+    elif (msg.find("查地震") > -1) or (msg.find("有地震") > -1) or (msg.find("地震!") > -1) :
         print("Into 查地震.")
         sEarthquakeMsg = ''
         sEarthquakeUrl = ''
