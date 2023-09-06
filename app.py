@@ -538,19 +538,19 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=GPT_IMAGE_answer, preview_image_url=GPT_IMAGE_answer))
     elif (msg.find("雷達回波") > -1) :
         print("Into 雷達回波.")
-        sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
+        sTempMin = ( now + timedelta(minutes=-8) ).strftime('%M')
         sMin10 = int(int(sTempMin)/10)
-        sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y%m%d%H') + str(sMin10) + "0"
+        sTempFName = ( now + timedelta(minutes=-8)).strftime('%Y%m%d%H') + str(sMin10) + "0"
         photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
         #https://www.cwb.gov.tw/Data/radar/CV1_1000_202308311730.png
-    elif (msg.find("地震") > -1) :
-        print("Into 地震.")
+    elif (msg.find("查地震") > -1) OR (msg.find("有地震") > -1) OR (msg.find("地震!") > -1) :
+        print("Into 查地震.")
         sEarthquakeMsg = ''
         sEarthquakeUrl = ''
         #GetLastEarthquakeInfo(sEarthquakeMsg,sEarthquakeUrl)
-        url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/E-A0016-001?Authorization=CWB-898B8768-7E2C-4705-872C-735F05F3EB7E' #'你取得的地震資訊 JSON 網址'
+        url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=CWB-898B8768-7E2C-4705-872C-735F05F3EB7E&limit=1' #'你取得的地震資訊 JSON 網址'
         data = requests.get(url)
         data_json = data.json()
         eq = data_json['records']['Earthquake']
