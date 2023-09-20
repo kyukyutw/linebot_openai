@@ -541,10 +541,10 @@ def handle_message(event):
         sTempMin = ( now + timedelta(minutes=-8) ).strftime('%M')
         sMin10 = int(int(sTempMin)/10)
         sTempFName = ( now + timedelta(minutes=-8)).strftime('%Y%m%d%H') + str(sMin10) + "0"
-        photourl = "https://www.cwb.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
+        photourl = "https://www.cwa.gov.tw/Data/radar/CV1_1000_" + sTempFName + '.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
-        #https://www.cwb.gov.tw/Data/radar/CV1_1000_202308311730.png
+        #https://www.cwa.gov.tw/Data/radar/CV1_1000_202308311730.png
     elif (msg.find("查地震") > -1) or (msg.find("有地震") > -1) or (msg.find("地震!") > -1) :
         print("Into 查地震.")
         sEarthquakeMsg = ''
@@ -585,26 +585,26 @@ def handle_message(event):
             sTempHour = '1200-72'
             sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
         
-        photourl = "https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '_zhtw.png'
+        photourl = "https://www.cwa.gov.tw/Data/typhoon/TY_NEWS/PTA_" + sTempFName + '_zhtw.png'
         print(photourl)
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
         #時間後面-72 -96 -120 觀察到有三種 數字越大越測越多天 但不一定會出圖 所以都用-72
         
         #(推測04點更新) 10點以前 是0200預測 連結是前一天1800-120
         #0400~1000
-        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311800-120_zhtw.png
+        #https://www.cwa.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311800-120_zhtw.png
         
         #10點更新 0800預測 連結是0000-96
         #1000~1600
-        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202309010000-96_zhtw.png
+        #https://www.cwa.gov.tw/Data/typhoon/TY_NEWS/PTA_202309010000-96_zhtw.png
         
         #(推測16點更新) 1400預測 連結是0600-120
         #1600~2200
-        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308310600-120_zhtw.png
+        #https://www.cwa.gov.tw/Data/typhoon/TY_NEWS/PTA_202308310600-120_zhtw.png
         
         #(推測22點更新) 2000預測 連結是1200-96
         #2200~0400
-        #https://www.cwb.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311200-96_zhtw.png
+        #https://www.cwa.gov.tw/Data/typhoon/TY_NEWS/PTA_202308311200-96_zhtw.png
         
         #推測
         #六小時一報 0200、0800、1400、2000
@@ -864,13 +864,13 @@ http://www.chance.org.tw/"""
             elif (msg.find("溫度分布") > -1) or (msg.find("溫度分佈") > -1):
                 print("Into 溫度分佈")
                 sTempFName = ( now + timedelta(minutes=-19)).strftime('%Y-%m-%d_%H') + "00.GTP8w"
-                photourl = "https://www.cwb.gov.tw/Data/temperature/" + sTempFName + '.jpg'
+                photourl = "https://www.cwa.gov.tw/Data/temperature/" + sTempFName + '.jpg'
                 print(photourl)
                 line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                 '''
                 $fewMinAgo = strtotime('-19 minute');
-                $photourl = 'https://www.cwb.gov.tw/Data/temperature/' . date("Y", $fewMinAgo) . '-' . date("m", $fewMinAgo) . '-' . date("d", $fewMinAgo) . '_' . date("H", $fewMinAgo) . '00.GTP8w.jpg';
-                /* https://www.cwb.gov.tw/Data/temperature/2022-07-25_0600.GTP8.jpg  */
+                $photourl = 'https://www.cwa.gov.tw/Data/temperature/' . date("Y", $fewMinAgo) . '-' . date("m", $fewMinAgo) . '-' . date("d", $fewMinAgo) . '_' . date("H", $fewMinAgo) . '00.GTP8w.jpg';
+                /* https://www.cwa.gov.tw/Data/temperature/2022-07-25_0600.GTP8.jpg  */
                 '''
                 
             elif (msg.find("累積雨量") > -1) or (msg.find("累計雨量") > -1) :
@@ -878,14 +878,14 @@ http://www.chance.org.tw/"""
                 sTempMin = ( now + timedelta(minutes=-7) ).strftime('%M')
                 sMin30 = int(int(sTempMin)/30) * 3
                 sTempFName = ( now + timedelta(minutes=-7)).strftime('%Y-%m-%d_%H') + str(sMin30) + "0.QZJ8"
-                photourl = "https://www.cwb.gov.tw/Data/rainfall/" + sTempFName + '.jpg'
+                photourl = "https://www.cwa.gov.tw/Data/rainfall/" + sTempFName + '.jpg'
                 print(photourl)
                 line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=photourl, preview_image_url=photourl))
                 '''累積雨量
 					$sTempMin = date("i", strtotime('-7 minute'));
 					$sMin30 = intval($sTempMin/30) * 3;
-					$photourl = 'https://www.cwb.gov.tw/Data/rainfall/' . date("Y-m-d", strtotime('-7 minute')) . '_' . date("H", strtotime('-7 minute')) . $sMin30 . '0.QZJ8.jpg';
-					https://www.cwb.gov.tw/Data/rainfall/2023-06-13_1500.QZJ8.jpg
+					$photourl = 'https://www.cwa.gov.tw/Data/rainfall/' . date("Y-m-d", strtotime('-7 minute')) . '_' . date("H", strtotime('-7 minute')) . $sMin30 . '0.QZJ8.jpg';
+					https://www.cwa.gov.tw/Data/rainfall/2023-06-13_1500.QZJ8.jpg
                 '''
                 
     print("End of testing.")
