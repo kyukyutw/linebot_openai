@@ -574,7 +574,7 @@ def handle_message(event):
         sTempFName = ''
         if 4 <= nTempHour and nTempHour < 10 :
             sTempHour = '1800-72' 
-            sTempFName = ( now + timedelta(day=-1) ).strftime('%Y%m%d') + sTempHour
+            sTempFName = ( now + timedelta(days=-1) ).strftime('%Y%m%d') + sTempHour
         elif 10 <= nTempHour and nTempHour < 16 :
             sTempHour = '0000-72'
             sTempFName = ( now ).strftime('%Y%m%d') + sTempHour
