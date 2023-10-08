@@ -505,10 +505,12 @@ def handle_message(event):
     #C35ffb4e93a34ce198634429fb8e0df21 LINE-BOT-TEST-1
     #Cd8ca09b51a8074d0c23c34337e0bb691 LINE-BOT-TEST-2
     #C61f797a454e8e1db2a87f62042ff05d2 紐西蘭進口的-二之國  
+    #Cf74ce8312601f954b886fac8c02d462a 異世界轉生-二之國
     if groupid == "C35ffb4e93a34ce198634429fb8e0df21" : bPass = True
     elif groupid == "Cd8ca09b51a8074d0c23c34337e0bb691" : bPass = True
     elif groupid == "C61f797a454e8e1db2a87f62042ff05d2" : bPass = True
     elif userid == "Ub6491d91c5b11078c3315f99a9b1035f" : bPass = True
+    elif userid == "Cf74ce8312601f954b886fac8c02d462a" : bPass = True
     
     if bPass == False : return None
     
