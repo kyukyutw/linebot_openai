@@ -496,9 +496,10 @@ def handle_message(event):
     if jSource["type"] == "group" :
         groupid = jSource["groupId"]
         userid = jSource["userId"]
+        print(groupid + ':' + userid + ':' + msg)
     elif jSource["type"] == "user" :
         userid = jSource["userId"]
-    print(userid + ':' + msg)
+        print(userid + ':' + msg)
     
     bPass = False
     #C35ffb4e93a34ce198634429fb8e0df21 LINE-BOT-TEST-1
