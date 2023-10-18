@@ -106,7 +106,7 @@ def SendAudioMessage(event,searchText):
         
         #secend part:試聽連結 爬試聽檔案連結
         sPart2url = GetAppleMusicJsonUrl(sJson)
-        #print("GetAppleMusicHtmlServiceTag:" + sPart2url)
+        print("GetAppleMusicHtmlServiceTag:" + sPart2url)
         sJson = GetAppleMusicHtmlServiceTag(sPart2url)
         #撈出專輯封面
         picUrl = TranUrlWebpToPNG(GetAppleMusicHtmlServiceTag2(sPart2url))
