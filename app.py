@@ -276,7 +276,7 @@ def GetAppleMusicHtmlServiceTag2(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     #result = soup.find("picture",class_="svelte-yxysdi")
-    result = soup.find("picture",class_="svelte-1ql5fk4")
+    result = soup.find("picture",class_="svelte-1vcdnyq")
     sHtmlAttribute = result.select_one("source").get("srcset")
     sRet = sHtmlAttribute[:sHtmlAttribute.find(".webp") + 5]
     #print(sRet)
