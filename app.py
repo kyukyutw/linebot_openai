@@ -554,7 +554,7 @@ def handle_message(event):
         sEarthquakeMsg = ''
         sEarthquakeUrl = ''
         #GetLastEarthquakeInfo(sEarthquakeMsg,sEarthquakeUrl)
-        url = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=CWB-898B8768-7E2C-4705-872C-735F05F3EB7E&limit=1' #'你取得的地震資訊 JSON 網址'
+        url = 'https://opendata.cwa.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=CWB-898B8768-7E2C-4705-872C-735F05F3EB7E&limit=1' #'你取得的地震資訊 JSON 網址'
         data = requests.get(url)
         data_json = data.json()
         eq = data_json['records']['Earthquake']
