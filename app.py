@@ -491,8 +491,10 @@ def SearchingNiNoKuniProfile():
     ssContent1 = requests.get(sGoogleSheetUrl).json()
     #0:profileid、1:processing、2:t1、3:t3
     for item in ssContent1['values']:
-        if (len(item) = 2) : #已建立編號 尚未建檔
-            sTouchUrl = "" #更新processing為處理中
+        #已建立編號 尚未建檔
+        if (len(item) == 2) : 
+            #更新processing為處理中
+            sTouchUrl = "" 
             sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'N'
             result = requests.get(sTouchUrlP)
             print('SearchingNiNoKuniProfile:TouchUrlP:N')
