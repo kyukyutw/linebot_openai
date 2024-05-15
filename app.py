@@ -484,6 +484,41 @@ def callback():
         abort(400)
     return 'OK'
 
+def SearchingNiNoKuniProfile():
+    print('SearchingNiNoKuniProfile:')
+    #檢查尚未建檔的profileid
+    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1rFYvbW303r5f_G0_dIucgiAF2shmeeurx_2C2odpRlE/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
+    ssContent1 = requests.get(sGoogleSheetUrl).json()
+    #0:profileid、1:processing、2:t1、3:t3
+    for item in ssContent1['values']:
+        if (len(item) = 2) : #已建立編號 尚未建檔
+            sTouchUrl = "" #更新processing為處理中
+            sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'N'
+            result = requests.get(sTouchUrlP)
+            print('SearchingNiNoKuniProfile:TouchUrlP:N')
+            
+            #查profileid
+            sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
+            #response = requests.get(sGoalUrl)
+            #response.encoding = 'utf-8'
+            #soup = BeautifulSoup(response.text, "html.parser")
+            #sJson = soup.find("script",id="serialized-server-data").getText()
+            
+            response = requests.get(sGoalUrl)
+            soup = BeautifulSoup(response.text, "html.parser")
+            sT1String = soup.find("dd",class_="t1")
+            sT3String = soup.find("dd",class_="t3")
+            
+            #查詢結果回寫
+            sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
+            sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
+            result = requests.get(sTouchUrlT1)
+            result = requests.get(sTouchUrlT3)
+            print('SearchingNiNoKuniProfile:TouchUrlT1:' + sTouchUrlT1 + ';T3:' + sTouchUrlT3)
+            sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'Y'
+            result = requests.get(sTouchUrlP)
+            print('SearchingNiNoKuniProfile:TouchUrlP:Y')
+            return True;
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -515,6 +550,8 @@ def handle_message(event):
     
     if bPass == False : return None
     
+    #SearchingNiNoKuniProfile();
+    
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
@@ -527,6 +564,7 @@ def handle_message(event):
         if len(sInputMusic) > 0 :
             SendAudioMessage(event,sInputMusic)
     elif (msg.find("喂弱吧 ") > -1) :
+        SearchingNiNoKuniProfile();
         print("Into GPT.")
         sInputGPT = msg.replace("喂弱吧 ","").strip()
         if len(sInputGPT) > 0 :
