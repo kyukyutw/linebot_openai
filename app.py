@@ -502,7 +502,10 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:TouchUrlP:N')
                 
                 #查profileid
+                print('SearchingNiNoKuniProfile:item0:' + item[0]
+                print('SearchingNiNoKuniProfile:item0'':' + str(item[0])
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
+                print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 #response = requests.get(sGoalUrl)
                 #response.encoding = 'utf-8'
                 #soup = BeautifulSoup(response.text, "html.parser")
@@ -516,6 +519,8 @@ def SearchingNiNoKuniProfile():
                 #查詢結果回寫
                 sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
                 sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
+                print('SearchingNiNoKuniProfile:sT1String:' + sT1String)
+                print('SearchingNiNoKuniProfile:sT3String:' + sT3String)
                 result = requests.get(sTouchUrlT1)
                 result = requests.get(sTouchUrlT3)
                 print('SearchingNiNoKuniProfile:TouchUrlT1:' + sTouchUrlT1 + ';T3:' + sTouchUrlT3)
