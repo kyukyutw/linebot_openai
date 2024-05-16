@@ -577,12 +577,12 @@ def handle_message(event):
             SendAudioMessage(event,sInputMusic)
     elif (msg.find("喂弱吧 ") > -1) :
         SearchingNiNoKuniProfile();
-        print("Into GPT.")
-        sInputGPT = msg.replace("喂弱吧 ","").strip()
-        if len(sInputGPT) > 0 :
-            GPT_answer = GPT_response(sInputGPT)
-            #print(GPT_answer)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+        #print("Into GPT.")
+        #sInputGPT = msg.replace("喂弱吧 ","").strip()
+        #if len(sInputGPT) > 0 :
+            #GPT_answer = GPT_response(sInputGPT)
+            ##print(GPT_answer)
+            #line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     elif (msg.find("弱吧畫一下") > -1) :
         print("Into GPT IMAGE.")
         sInputGPTIMAGE = msg.replace("弱吧畫一下","").strip()
