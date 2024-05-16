@@ -502,8 +502,8 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:TouchUrlP:N')
                 
                 #查profileid
-                print('SearchingNiNoKuniProfile:item0:' + item[0]
-                print('SearchingNiNoKuniProfile:item0'':' + str(item[0])
+                print('SearchingNiNoKuniProfile:item0:' + item[0])
+                print('SearchingNiNoKuniProfile:item0'':' + str(item[0]))
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 #response = requests.get(sGoalUrl)
