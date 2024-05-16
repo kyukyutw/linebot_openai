@@ -506,16 +506,20 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:item0'':' + str(item[0]))
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
-                #response = requests.get(sGoalUrl)
-                #response.encoding = 'utf-8'
-                #soup = BeautifulSoup(response.text, "html.parser")
-                #sJson = soup.find("script",id="serialized-server-data").getText()
                 
                 response = requests.get(sGoalUrl)
+                response.encoding = 'utf-8'
+                soup = BeautifulSoup(response.text, "html.parser")
+                sJson = soup.find("script",id="serialized-server-data").getText()
+                print('SearchingNiNoKuniProfile:Json:' + sJson)
+                
+                response = requests.get(sGoalUrl)
+                print('SearchingNiNoKuniProfile:response:' + response)
                 soup = BeautifulSoup(response.text, "html.parser")
                 sT1String = soup.find("dd",class_="t1")
                 sT3String = soup.find("dd",class_="t3")
                 
+                '''
                 #查詢結果回寫
                 sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
                 sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
@@ -527,6 +531,7 @@ def SearchingNiNoKuniProfile():
                 sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'Y'
                 result = requests.get(sTouchUrlP)
                 print('SearchingNiNoKuniProfile:TouchUrlP:Y')
+                '''
             except Exception as error:
                 # handle the exception
                 print("An exception occurred:", error)
