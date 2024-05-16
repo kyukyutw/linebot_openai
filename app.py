@@ -493,33 +493,38 @@ def SearchingNiNoKuniProfile():
     for item in ssContent1['values']:
         #已建立編號 尚未建檔
         if (len(item) == 2) : 
-            #更新processing為處理中
-            sTouchUrl = "" 
-            sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'N'
-            result = requests.get(sTouchUrlP)
-            print('SearchingNiNoKuniProfile:TouchUrlP:N')
-            
-            #查profileid
-            sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
-            #response = requests.get(sGoalUrl)
-            #response.encoding = 'utf-8'
-            #soup = BeautifulSoup(response.text, "html.parser")
-            #sJson = soup.find("script",id="serialized-server-data").getText()
-            
-            response = requests.get(sGoalUrl)
-            soup = BeautifulSoup(response.text, "html.parser")
-            sT1String = soup.find("dd",class_="t1")
-            sT3String = soup.find("dd",class_="t3")
-            
-            #查詢結果回寫
-            sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
-            sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
-            result = requests.get(sTouchUrlT1)
-            result = requests.get(sTouchUrlT3)
-            print('SearchingNiNoKuniProfile:TouchUrlT1:' + sTouchUrlT1 + ';T3:' + sTouchUrlT3)
-            sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'Y'
-            result = requests.get(sTouchUrlP)
-            print('SearchingNiNoKuniProfile:TouchUrlP:Y')
+            try:
+                #更新processing為處理中
+                sTouchUrl = "" 
+                sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'N'
+                print('SearchingNiNoKuniProfile:TouchUrlP:' + sTouchUrlP)
+                result = requests.get(sTouchUrlP)
+                print('SearchingNiNoKuniProfile:TouchUrlP:N')
+                
+                #查profileid
+                sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
+                #response = requests.get(sGoalUrl)
+                #response.encoding = 'utf-8'
+                #soup = BeautifulSoup(response.text, "html.parser")
+                #sJson = soup.find("script",id="serialized-server-data").getText()
+                
+                response = requests.get(sGoalUrl)
+                soup = BeautifulSoup(response.text, "html.parser")
+                sT1String = soup.find("dd",class_="t1")
+                sT3String = soup.find("dd",class_="t3")
+                
+                #查詢結果回寫
+                sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
+                sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
+                result = requests.get(sTouchUrlT1)
+                result = requests.get(sTouchUrlT3)
+                print('SearchingNiNoKuniProfile:TouchUrlT1:' + sTouchUrlT1 + ';T3:' + sTouchUrlT3)
+                sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'Y'
+                result = requests.get(sTouchUrlP)
+                print('SearchingNiNoKuniProfile:TouchUrlP:Y')
+            except Exception as error:
+                # handle the exception
+                print("An exception occurred:", error)
             return True;
 
 # 處理訊息
