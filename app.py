@@ -502,22 +502,24 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:TouchUrlP:N')
                 
                 #查profileid
-                print('SearchingNiNoKuniProfile:item0:' + item[0])
-                print('SearchingNiNoKuniProfile:item0'':' + str(item[0]))
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 
+                sJson = GetAppleMusicHtmlServiceTag(sGoalUrl)
+                print('SearchingNiNoKuniProfile:Json:' + sJson)
+                '''
                 response = requests.get(sGoalUrl)
                 response.encoding = 'utf-8'
                 soup = BeautifulSoup(response.text, "html.parser")
                 sJson = soup.find("script",id="serialized-server-data").getText()
                 print('SearchingNiNoKuniProfile:Json:' + sJson)
+                '''
                 
-                response = requests.get(sGoalUrl)
-                print('SearchingNiNoKuniProfile:response:' + response)
-                soup = BeautifulSoup(response.text, "html.parser")
-                sT1String = soup.find("dd",class_="t1")
-                sT3String = soup.find("dd",class_="t3")
+                #response = requests.get(sGoalUrl)
+                #print('SearchingNiNoKuniProfile:response:' + response)
+                #soup = BeautifulSoup(response.text, "html.parser")
+                #sT1String = soup.find("dd",class_="t1")
+                #sT3String = soup.find("dd",class_="t3")
                 
                 '''
                 #查詢結果回寫
