@@ -501,6 +501,23 @@ def SearchingNiNoKuniProfile():
                 result = requests.get(sTouchUrlP)
                 print('SearchingNiNoKuniProfile:TouchUrlP:N')
                 
+                url = "https://forum.netmarble.com/ennt_t/profile/126100"
+                responseQ = requests.get(url)
+
+                if response.status_code == 200:
+                    soupQ = BeautifulSoup(responseQ.content, 'html.parser')
+                    
+                    # 找到 <dd class="t1">水蜜桃多多x</dd> 這個欄位
+                    dd_t1 = soupQ.find('dd', class_='t1')
+                    
+                    if dd_t1:
+                        print(dd_t1.get_text())
+                    else:
+                        print("未找到指定的欄位")
+                else:
+                    print(f"Failed to retrieve {url}")
+                
+                '''
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 
@@ -527,7 +544,7 @@ def SearchingNiNoKuniProfile():
                         print(dd_t3.get_text())
                     else:
                         print("未找到指定的欄位")
-                    '''
+                    
                     # 提取wrapGpProfile欄位資訊
                     wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
                     print('SearchingNiNoKuniProfile:response:2')
@@ -535,10 +552,11 @@ def SearchingNiNoKuniProfile():
                     # 打印或處理提取的內容
                     for profile in wrap_gp_profile:
                         print(profile.get_text())
-                    '''
+                    
                     print('SearchingNiNoKuniProfile:response:End')
                 else:
                     print(f"Failed to retrieve {url}")
+                '''
                     
                 #response.encoding = 'utf-8'
                 #soup = BeautifulSoup(response.text, "html.parser")
