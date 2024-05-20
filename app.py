@@ -513,6 +513,21 @@ def SearchingNiNoKuniProfile():
                     soup = BeautifulSoup(response.content, 'html.parser')
                     print('SearchingNiNoKuniProfile:response:1')
                     
+                    # 找到 <dd class="t1"> 霞。</dd> 這個欄位
+                    dd_t1 = soup.find('dd', class_='t1')
+                    
+                    if dd_t1:
+                        print(dd_t1.get_text())
+                    else:
+                        print("未找到指定的欄位")
+                    
+                    dd_t3 = soup.find('dd', class_='t3')
+                    
+                    if dd_t3:
+                        print(dd_t3.get_text())
+                    else:
+                        print("未找到指定的欄位")
+                    '''
                     # 提取wrapGpProfile欄位資訊
                     wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
                     print('SearchingNiNoKuniProfile:response:2')
@@ -520,6 +535,7 @@ def SearchingNiNoKuniProfile():
                     # 打印或處理提取的內容
                     for profile in wrap_gp_profile:
                         print(profile.get_text())
+                    '''
                     print('SearchingNiNoKuniProfile:response:End')
                 else:
                     print(f"Failed to retrieve {url}")
