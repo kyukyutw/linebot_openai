@@ -503,20 +503,19 @@ def SearchingNiNoKuniProfile():
                 
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
-                
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
-                headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101     Firefox/108.0"}
                 
-                response = requests.get(sGoalUrl, headers=headers)
+                response = requests.get(sGoalUrl)
                 if response.status_code == 200:
                     print('SearchingNiNoKuniProfile:response:Start')
-                    print('SearchingNiNoKuniProfile:response:content' + response.content)
+                    #print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
+                    print('SearchingNiNoKuniProfile:response:soup' + soup.title)
                     print('SearchingNiNoKuniProfile:response:1')
                     
                     # 找到 <dd class="t1"> </dd> 這個欄位
-                    dd_t1 = soup.find('dd', class_='t1')
+                    dd_t1 = soup.find_all('dd', class_='t1')
                     print(dd_t1)
                     
                     if dd_t1:
@@ -533,7 +532,7 @@ def SearchingNiNoKuniProfile():
                         print("未找到指定的欄位")
                     
                     # 提取wrapGpProfile欄位資訊
-                    wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
+                    wrap_gp_profile = soup.find_all('div',class_='profile_info')
                     print('SearchingNiNoKuniProfile:response:2')
                     
                     # 打印或處理提取的內容
@@ -541,6 +540,8 @@ def SearchingNiNoKuniProfile():
                         print(profile.get_text())
                     
                     print('SearchingNiNoKuniProfile:response:End')
+                    print(soup.find_all('dd'))
+                    print(soup)
                 else:
                     print(f"Failed to retrieve {url}")
                 
