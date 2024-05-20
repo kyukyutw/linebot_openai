@@ -524,6 +524,7 @@ def SearchingNiNoKuniProfile():
                         print("未找到指定的欄位")
                     
                     dd_t3 = soup.find('dd', class_='t3')
+                    print(dd_t3)
                     
                     if dd_t3:
                         print(dd_t3.get_text())
@@ -541,7 +542,7 @@ def SearchingNiNoKuniProfile():
                     print('SearchingNiNoKuniProfile:response:End')
                 else:
                     print(f"Failed to retrieve {url}")
-                '''
+                
                     
                 #response.encoding = 'utf-8'
                 #soup = BeautifulSoup(response.text, "html.parser")
