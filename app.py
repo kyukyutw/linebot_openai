@@ -508,7 +508,7 @@ def SearchingNiNoKuniProfile():
                     soupQ = BeautifulSoup(responseQ.content, 'html.parser')
                     
                     # 找到 <dd class="t1">水蜜桃多多x</dd> 這個欄位
-                    dd_t1 = soupQ.find('dd', class_='t1')
+                    dd_t1 = soupQ.find("dd", class_="t1")
                     
                     if dd_t1:
                         print(dd_t1.get_text())
@@ -517,6 +517,13 @@ def SearchingNiNoKuniProfile():
                 else:
                     print(f"Failed to retrieve {url}")
                 
+                headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101     Firefox/108.0"}   Firefox/108.0"}
+                page = get(url, headers=headers)
+                soup = BeautifulSoup(page.content, 'html.parser')
+
+                results = soup.find("dd", class_="t1")
+                print(results)
+
                 '''
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
