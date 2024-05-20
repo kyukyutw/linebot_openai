@@ -511,8 +511,9 @@ def SearchingNiNoKuniProfile():
                     #print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
-                    #print('SearchingNiNoKuniProfile:response:soup' + soup.title) #An exception occurred: can only concatenate str (not "Tag") to str
                     print('SearchingNiNoKuniProfile:response:1')
+                    testFind = soup.find_all('body', class_='skin_bg_base zh_TW')
+                    print(testFind)
                     
                     # 找到 <dd class="t1"> </dd> 這個欄位
                     dd_t1 = soup.find_all('dd', class_='t1')
@@ -523,25 +524,9 @@ def SearchingNiNoKuniProfile():
                     else:
                         print("未找到指定的欄位")
                     
-                    dd_t3 = soup.find('dd', class_='t3')
-                    print(dd_t3)
-                    
-                    if dd_t3:
-                        print(dd_t3.get_text())
-                    else:
-                        print("未找到指定的欄位")
-                    
-                    # 提取wrapGpProfile欄位資訊
-                    wrap_gp_profile = soup.find_all('div',class_='profile_info')
-                    print('SearchingNiNoKuniProfile:response:2')
-                    
-                    # 打印或處理提取的內容
-                    for profile in wrap_gp_profile:
-                        print(profile.get_text())
                     
                     print('SearchingNiNoKuniProfile:response:End')
-                    print(soup.find_all('dd'))
-                    print(soup)
+                    #print(soup)
                 else:
                     print(f"Failed to retrieve {url}")
                 
