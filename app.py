@@ -504,7 +504,7 @@ def SearchingNiNoKuniProfile():
                 url = "https://forum.netmarble.com/ennt_t/profile/126100"
                 responseQ = requests.get(url)
 
-                if response.status_code == 200:
+                if responseQ.status_code == 200:
                     soupQ = BeautifulSoup(responseQ.content, 'html.parser')
                     
                     # 找到 <dd class="t1">水蜜桃多多x</dd> 這個欄位
