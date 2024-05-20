@@ -503,15 +503,31 @@ def SearchingNiNoKuniProfile():
                 
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
+                
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 
-                sJson = GetAppleMusicHtmlServiceTag(sGoalUrl)
-                #response = requests.get(sGoalUrl)
-                #print('SearchingNiNoKuniProfile:response:' + response)
+                response = requests.get(sGoalUrl)
+                if response.status_code == 200:
+                    print('SearchingNiNoKuniProfile:response:Start')
+                    # 使用BeautifulSoup解析網頁內容
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    print('SearchingNiNoKuniProfile:response:1')
+                    
+                    # 提取wrapGpProfile欄位資訊
+                    wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
+                    print('SearchingNiNoKuniProfile:response:2')
+                    
+                    # 打印或處理提取的內容
+                    for profile in wrap_gp_profile:
+                        print(profile.get_text())
+                    print('SearchingNiNoKuniProfile:response:End')
+                else:
+                    print(f"Failed to retrieve {url}")
+                    
                 #response.encoding = 'utf-8'
                 #soup = BeautifulSoup(response.text, "html.parser")
                 #sJson = soup.find("script",id="serialized-server-data").getText()
-                print('SearchingNiNoKuniProfile:Json:' + sJson)
+                #print('SearchingNiNoKuniProfile:Json:' + sJson)
                 
                 
                 #response = requests.get(sGoalUrl)
