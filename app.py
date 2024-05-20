@@ -510,6 +510,7 @@ def SearchingNiNoKuniProfile():
                 response = requests.get(sGoalUrl, headers=headers)
                 if response.status_code == 200:
                     print('SearchingNiNoKuniProfile:response:Start')
+                    print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
                     print('SearchingNiNoKuniProfile:response:1')
