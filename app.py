@@ -511,7 +511,7 @@ def SearchingNiNoKuniProfile():
                     #print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
-                    print('SearchingNiNoKuniProfile:response:soup' + soup.title)
+                    #print('SearchingNiNoKuniProfile:response:soup' + soup.title) #An exception occurred: can only concatenate str (not "Tag") to str
                     print('SearchingNiNoKuniProfile:response:1')
                     
                     # 找到 <dd class="t1"> </dd> 這個欄位
