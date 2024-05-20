@@ -505,12 +505,12 @@ def SearchingNiNoKuniProfile():
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 
-                
-                response = requests.get(sGoalUrl)
-                print('SearchingNiNoKuniProfile:response:' + response)
-                response.encoding = 'utf-8'
-                soup = BeautifulSoup(response.text, "html.parser")
-                sJson = soup.find("script",id="serialized-server-data").getText()
+                sJson = GetAppleMusicHtmlServiceTag(sGoalUrl)
+                #response = requests.get(sGoalUrl)
+                #print('SearchingNiNoKuniProfile:response:' + response)
+                #response.encoding = 'utf-8'
+                #soup = BeautifulSoup(response.text, "html.parser")
+                #sJson = soup.find("script",id="serialized-server-data").getText()
                 print('SearchingNiNoKuniProfile:Json:' + sJson)
                 
                 
