@@ -505,10 +505,12 @@ def SearchingNiNoKuniProfile():
                 
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
-                print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
+                print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
                 # 設置WebDriver
                 driver = webdriver.Chrome()
+                print('SearchingNiNoKuniProfile:TouchUrlP:1')
                 driver.get(sGoalUrl)
+                print('SearchingNiNoKuniProfile:TouchUrlP:2')
                 
                 # 獲取網頁內容
                 page_source = driver.page_source
