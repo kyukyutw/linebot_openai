@@ -511,11 +511,12 @@ def SearchingNiNoKuniProfile():
                     #print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
-                    print(soup)
+                    #print(soup)
                     print('SearchingNiNoKuniProfile:response:1')
-                    testFind = soup.find_all('div', class_='contents')
+                    testFind = soup.find_all('div', class_='profile_info')
                     print(testFind)
-                    testFind = soup.find("div", {"id": "divMainContainer"})
+                    print('SearchingNiNoKuniProfile:response:2')
+                    testFind = soup.find("div", {"id": "wrapGpProfile"})
                     print(testFind)
                     
                     
