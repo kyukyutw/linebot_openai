@@ -21,6 +21,8 @@ import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
 from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -504,7 +506,23 @@ def SearchingNiNoKuniProfile():
                 #查profileid
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
+                # 設置WebDriver
+                driver = webdriver.Chrome()
                 
+                # 獲取網頁內容
+                page_source = driver.page_source
+                
+                # 使用BeautifulSoup解析網頁內容
+                soup = BeautifulSoup(page_source, 'html.parser')
+                
+                # 提取wrapGpProfile欄位資訊
+                wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
+                print('wrap_gp_profile:' + wrap_gp_profile)
+                sT1String = soup.find("dd",class_="t1")
+                print('T1:' + sT1String)
+                sT3String = soup.find("dd",class_="t3")
+                print('T3:' + sT3String)
+                '''
                 response = requests.get(sGoalUrl)
                 if response.status_code == 200:
                     print('SearchingNiNoKuniProfile:response:Start')
@@ -524,7 +542,7 @@ def SearchingNiNoKuniProfile():
                     print('SearchingNiNoKuniProfile:response:End')
                 else:
                     print(f"Failed to retrieve {url}")
-                
+                '''
                     
                 #response.encoding = 'utf-8'
                 #soup = BeautifulSoup(response.text, "html.parser")
