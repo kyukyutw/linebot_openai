@@ -513,10 +513,11 @@ def SearchingNiNoKuniProfile():
                     soup = BeautifulSoup(response.content, 'html.parser')
                     #print(soup)
                     print('SearchingNiNoKuniProfile:response:1')
-                    testFind = soup.find_all('div', class_='profile_info')
+                    #testFind = soup.find_all('div', class_='profile_info')
+                    testFind = soup.find("div", {"id": "lnbView"})
                     print(testFind)
                     print('SearchingNiNoKuniProfile:response:2')
-                    testFind = soup.find("div", {"id": "wrapGpProfile"})
+                    testFind = soup.find("div", {"id": "appView"})
                     print(testFind)
                     
                     
