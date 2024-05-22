@@ -5,3 +5,4 @@ gunicorn
 pytz
 beautifulsoup4
 pillow
+selenium
