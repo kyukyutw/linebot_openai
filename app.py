@@ -511,22 +511,15 @@ def SearchingNiNoKuniProfile():
                     #print('SearchingNiNoKuniProfile:response:content' + response.content)
                     # 使用BeautifulSoup解析網頁內容
                     soup = BeautifulSoup(response.content, 'html.parser')
+                    print(soup)
                     print('SearchingNiNoKuniProfile:response:1')
-                    testFind = soup.find_all('body', class_='skin_bg_base zh_TW')
+                    testFind = soup.find_all('div', class_='contents')
                     print(testFind)
-                    
-                    # 找到 <dd class="t1"> </dd> 這個欄位
-                    dd_t1 = soup.find_all('dd', class_='t1')
-                    print(dd_t1)
-                    
-                    if dd_t1:
-                        print(dd_t1.get_text())
-                    else:
-                        print("未找到指定的欄位")
+                    testFind = soup.find("div", {"id": "divMainContainer"})
+                    print(testFind)
                     
                     
                     print('SearchingNiNoKuniProfile:response:End')
-                    #print(soup)
                 else:
                     print(f"Failed to retrieve {url}")
                 
