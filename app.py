@@ -508,6 +508,7 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:GoalUrl:' + sGoalUrl)
                 # 設置WebDriver
                 driver = webdriver.Chrome()
+                driver.get(sGoalUrl)
                 
                 # 獲取網頁內容
                 page_source = driver.page_source
