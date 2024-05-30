@@ -513,14 +513,21 @@ def SearchingNiNoKuniProfile():
                 
                 # 渲染JavaScript
                 response.html.render(timeout=20)
-                
-                # 找到<div id="appView">內的內容
-                app_view = response.html.find('#appView', first=True)
 
-                if app_view:
-                    print(app_view.text)
+                # 查找 <dd class="t1"> 和 <dd class="t3">
+                dd_t1 = response.html.find('dd.t1', first=True)
+                dd_t3 = response.html.find('dd.t3', first=True)
+
+                # 打印結果
+                if dd_t1:
+                    print("t1內容:", dd_t1.text)
                 else:
-                    print("未找到指定的內容")
+                    print("未找到 t1 的內容")
+
+                if dd_t3:
+                    print("t3內容:", dd_t3.text)
+                else:
+                    print("未找到 t3 的內容")
                 
                 '''
                 # 使用BeautifulSoup解析網頁內容
