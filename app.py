@@ -21,9 +21,6 @@ import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
 from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
-
-import asyncio
-from playwright.async_api import async_playwright
 #======python的函數庫==========
 
 app = Flask(__name__)
