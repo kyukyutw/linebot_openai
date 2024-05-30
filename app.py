@@ -518,13 +518,14 @@ def SearchingNiNoKuniProfile():
                 dd_t1 = response.html.find('dd.t1', first=True)
                 dd_t3 = response.html.find('dd.t3', first=True)
 
+                print('SearchingNiNoKuniProfile:TouchUrlP:3')
                 # 打印結果
                 if dd_t1:
                     print("t1內容:", dd_t1.text)
                 else:
                     print("未找到 t1 的內容")
 
-                print('SearchingNiNoKuniProfile:TouchUrlP:3')
+                print('SearchingNiNoKuniProfile:TouchUrlP:4')
                 
                 if dd_t3:
                     print("t3內容:", dd_t3.text)
