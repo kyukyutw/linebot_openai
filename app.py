@@ -508,7 +508,7 @@ def SearchingNiNoKuniProfile():
                 
                 session = HTMLSession()
                 print('SearchingNiNoKuniProfile:TouchUrlP:1')
-                response = session.get(url)
+                response = session.get(sGoalUrl)
                 print('SearchingNiNoKuniProfile:TouchUrlP:2')
                 
                 # 渲染JavaScript
