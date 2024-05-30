@@ -524,6 +524,8 @@ def SearchingNiNoKuniProfile():
                 else:
                     print("未找到 t1 的內容")
 
+                print('SearchingNiNoKuniProfile:TouchUrlP:3')
+                
                 if dd_t3:
                     print("t3內容:", dd_t3.text)
                 else:
