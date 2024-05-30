@@ -512,7 +512,7 @@ def SearchingNiNoKuniProfile():
                 print('SearchingNiNoKuniProfile:TouchUrlP:2')
                 
                 # 渲染JavaScript
-                response.html.render(timeout=20)
+                response.html.render(timeout=30, sleep=2)
 
                 # 查找 <dd class="t1"> 和 <dd class="t3">
                 dd_t1 = response.html.find('dd.t1', first=True)
