@@ -21,14 +21,7 @@ import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
 from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
-
-#from selenium import webdriver
-#from selenium.webdriver.chrome.service 
-#import Service as ChromeService
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
+from requests_html import HTMLSession
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -513,31 +506,23 @@ def SearchingNiNoKuniProfile():
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
                 
-                # 設置WebDriver
-                #driver = webdriver.Chrome()
-                # 配置ChromeDriver選項
-                chrome_options = Options()
-                chrome_options.add_argument("--headless")  # 無頭模式
-                chrome_options.add_argument("--disable-gpu")  # 禁用GPU
-                chrome_options.add_argument("--no-sandbox")  # 禁用沙箱
-                chrome_options.add_argument("--disable-dev-shm-usage")  # 禁用/dev/shm使用
-                chrome_options.add_argument("--disable-software-rasterizer")  # 禁用軟件光柵化器
-                chrome_options.add_argument("--single-process")  # 單進程運行
-                chrome_options.add_argument("--memory-pressure-off")  # 內存壓力關閉
-
-                # 配置ChromeDriver路徑
-                service = Service('/usr/local/bin/chromedriver')
-
-                # 設置WebDriver
-                driver = webdriver.Chrome(service=service, options=chrome_options)
-                
+                session = HTMLSession()
                 print('SearchingNiNoKuniProfile:TouchUrlP:1')
-                driver.get(sGoalUrl)
+                response = session.get(url)
                 print('SearchingNiNoKuniProfile:TouchUrlP:2')
                 
-                # 獲取網頁內容
-                page_source = driver.page_source
+                # 渲染JavaScript
+                response.html.render(timeout=20)
                 
+                # 找到<div id="appView">內的內容
+                app_view = response.html.find('#appView', first=True)
+
+                if app_view:
+                    print(app_view.text)
+                else:
+                    print("未找到指定的內容")
+                
+                '''
                 # 使用BeautifulSoup解析網頁內容
                 soup = BeautifulSoup(page_source, 'html.parser')
                 
@@ -548,9 +533,7 @@ def SearchingNiNoKuniProfile():
                 print('T1:' + sT1String)
                 sT3String = soup.find("dd",class_="t3")
                 print('T3:' + sT3String)
-                
-                # 關閉WebDriver
-                driver.quit()
+                '''
 
                 '''
                 response = requests.get(sGoalUrl)
