@@ -21,7 +21,9 @@ import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
 from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
-from requests_html import HTMLSession
+
+import asyncio
+from playwright.async_api import async_playwright
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -506,35 +508,11 @@ def SearchingNiNoKuniProfile():
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
                 
-                session = HTMLSession()
-                print('SearchingNiNoKuniProfile:TouchUrlP:1')
-                response = session.get(sGoalUrl)
-                print('SearchingNiNoKuniProfile:TouchUrlP:2')
-                
-                # 渲染JavaScript
-                response.html.render(timeout=30, sleep=2)
-
-                # 查找 <dd class="t1"> 和 <dd class="t3">
-                dd_t1 = response.html.find('dd.t1', first=True)
-                dd_t3 = response.html.find('dd.t3', first=True)
-
-                print('SearchingNiNoKuniProfile:TouchUrlP:3')
-                # 打印結果
-                if dd_t1:
-                    print("t1內容:", dd_t1.text)
-                else:
-                    print("未找到 t1 的內容")
-
-                print('SearchingNiNoKuniProfile:TouchUrlP:4')
-                
-                if dd_t3:
-                    print("t3內容:", dd_t3.text)
-                else:
-                    print("未找到 t3 的內容")
-                
-                '''
+                response = requests.get(sGoalUrl)
+                print('response:' + response)
                 # 使用BeautifulSoup解析網頁內容
-                soup = BeautifulSoup(page_source, 'html.parser')
+                soup = BeautifulSoup(response, 'html.parser')
+                print('soup:' + soup)
                 
                 # 提取wrapGpProfile欄位資訊
                 wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
@@ -543,7 +521,7 @@ def SearchingNiNoKuniProfile():
                 print('T1:' + sT1String)
                 sT3String = soup.find("dd",class_="t3")
                 print('T3:' + sT3String)
-                '''
+                
 
                 '''
                 response = requests.get(sGoalUrl)
