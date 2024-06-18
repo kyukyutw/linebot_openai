@@ -530,6 +530,13 @@ def SearchingNiNoKuniProfile():
                     class_div = soup.find('div', {'class': 'class'})
                     level_div = soup.find('div', {'class': 'level'})
 
+                    # 確認元素存在後再提取文本
+                    username = username_div.text.strip() if username_div else 'Not found'
+                    role = role_div.text.strip() if role_div else 'Not found'
+                    guild = guild_div.text.strip() if guild_div else 'Not found'
+                    class_name = class_div.text.strip() if class_div else 'Not found'
+                    level = level_div.text.strip() if level_div else 'Not found'
+                    
                     # 輸出爬取的結果
                     print(f"用戶名: {username}")
                     print(f"角色: {role}")
