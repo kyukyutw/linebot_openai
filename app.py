@@ -513,12 +513,22 @@ def SearchingNiNoKuniProfile():
                     # 解析HTML內容
                     soup = BeautifulSoup(response.text, 'html.parser')
                     
+                    # 調試輸出整個HTML內容
+                    print(soup.prettify())
+                    
                     # 找到所需信息的位置（這些選擇器需要根據實際的HTML結構調整）
+                    '''
                     username = soup.find('div', {'class': 'user-name'}).text.strip()
                     role = soup.find('div', {'class': 'role'}).text.strip()
                     guild = soup.find('div', {'class': 'guild'}).text.strip()
                     class_name = soup.find('div', {'class': 'class'}).text.strip()
                     level = soup.find('div', {'class': 'level'}).text.strip()
+                    '''
+                    username_div = soup.find('div', {'class': 'user-name'})
+                    role_div = soup.find('div', {'class': 'role'})
+                    guild_div = soup.find('div', {'class': 'guild'})
+                    class_div = soup.find('div', {'class': 'class'})
+                    level_div = soup.find('div', {'class': 'level'})
 
                     # 輸出爬取的結果
                     print(f"用戶名: {username}")
