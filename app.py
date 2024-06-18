@@ -508,9 +508,12 @@ def SearchingNiNoKuniProfile():
                 response = requests.get(sGoalUrl)
                 print('response:' + response)
                 # 使用BeautifulSoup解析網頁內容
-                soup = BeautifulSoup(response, 'html.parser')
+                soup = BeautifulSoup(response.text, 'html.parser')
                 print('soup:' + soup)
                 
+                links = sp.find_all('a')
+                for link in links:
+                    print(link.text)
                 # 提取wrapGpProfile欄位資訊
                 wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
                 print('wrap_gp_profile:' + wrap_gp_profile)
@@ -519,7 +522,6 @@ def SearchingNiNoKuniProfile():
                 sT3String = soup.find("dd",class_="t3")
                 print('T3:' + sT3String)
                 
-
                 '''
                 response = requests.get(sGoalUrl)
                 if response.status_code == 200:
