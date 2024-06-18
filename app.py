@@ -21,6 +21,10 @@ import pytz #時區設定
 from bs4 import BeautifulSoup #爬蟲
 import io
 from PIL import Image,ImageEnhance,ImageDraw, ImageFilter
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 #======python的函數庫==========
 
 app = Flask(__name__)
@@ -505,46 +509,73 @@ def SearchingNiNoKuniProfile():
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
                 
-                # 發送HTTP請求
-                response = requests.get(sGoalUrl)
+                '''
+                # Set up the Selenium WebDriver
+                options = webdriver.ChromeOptions()
+                options.add_argument('--no-sandbox')
+                options.add_argument('--headless')
+                options.add_argument('--ignore-certificate-errors')
+                options.add_argument('--disable-dev-shm-usage')
+                options.add_argument('--disable-extensions')
+                options.add_argument('--disable-gpu')
+                options.add_argument('--user-agent={}'.format(random.choice(list(self.user_agents))))
 
-                # 檢查請求是否成功
-                if response.status_code == 200:
-                    # 解析HTML內容
-                    soup = BeautifulSoup(response.text, 'html.parser')
-                    
-                    # 調試輸出整個HTML內容
-                    print(soup.prettify())
-                    
-                    # 找到所需信息的位置（這些選擇器需要根據實際的HTML結構調整）
-                    '''
-                    username = soup.find('div', {'class': 'user-name'}).text.strip()
-                    role = soup.find('div', {'class': 'role'}).text.strip()
-                    guild = soup.find('div', {'class': 'guild'}).text.strip()
-                    class_name = soup.find('div', {'class': 'class'}).text.strip()
-                    level = soup.find('div', {'class': 'level'}).text.strip()
-                    '''
-                    username_div = soup.find('div', {'class': 'user-name'})
-                    role_div = soup.find('div', {'class': 'role'})
-                    guild_div = soup.find('div', {'class': 'guild'})
-                    class_div = soup.find('div', {'class': 'class'})
-                    level_div = soup.find('div', {'class': 'level'})
+                driver = webdriver.Chrome(options=options)
+                driver.set_page_load_timeout(90)
 
-                    # 確認元素存在後再提取文本
-                    username = username_div.text.strip() if username_div else 'Not found'
-                    role = role_div.text.strip() if role_div else 'Not found'
-                    guild = guild_div.text.strip() if guild_div else 'Not found'
-                    class_name = class_div.text.strip() if class_div else 'Not found'
-                    level = level_div.text.strip() if level_div else 'Not found'
+                # Load the URL and get the page source
+                driver.implicitly_wait(6)
+                driver.get(url)
+                # ...
+                '''
+                
+                # 設置Chrome選項
+                chrome_options = Options()
+                chrome_options.add_argument("--headless")  # 無頭模式
+                chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("--no-sandbox")
+
+                # ChromeDriver路徑
+                chrome_driver_path = 'path/to/chromedriver'
+
+                # 啟動WebDriver
+                service = Service(chrome_driver_path)
+                driver = webdriver.Chrome(service=service, options=chrome_options)
+
+                # 目標網址
+                url = 'https://forum.netmarble.com/ennt_t/profile/111111'
+
+                # 打開網頁
+                driver.get(sGoalUrl)
+
+                # 等待頁面加載
+                time.sleep(5)  # 根據需要調整等待時間
+
+                # 獲取所需的元素
+                try:
+                    # 獲取語慕
+                    username = driver.find_element(By.CSS_SELECTOR, 'dd.t1').text
                     
+                    # 獲取亞德莉安 | 放浪者茶會 | 巫師 | 等級 76
+                    details = driver.find_element(By.CSS_SELECTOR, 'dd.t3').text
+                    details_parts = details.split('|')
+                    
+                    role = details_parts[0].strip() if len(details_parts) > 0 else 'Not found'
+                    guild = details_parts[1].strip() if len(details_parts) > 1 else 'Not found'
+                    class_name = details_parts[2].strip() if len(details_parts) > 2 else 'Not found'
+                    level = details_parts[3].strip() if len(details_parts) > 3 else 'Not found'
+
                     # 輸出爬取的結果
                     print(f"用戶名: {username}")
                     print(f"角色: {role}")
                     print(f"公會: {guild}")
                     print(f"職業: {class_name}")
                     print(f"等級: {level}")
-                else:
-                    print(f"無法訪問該頁面，狀態碼: {response.status_code}")
+                except Exception as e:
+                    print(f"發生錯誤: {e}")
+
+                # 關閉WebDriver
+                driver.quit()
                 
                 '''
                 #查詢結果回寫
