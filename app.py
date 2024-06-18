@@ -505,56 +505,29 @@ def SearchingNiNoKuniProfile():
                 sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
                 print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
                 
+                # 發送HTTP請求
                 response = requests.get(sGoalUrl)
-                print('response:' + response)
-                # 使用BeautifulSoup解析網頁內容
-                soup = BeautifulSoup(response.text, 'html.parser')
-                print('soup:' + soup)
-                
-                links = sp.find_all('a')
-                for link in links:
-                    print(link.text)
-                # 提取wrapGpProfile欄位資訊
-                wrap_gp_profile = soup.find_all(class_='wrapGpProfile')
-                print('wrap_gp_profile:' + wrap_gp_profile)
-                sT1String = soup.find("dd",class_="t1")
-                print('T1:' + sT1String)
-                sT3String = soup.find("dd",class_="t3")
-                print('T3:' + sT3String)
-                
-                '''
-                response = requests.get(sGoalUrl)
+
+                # 檢查請求是否成功
                 if response.status_code == 200:
-                    print('SearchingNiNoKuniProfile:response:Start')
-                    #print('SearchingNiNoKuniProfile:response:content' + response.content)
-                    # 使用BeautifulSoup解析網頁內容
-                    soup = BeautifulSoup(response.content, 'html.parser')
-                    #print(soup)
-                    print('SearchingNiNoKuniProfile:response:1')
-                    #testFind = soup.find_all('div', class_='profile_info')
-                    testFind = soup.find("div", {"id": "lnbView"})
-                    print(testFind)
-                    print('SearchingNiNoKuniProfile:response:2')
-                    testFind = soup.find("div", {"id": "appView"})
-                    print(testFind)
+                    # 解析HTML內容
+                    soup = BeautifulSoup(response.text, 'html.parser')
                     
-                    
-                    print('SearchingNiNoKuniProfile:response:End')
+                    # 找到所需信息的位置（這些選擇器需要根據實際的HTML結構調整）
+                    username = soup.find('div', {'class': 'user-name'}).text.strip()
+                    role = soup.find('div', {'class': 'role'}).text.strip()
+                    guild = soup.find('div', {'class': 'guild'}).text.strip()
+                    class_name = soup.find('div', {'class': 'class'}).text.strip()
+                    level = soup.find('div', {'class': 'level'}).text.strip()
+
+                    # 輸出爬取的結果
+                    print(f"用戶名: {username}")
+                    print(f"角色: {role}")
+                    print(f"公會: {guild}")
+                    print(f"職業: {class_name}")
+                    print(f"等級: {level}")
                 else:
-                    print(f"Failed to retrieve {url}")
-                '''
-                    
-                #response.encoding = 'utf-8'
-                #soup = BeautifulSoup(response.text, "html.parser")
-                #sJson = soup.find("script",id="serialized-server-data").getText()
-                #print('SearchingNiNoKuniProfile:Json:' + sJson)
-                
-                
-                #response = requests.get(sGoalUrl)
-                #print('SearchingNiNoKuniProfile:response:' + response)
-                #soup = BeautifulSoup(response.text, "html.parser")
-                #sT1String = soup.find("dd",class_="t1")
-                #sT3String = soup.find("dd",class_="t3")
+                    print(f"無法訪問該頁面，狀態碼: {response.status_code}")
                 
                 '''
                 #查詢結果回寫
