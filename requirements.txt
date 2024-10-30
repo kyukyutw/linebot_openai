@@ -5,5 +5,4 @@ pytz
 beautifulsoup4
 pillow
 lxml_html_clean
-requests-html
 selenium
