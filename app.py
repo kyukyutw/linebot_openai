@@ -33,7 +33,7 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 # Channel Secret
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
-openai.api_key = os.getenv('OPENAI_API_KEY')
+#openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #檢查項目
 g_checkIndexList = ['391']
@@ -302,13 +302,13 @@ def GetAppleMusicSongUrl(sJsonString,obj):
     print('albumName:' + obj['albumName'])
     return sRet
     
-def GPT_response(text):
-    # 接收回應
-    response = openai.Completion.create(model="text-davinci-003", prompt=text, temperature=0.5, max_tokens=500)
-    print(response)
-    # 重組回應
-    answer = response['choices'][0]['text'].replace('。','').replace('\n\n','')
-    return answer
+#def GPT_response(text):
+#    # 接收回應
+#    response = openai.Completion.create(model="text-davinci-003", prompt=text, temperature=0.5, max_tokens=500)
+#    print(response)
+#    # 重組回應
+#    answer = response['choices'][0]['text'].replace('。','').replace('\n\n','')
+#    return answer
 
 #def GPT_IMAGE_response(image) :
 #    response = openai.Image.create(prompt=image, n=1, size="512x512")
