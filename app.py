@@ -596,10 +596,10 @@ def handle_message(event):
         elif 15 <= nTempHour and nTempHour < 18 :
             sTempHour = '14' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 18 <= nTempHour and nTempHour < 20 :
+        elif 18 <= nTempHour and nTempHour < 21 :
             sTempHour = '17' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 20 <= nTempHour and nTempHour < 23 :
+        elif 21 <= nTempHour and nTempHour < 24 :
             sTempHour = '20' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
         else :
