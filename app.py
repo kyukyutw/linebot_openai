@@ -11,7 +11,6 @@ from linebot.models import *
 #======python的函數庫==========
 import tempfile, os
 import datetime
-import openai
 import time
 import json
 import random
@@ -311,11 +310,11 @@ def GPT_response(text):
     answer = response['choices'][0]['text'].replace('。','').replace('\n\n','')
     return answer
 
-def GPT_IMAGE_response(image) :
-    response = openai.Image.create(prompt=image, n=1, size="512x512")
-    print(response)
-    answer = response['data'][0]['url']
-    return answer
+#def GPT_IMAGE_response(image) :
+#    response = openai.Image.create(prompt=image, n=1, size="512x512")
+#    print(response)
+#    answer = response['data'][0]['url']
+#    return answer
     
 def UpdateSheetUrl(listIndex,url):
     #更新表單URL(位置:g_uploadIndexList[listIndex])
@@ -537,12 +536,12 @@ def handle_message(event):
             ##print(GPT_answer)
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     elif (msg.find("弱吧畫一下") > -1) :
-        print("Into GPT IMAGE.")
-        sInputGPTIMAGE = msg.replace("弱吧畫一下","").strip()
-        if len(sInputGPTIMAGE) > 0 :
-            GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
-            print(GPT_IMAGE_answer)
-            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=GPT_IMAGE_answer, preview_image_url=GPT_IMAGE_answer))
+        #print("Into GPT IMAGE.")
+        #sInputGPTIMAGE = msg.replace("弱吧畫一下","").strip()
+        #if len(sInputGPTIMAGE) > 0 :
+        #    GPT_IMAGE_answer = GPT_IMAGE_response(sInputGPTIMAGE)
+        #    print(GPT_IMAGE_answer)
+        #    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=GPT_IMAGE_answer, preview_image_url=GPT_IMAGE_answer))
     elif (msg.find("雷達回波") > -1) :
         print("Into 雷達回波.")
         sTempMin = ( now + timedelta(minutes=-8) ).strftime('%M')

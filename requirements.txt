@@ -1,6 +1,5 @@
 line-bot-sdk
 flask
-openai
 gunicorn
 pytz
 beautifulsoup4
