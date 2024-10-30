@@ -488,113 +488,6 @@ def callback():
         abort(400)
     return 'OK'
 
-def SearchingNiNoKuniProfile():
-    print('SearchingNiNoKuniProfile:')
-    #檢查尚未建檔的profileid
-    sGoogleSheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1rFYvbW303r5f_G0_dIucgiAF2shmeeurx_2C2odpRlE/values/worksheet?alt=json&key=AIzaSyBYyjXjZakvTeRFtYfkYhHqBwp596Bzpis"
-    ssContent1 = requests.get(sGoogleSheetUrl).json()
-    #0:profileid、1:processing、2:t1、3:t3
-    for item in ssContent1['values']:
-        #已建立編號 尚未建檔
-        if (len(item) == 2) : 
-            try:
-                #更新processing為處理中
-                sTouchUrl = "" 
-                sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'N'
-                print('SearchingNiNoKuniProfile:TouchUrlP:' + sTouchUrlP)
-                result = requests.get(sTouchUrlP)
-                print('SearchingNiNoKuniProfile:TouchUrlP:N')
-                
-                #查profileid
-                sGoalUrl = "https://forum.netmarble.com/ennt_t/profile/" + str(item[0])
-                print('SearchingNiNoKuniProfile:GoalUrl:0:' + sGoalUrl)
-                
-                '''
-                # Set up the Selenium WebDriver
-                options = webdriver.ChromeOptions()
-                options.add_argument('--no-sandbox')
-                options.add_argument('--headless')
-                options.add_argument('--ignore-certificate-errors')
-                options.add_argument('--disable-dev-shm-usage')
-                options.add_argument('--disable-extensions')
-                options.add_argument('--disable-gpu')
-                options.add_argument('--user-agent={}'.format(random.choice(list(self.user_agents))))
-
-                driver = webdriver.Chrome(options=options)
-                driver.set_page_load_timeout(90)
-
-                # Load the URL and get the page source
-                driver.implicitly_wait(6)
-                driver.get(url)
-                # ...
-                '''
-                
-                # 設置Chrome選項
-                chrome_options = Options()
-                chrome_options.add_argument("--headless")  # 無頭模式
-                chrome_options.add_argument("--disable-gpu")
-                chrome_options.add_argument("--no-sandbox")
-
-                # ChromeDriver路徑
-                chrome_driver_path = 'path/to/chromedriver'
-
-                # 啟動WebDriver
-                service = Service(chrome_driver_path)
-                driver = webdriver.Chrome(service=service, options=chrome_options)
-
-                # 目標網址
-                url = 'https://forum.netmarble.com/ennt_t/profile/111111'
-
-                # 打開網頁
-                driver.get(sGoalUrl)
-
-                # 等待頁面加載
-                time.sleep(5)  # 根據需要調整等待時間
-
-                # 獲取所需的元素
-                try:
-                    # 獲取語慕
-                    username = driver.find_element(By.CSS_SELECTOR, 'dd.t1').text
-                    
-                    # 獲取亞德莉安 | 放浪者茶會 | 巫師 | 等級 76
-                    details = driver.find_element(By.CSS_SELECTOR, 'dd.t3').text
-                    details_parts = details.split('|')
-                    
-                    role = details_parts[0].strip() if len(details_parts) > 0 else 'Not found'
-                    guild = details_parts[1].strip() if len(details_parts) > 1 else 'Not found'
-                    class_name = details_parts[2].strip() if len(details_parts) > 2 else 'Not found'
-                    level = details_parts[3].strip() if len(details_parts) > 3 else 'Not found'
-
-                    # 輸出爬取的結果
-                    print(f"用戶名: {username}")
-                    print(f"角色: {role}")
-                    print(f"公會: {guild}")
-                    print(f"職業: {class_name}")
-                    print(f"等級: {level}")
-                except Exception as e:
-                    print(f"發生錯誤: {e}")
-
-                # 關閉WebDriver
-                driver.quit()
-                
-                '''
-                #查詢結果回寫
-                sTouchUrlT1 = "http://api.pushingbox.com/pushingbox?devid=vE60AD13B67EDDAB&data=" + str(item[1]) + "," + sT1String
-                sTouchUrlT3 = "http://api.pushingbox.com/pushingbox?devid=v5E55E4194DD9CC4&data=" + str(item[1]) + "," + sT3String
-                print('SearchingNiNoKuniProfile:sT1String:' + sT1String)
-                print('SearchingNiNoKuniProfile:sT3String:' + sT3String)
-                result = requests.get(sTouchUrlT1)
-                result = requests.get(sTouchUrlT3)
-                print('SearchingNiNoKuniProfile:TouchUrlT1:' + sTouchUrlT1 + ';T3:' + sTouchUrlT3)
-                sTouchUrlP = "http://api.pushingbox.com/pushingbox?devid=v1D39E02209240FB&data=" + str(item[1]) + "," + 'Y'
-                result = requests.get(sTouchUrlP)
-                print('SearchingNiNoKuniProfile:TouchUrlP:Y')
-                '''
-            except Exception as error:
-                # handle the exception
-                print("An exception occurred:", error)
-            return True;
-
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -625,8 +518,6 @@ def handle_message(event):
     
     if bPass == False : return None
     
-    #SearchingNiNoKuniProfile();
-    
     #時間調整-台灣
     timezone_TW=pytz.timezone('ROC')
     now=datetime.now(timezone_TW)
@@ -639,7 +530,6 @@ def handle_message(event):
         if len(sInputMusic) > 0 :
             SendAudioMessage(event,sInputMusic)
     elif (msg.find("喂弱吧 ") > -1) :
-        SearchingNiNoKuniProfile();
         #print("Into GPT.")
         #sInputGPT = msg.replace("喂弱吧 ","").strip()
         #if len(sInputGPT) > 0 :
@@ -683,6 +573,45 @@ def handle_message(event):
         print(sEarthquakeMsg)
         print(sEarthquakeUrl)
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(sEarthquakeMsg),ImageSendMessage(original_content_url=sEarthquakeUrl, preview_image_url=sEarthquakeUrl)])
+    elif (msg.find("康芮到哪") > -1) :
+        print("Into 康芮到哪.")
+        #logo url: https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png
+        #mp4 url: https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202421_103008_d3.mp4
+        #                                                                     年度幾號颱風_月日時_d3.mp4
+        # 02、05、08、11、14、17、20、23
+        nTempHour = int(( now ).strftime('%H'))
+        sTempHour = ''
+        sTempFName = ''
+        if 4 <= nTempHour and nTempHour < 7 : #02
+            sTempHour = '02' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 7 <= nTempHour and nTempHour < 10 : #05
+            sTempHour = '05' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 10 <= nTempHour and nTempHour < 13 :
+            sTempHour = '08' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 13 <= nTempHour and nTempHour < 16 :
+            sTempHour = '11' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 16 <= nTempHour and nTempHour < 19 :
+            sTempHour = '14' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 19 <= nTempHour and nTempHour < 21 :
+            sTempHour = '17' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        elif 21 <= nTempHour and nTempHour < 24 :
+            sTempHour = '20' 
+            sTempFName = ( now ).strftime('%m%d') + sTempHour
+        else :
+            sTempHour = '23' 
+            sTempFName = ( now + timedelta(days=-1) ).strftime('%m%d') + sTempHour
+        
+        logoUrl = "https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png"
+        videoUrl = "https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202421_" + sTempFName + '_d3.mp4'
+        print(videoUrl)
+        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url=videoUrl, preview_image_url=logoUrl))
+        
     elif (msg.find("颱風動態") > -1) :
         print("Into 颱風動態.")
         #nTempHour = int(( now + timedelta(minutes=-135) ).strftime('%H'))
@@ -1022,7 +951,6 @@ def welcome(event):
     name = profile.display_name
     message = TextSendMessage(text=f'{name}歡迎加入')
     line_bot_api.reply_message(event.reply_token, message)
-        
         
 import os
 if __name__ == "__main__":
