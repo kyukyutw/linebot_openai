@@ -581,32 +581,33 @@ def handle_message(event):
         nTempHour = int(( now ).strftime('%H'))
         sTempHour = ''
         sTempFName = ''
-        if 4 <= nTempHour and nTempHour < 7 : #02
+        if 3 <= nTempHour and nTempHour < 6 : #02
             sTempHour = '02' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 7 <= nTempHour and nTempHour < 10 : #05
+        elif 6 <= nTempHour and nTempHour < 9 : #05
             sTempHour = '05' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 10 <= nTempHour and nTempHour < 13 :
+        elif 9 <= nTempHour and nTempHour < 12 :
             sTempHour = '08' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 13 <= nTempHour and nTempHour < 16 :
+        elif 12 <= nTempHour and nTempHour < 15 :
             sTempHour = '11' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 16 <= nTempHour and nTempHour < 19 :
+        elif 15 <= nTempHour and nTempHour < 18 :
             sTempHour = '14' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 19 <= nTempHour and nTempHour < 21 :
+        elif 18 <= nTempHour and nTempHour < 20 :
             sTempHour = '17' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
-        elif 21 <= nTempHour and nTempHour < 24 :
+        elif 20 <= nTempHour and nTempHour < 23 :
             sTempHour = '20' 
             sTempFName = ( now ).strftime('%m%d') + sTempHour
         else :
             sTempHour = '23' 
             sTempFName = ( now + timedelta(days=-1) ).strftime('%m%d') + sTempHour
         
-        logoUrl = "https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png"
+        #logoUrl = "https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png"
+        logoUrl = "https://i.imgur.com/sMHTjY5.png"
         videoUrl = "https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202421_" + sTempFName + '_d3.mp4'
         print(videoUrl)
         line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url=videoUrl, preview_image_url=logoUrl))
