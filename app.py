@@ -572,10 +572,11 @@ def handle_message(event):
         print(sEarthquakeMsg)
         print(sEarthquakeUrl)
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(sEarthquakeMsg),ImageSendMessage(original_content_url=sEarthquakeUrl, preview_image_url=sEarthquakeUrl)])
-    elif (msg.find("康芮到哪") > -1) :
-        print("Into 康芮到哪.")
+    elif (msg.find("銀杏到哪") > -1) :
+        print("Into 銀杏到哪.")
         #logo url: https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png
         #mp4 url: https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202421_103008_d3.mp4
+        #         https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202422_110408_d3.mp4
         #                                                                     年度幾號颱風_月日時_d3.mp4
         # 02、05、08、11、14、17、20、23
         nTempHour = int(( now ).strftime('%H'))
@@ -607,8 +608,8 @@ def handle_message(event):
             sTempFName = ( now + timedelta(days=-1) ).strftime('%m%d') + sTempHour
         
         #logoUrl = "https://watch.ncdr.nat.gov.tw/icon/logo_ncdr_2023.png"
-        logoUrl = "https://i.imgur.com/sMHTjY5.png"
-        videoUrl = "https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202421_" + sTempFName + '_d3.mp4'
+        logoUrl = "https://i.imgur.com/30FJaVZ.png"
+        videoUrl = "https://watch.ncdr.nat.gov.tw/00_Wxmap/0A3_TYPHOON_GIF/2024/202422_" + sTempFName + '_d3.mp4'
         print(videoUrl)
         line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url=videoUrl, preview_image_url=logoUrl))
         
