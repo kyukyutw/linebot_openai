@@ -397,10 +397,12 @@ def HasWaittingProcess(event,groupid,userid,msg):
         
 
 def UploadImageByBtyes(pBytes): 
+    #client_id = "05f738e527b6fea"
     client_id = "05f738e527b6fea"
     # 建立 API 請求的標頭
     headers = {'Authorization': f'Client-ID {client_id}'}
     # 發送 POST 請求並上傳圖片
+    #response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
     response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
     # 解析回傳的 JSON 資料
     data = response.json()
@@ -411,7 +413,7 @@ def UploadImageByBtyes(pBytes):
     else:
         print('圖片上傳失敗！')
         print(f"Error: {response.status_code} - {response.text}")
-        print('錯誤訊息：', data['data']['error'])
+        #print('錯誤訊息：', data['data']['error'])
     return uploaded_url
 def UploadImageByUrl(pUrl):
     client_id = "05f738e527b6fea"
