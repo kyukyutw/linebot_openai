@@ -403,7 +403,9 @@ def UploadImageByBtyes(pBytes):
     headers = {'Authorization': f'Client-ID {client_id}'}
     # 發送 POST 請求並上傳圖片
     #response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
-    response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
+    payload = {'image': pBytes}
+    response = requests.post('https://api.imgur.com/3/upload', headers=headers, files=payload)
+    
     # 解析回傳的 JSON 資料
     data = response.json()
     if response.status_code == 200 and data['success']:
