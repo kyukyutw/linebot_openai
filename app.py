@@ -410,7 +410,7 @@ def UploadImageByBtyes(pBytes):
         print('圖片連結：', uploaded_url)
     else:
         print('圖片上傳失敗！')
-        print('UploadImageByBtyes:\n' + response)
+        print(f"Error: {response.status_code} - {response.text}")
         print('錯誤訊息：', data['data']['error'])
     return uploaded_url
 def UploadImageByUrl(pUrl):
