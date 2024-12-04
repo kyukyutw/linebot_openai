@@ -404,13 +404,13 @@ def UploadImageByBtyes(pBytes):
     response = requests.post('https://api.imgur.com/3/image', headers=headers, data=pBytes)
     # 解析回傳的 JSON 資料
     data = response.json()
-    print('UploadImageByBtyes:\n' + response.status_code + '\n' + data)
     if response.status_code == 200 and data['success']:
         uploaded_url = data['data']['link']
         print('圖片上傳成功！')
         print('圖片連結：', uploaded_url)
     else:
         print('圖片上傳失敗！')
+        print('UploadImageByBtyes:\n' + data)
         print('錯誤訊息：', data['data']['error'])
     return uploaded_url
 def UploadImageByUrl(pUrl):
